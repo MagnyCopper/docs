@@ -1,6 +1,6 @@
 # Ubuntu Server 安装流程
 
-本教程以Ubuntu19.04版本为例。
+本文以Ubuntu18.06操作系统为例。
 
 1. 使用安装光盘引导计算机启动；
 2. 在*Please choose your preferred language*界面选择`English`并按下回车键确认；
