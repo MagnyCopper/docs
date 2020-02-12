@@ -1,7 +1,12 @@
 # Summary
 
+* [中间件](middleware/README.md)
+    * [RabbitMQ](middleware/rabbitmq.md)
+
+---
+
 * [Ubuntu](ubuntu/README.md)
-    * [Ubuntu Server 安装流程](ubuntu/install_ubuntu_server.md)
+    * [安装Ubuntu Server](ubuntu/install_ubuntu_server.md)
 
 ---
 

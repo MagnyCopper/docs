@@ -1,6 +1,12 @@
-# Ubuntu Server 安装流程
+# 安装Ubuntu Server
 
 本文以Ubuntu18.06操作系统为例。
+
+## 准备工作
+
+1. 下载Ubuntu Server 18.06的系统安装镜像；
+
+## 安装步骤
 
 1. 使用安装光盘引导计算机启动；
 2. 在*Please choose your preferred language*界面选择`English`并按下回车键确认；

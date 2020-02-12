@@ -12,7 +12,7 @@
 1. 创建配置文件**portainer.yml**;
 2. 向配置文件写入以下内容：
 
-    ```YML
+    ``` yaml
     version: '3.7'
 
     services:
@@ -22,7 +22,7 @@
           # REQUIRED: Should be equal to the service name prefixed by "tasks." when
           # deployed inside an overlay network
           AGENT_CLUSTER_ADDR: tasks.agent
-          # AGENT_PORT: 9001
+          # AGENT_PORT: 9001y
           # LOG_LEVEL: debug
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
