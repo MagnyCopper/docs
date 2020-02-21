@@ -2,11 +2,11 @@
 
 部署Rancher有多种方式
 
-- 高可用的Kubernetes安装
-- 单节点的Kubernetes安装
-- Docker安装
+- 在高可用的Kubernetes安装Rancher
+- 在单节点的Kubernetes安装Rancher
+- 在Docker安装Rancher
 
-## Docker安装
+## 在Docker安装Rancher
 
 1. 创建配置文件**rancher.yml**;
 2. 向配置文件写入以下内容：
