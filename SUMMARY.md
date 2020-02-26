@@ -1,11 +1,7 @@
 # Summary
-<!-- 框架 -->
-* [Spring](spring/README.md)
-  * [自定义Spring Boot Starter](spring/custom_spring_boot_starter.md)
-
----
-<!-- 中间件 -->
+<!-- 中间件/服务 -->
 * [RabbitMQ](middleware/rabbitmq.md)
+* [MinIO](middleware/MinIO.md)
 
 ---
 <!-- Linux -->
