@@ -2,6 +2,7 @@
 <!-- 中间件/服务 -->
 * [RabbitMQ](middleware/rabbitmq.md)
 * [MinIO](middleware/MinIO.md)
+* [ELK Stack](middleware/ELK_Stack.md)
 
 ---
 <!-- Linux -->
