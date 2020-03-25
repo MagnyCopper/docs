@@ -14,7 +14,6 @@
     ``` yml
     version: "3.7"
     services:
-
       # Elasticsearch服务
       elasticsearch:
         image: elasticsearch:7.6.1
@@ -30,7 +29,6 @@
           replicas: 1
           update_config:
             order: start-first
-
       # kibana服务
       kibana:
         image: kibana:7.6.1
@@ -41,9 +39,21 @@
           replicas: 1
           update_config:
             order: start-first
-
+      # logstash
+      logstash:
+        image: logstash:7.6.1
+        ports:
+          - 9900:9900
+        volumes:
+          - logstash_data:/usr/share/logstash/config/
+        deploy:
+          mode: replicated
+          replicas: 1
+          update_config:
+            order: start-first
     volumes:
       elasticsearch_data:
+      logstash_data:
     ```
 3. 执行部署命令`sudo docker stack deploy -c=ELK_Stack.yml ELK_Stack`;
 4. 等待部署结束，访问`http://docker-host:5601`。
