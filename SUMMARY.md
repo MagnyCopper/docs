@@ -3,6 +3,7 @@
 * [RabbitMQ](middleware/rabbitmq.md)
 * [MinIO](middleware/MinIO.md)
 * [ELK Stack](middleware/ELK_Stack.md)
+* [MySQL](middleware/MySQL.md)
 
 ---
 <!-- Linux -->
