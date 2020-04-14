@@ -31,10 +31,6 @@ MySQL是一个关系型数据库管理系统，由瑞典MySQL AB公司开发，�
 
     volumes:
       server_data:
-        driver_opts:
-          type: nfs
-          o: addr=192.168.31.144,nolock,soft,rw
-          device: :/mnt/DataPool/docker-data/mysql_server_data
     ```
 3. 执行部署命令`sudo docker stack deploy -c=MySQL.yml MySQL`;
 4. 等待部署结束，访问`docker-host的3306端口`。
