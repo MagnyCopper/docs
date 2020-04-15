@@ -34,3 +34,13 @@ MySQL是一个关系型数据库管理系统，由瑞典MySQL AB公司开发，�
     ```
 3. 执行部署命令`sudo docker stack deploy -c=MySQL.yml MySQL`;
 4. 等待部署结束，访问`docker-host的3306端口`。
+
+## 使用
+
+### 基础命令
+
+```sql
+创建用户：CREATE USER 'username'@'%' IDENTIFIED BY 'password';
+授权用户操作权限：GRANT ALL ON *.* TO 'username'@'%';
+创建数据库：CREATE DATABASE TEST_DATABASE;
+```
