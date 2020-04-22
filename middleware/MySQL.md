@@ -40,7 +40,10 @@ MySQL是一个关系型数据库管理系统，由瑞典MySQL AB公司开发，�
 ### 基础命令
 
 ```sql
-创建用户：CREATE USER 'username'@'%' IDENTIFIED BY 'password';
-授权用户操作权限：GRANT ALL ON *.* TO 'username'@'%';
-创建数据库：CREATE DATABASE TEST_DATABASE;
+-- 创建用户
+CREATE USER 'username'@'%' IDENTIFIED BY 'password';
+-- 授权用户操作权限
+GRANT ALL ON *.* TO 'username'@'%';
+-- 创建数据库
+CREATE DATABASE TEST_DATABASE;
 ```
