@@ -1,11 +1,14 @@
 # Summary
 <!-- 中间件/服务 -->
-* [RabbitMQ](middleware/rabbitmq.md)
 * [MinIO](middleware/MinIO.md)
 * [ELK Stack](middleware/ELK_Stack.md)
 * [MySQL](middleware/MySQL.md)
 * [ZooKeeper](middleware/ZooKeeper.md)
 
+--- 
+<!-- 消息队列 -->
+* [RabbitMQ](MQ/rabbitmq.md)
+* [Apache Kafka](MQ/kafka.md)
 ---
 <!-- Linux -->
 * [Ubuntu](ubuntu/README.md)
