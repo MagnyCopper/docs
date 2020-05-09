@@ -4,6 +4,7 @@
 * [MinIO](middleware/MinIO.md)
 * [ELK Stack](middleware/ELK_Stack.md)
 * [MySQL](middleware/MySQL.md)
+* [ZooKeeper](middleware/ZooKeeper.md)
 
 ---
 <!-- Linux -->
