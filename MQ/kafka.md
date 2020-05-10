@@ -19,4 +19,11 @@ Apache Kafka: A Distributed Streaming Platform.
     # 设置访问的ZooKeeper地址和端口,多个节点使用,分隔开
     zookeeper.connect=192.168.50.100:2181
     ```
-6. 启动KAFKA`bin/kafka-server-start.sh config/server.properties`若看到`INFO [KafkaServer id=0] started (kafka.server.KafkaServer)`字样说明KAFKA已成功启动;
+6. 启动KAFKA`bin/kafka-server-start.sh config/server.properties`,后台运行命令`bin/kafka-server-start.sh config/server.properties 1>/dev/null 2>&1 &`若看到`INFO [KafkaServer id=0] started (kafka.server.KafkaServer)`字样说明KAFKA已成功启动;
+7. 从官网下载CMAK的安装包`wget https://github.com/yahoo/CMAK/releases/download/3.0.0.4/cmak-3.0.0.4.zip`,当前的最新版本为3.0.0.4;
+8. 解压缩下载安装包`unzip cmak-3.0.0.4.zip`并进入解压缩目录;
+9. 修改配置中的Zookeeper地址`vim conf/application.conf`
+    ```conf
+    cmak.zkhosts="192.168.50.100:2181"
+    ```
+10. 执行`bin/cmak`启动CMAK,从浏览器访问`http://192.1168.50.52:9000`进入WebUI界面,并添加KAFKA集群即可;
