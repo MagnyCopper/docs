@@ -16,7 +16,7 @@
     services:
       # Elasticsearch服务
       elasticsearch:
-        image: elasticsearch:7.6.1
+        image: elasticsearch:7.7.0
         ports:
           - 9300:9300
           - 9200:9200
@@ -31,7 +31,7 @@
             order: start-first
       # kibana服务
       kibana:
-        image: kibana:7.6.1
+        image: kibana:7.7.0
         ports:
           - 5601:5601
         deploy:
@@ -41,7 +41,7 @@
             order: start-first
       # logstash
       logstash:
-        image: logstash:7.6.1
+        image: logstash:7.7.0
         ports:
           - 9900:9900
         volumes:
