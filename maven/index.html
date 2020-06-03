@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>安装rancher · GitBook</title>
+        <title>Apache Maven · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../MQ/rabbitmq.html" />
+    <link rel="next" href="publish_to_github_packages.html" />
     
     
-    <link rel="prev" href="README.md" />
+    <link rel="prev" href="../spring/creating_spring_boot_starter.html" />
     
 
     </head>
@@ -265,7 +265,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2" data-path="README.md">
+        <li class="chapter " data-level="3.2" data-path="../rancher/README.md">
             
                 <span>
             
@@ -281,9 +281,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="3.2.1" data-path="install_rancher.html">
+        <li class="chapter " data-level="3.2.1" data-path="../rancher/install_rancher.html">
             
-                <a href="install_rancher.html">
+                <a href="../rancher/install_rancher.html">
             
                     
                         <b>3.2.1.</b>
@@ -388,9 +388,9 @@
         
         
     
-        <li class="chapter " data-level="6.1" data-path="../maven/">
+        <li class="chapter active" data-level="6.1" data-path="./">
             
-                <a href="../maven/">
+                <a href="./">
             
                     
                         <b>6.1.</b>
@@ -404,9 +404,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="6.1.1" data-path="../maven/publish_to_github_packages.html">
+        <li class="chapter " data-level="6.1.1" data-path="publish_to_github_packages.html">
             
-                <a href="../maven/publish_to_github_packages.html">
+                <a href="publish_to_github_packages.html">
             
                     
                         <b>6.1.1.</b>
@@ -454,7 +454,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >安装rancher</a>
+        <a href=".." >Apache Maven</a>
     </h1>
 </div>
 
@@ -469,41 +469,10 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x5B89;&#x88C5;rancher">&#x5B89;&#x88C5;Rancher</h1>
-<p>&#x90E8;&#x7F72;Rancher&#x6709;&#x591A;&#x79CD;&#x65B9;&#x5F0F;</p>
-<ul>
-<li>&#x5728;&#x9AD8;&#x53EF;&#x7528;&#x7684;Kubernetes&#x5B89;&#x88C5;Rancher</li>
-<li>&#x5728;&#x5355;&#x8282;&#x70B9;&#x7684;Kubernetes&#x5B89;&#x88C5;Rancher</li>
-<li>&#x5728;Docker&#x5B89;&#x88C5;Rancher</li>
-</ul>
-<h2 id="&#x5728;docker&#x5B89;&#x88C5;rancher">&#x5728;Docker&#x5B89;&#x88C5;Rancher</h2>
-<ol>
-<li>&#x521B;&#x5EFA;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<strong>rancher.yml</strong>;</li>
-<li><p>&#x5411;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5199;&#x5165;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;&#xFF1A;</p>
-<pre><code class="lang-yml"><span class="hljs-attr"> version:</span> <span class="hljs-string">&quot;3.7&quot;</span>
-
-<span class="hljs-attr"> services:</span>
-   <span class="hljs-comment"># rancher&#x670D;&#x52A1;</span>
-<span class="hljs-attr">   server:</span>
-<span class="hljs-attr">     image:</span> rancher/rancher:latest
-<span class="hljs-attr">     ports:</span>
-<span class="hljs-bullet">       -</span> <span class="hljs-number">980</span>:<span class="hljs-number">80</span>
-<span class="hljs-bullet">       -</span> <span class="hljs-number">9443</span>:<span class="hljs-number">443</span>
-<span class="hljs-attr">     volumes:</span>
-<span class="hljs-attr">       - server_data:</span>/var/lib/rancher
-<span class="hljs-attr">     deploy:</span>
-<span class="hljs-attr">       mode:</span> replicated
-<span class="hljs-attr">       replicas:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">       update_config:</span>
-<span class="hljs-attr">         order:</span> start-first
-
-<span class="hljs-attr"> volumes:</span>
-<span class="hljs-attr">   server_data:</span>
-</code></pre>
-</li>
-<li>&#x6267;&#x884C;&#x90E8;&#x7F72;&#x547D;&#x4EE4;<code>sudo docker stack deploy -c=rancher.yml rancher</code>;</li>
-<li>&#x7B49;&#x5F85;&#x90E8;&#x7F72;&#x7ED3;&#x675F;&#xFF0C;&#x8BBF;&#x95EE;<code>https://docker-host:9443</code>&#x3002;</li>
-</ol>
+                                <h1 id="apache-maven">Apache Maven</h1>
+<blockquote>
+<p>Apache Maven&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x8F6F;&#x4EF6;&#xFF08;&#x7279;&#x522B;&#x662F;Java&#x8F6F;&#x4EF6;&#xFF09;&#x9879;&#x76EE;&#x7BA1;&#x7406;&#x53CA;&#x81EA;&#x52A8;&#x6784;&#x5EFA;&#x5DE5;&#x5177;&#xFF0C;&#x7531;Apache&#x8F6F;&#x4EF6;&#x57FA;&#x91D1;&#x4F1A;&#x6240;&#x63D0;&#x4F9B;&#x3002;&#x57FA;&#x4E8E;&#x9879;&#x76EE;&#x5BF9;&#x8C61;&#x6A21;&#x578B;&#xFF08;&#x7F29;&#x5199;&#xFF1A;POM&#xFF09;&#x6982;&#x5FF5;&#xFF0C;Maven&#x5229;&#x7528;&#x4E00;&#x4E2A;&#x4E2D;&#x592E;&#x4FE1;&#x606F;&#x7247;&#x65AD;&#x80FD;&#x7BA1;&#x7406;&#x4E00;&#x4E2A;&#x9879;&#x76EE;&#x7684;&#x6784;&#x5EFA;&#x3001;&#x62A5;&#x544A;&#x548C;&#x6587;&#x6863;&#x7B49;&#x6B65;&#x9AA4;&#x3002;Maven&#x4E5F;&#x53EF;&#x88AB;&#x7528;&#x4E8E;&#x6784;&#x5EFA;&#x548C;&#x7BA1;&#x7406;&#x5404;&#x79CD;&#x9879;&#x76EE;&#xFF0C;&#x4F8B;&#x5982;C#&#xFF0C;Ruby&#xFF0C;Scala&#x548C;&#x5176;&#x4ED6;&#x8BED;&#x8A00;&#x7F16;&#x5199;&#x7684;&#x9879;&#x76EE;&#x3002;Maven&#x66FE;&#x662F;Jakarta&#x9879;&#x76EE;&#x7684;&#x5B50;&#x9879;&#x76EE;&#xFF0C;&#x73B0;&#x4E3A;&#x7531;Apache&#x8F6F;&#x4EF6;&#x57FA;&#x91D1;&#x4F1A;&#x4E3B;&#x6301;&#x7684;&#x72EC;&#x7ACB;Apache&#x9879;&#x76EE;&#x3002;</p>
+</blockquote>
 
                                 
                                 </section>
@@ -531,12 +500,12 @@
 
             
                 
-                <a href="README.md" class="navigation navigation-prev " aria-label="Previous page: rancher">
+                <a href="../spring/creating_spring_boot_starter.html" class="navigation navigation-prev " aria-label="Previous page: 自定义Spring Boot Starter">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../MQ/rabbitmq.html" class="navigation navigation-next " aria-label="Next page: RabbitMQ">
+                <a href="publish_to_github_packages.html" class="navigation navigation-next " aria-label="Next page: 发布至Github Packages">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -547,7 +516,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"安装rancher","level":"3.2.1","depth":2,"next":{"title":"RabbitMQ","level":"4.1","depth":1,"path":"MQ/rabbitmq.md","ref":"MQ/rabbitmq.md","articles":[]},"previous":{"title":"rancher","level":"3.2","depth":1,"path":"rancher/README.md","ref":"rancher/README.md","articles":[{"title":"安装rancher","level":"3.2.1","depth":2,"path":"rancher/install_rancher.md","ref":"rancher/install_rancher.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"rancher/install_rancher.md","mtime":"2020-06-03T17:12:31.328Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-06-03T17:12:57.098Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Apache Maven","level":"6.1","depth":1,"next":{"title":"发布至Github Packages","level":"6.1.1","depth":2,"path":"maven/publish_to_github_packages.md","ref":"maven/publish_to_github_packages.md","articles":[]},"previous":{"title":"自定义Spring Boot Starter","level":"5.1.1","depth":2,"path":"spring/creating_spring_boot_starter.md","ref":"spring/creating_spring_boot_starter.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"maven/README.md","mtime":"2020-06-03T17:12:31.328Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-06-03T17:12:57.098Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
