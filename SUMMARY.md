@@ -30,5 +30,5 @@
 
 ---
 <!-- 其他工具(Tools) -->
-* [Apache Maven](maven/README.md)
-  * [发布至Github Packages](maven/publish_to_github_packages.md)
+* [Apache Maven](tools/maven/README.md)
+  * [发布至Github Packages](tools/maven/publish_to_github_packages.md)

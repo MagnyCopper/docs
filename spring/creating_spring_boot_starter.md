@@ -19,7 +19,7 @@
 
 1. 使用IDE创建一个spring boot工程，选择模块时注意勾选`Spring Configuration Processor`模块；
 2. 修改`pom.xml`文件，删除无用部分；
-
+    
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
     <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
