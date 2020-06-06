@@ -4,6 +4,7 @@
 * [ELK Stack](middleware/ELK_Stack.md)
 * [MySQL](middleware/MySQL.md)
 * [ZooKeeper](middleware/ZooKeeper.md)
+* [Consul](middleware/Consul.md)
 
 ---
 <!-- 操作系统 -->
