@@ -30,4 +30,5 @@ Apache Kafka: A Distributed Streaming Platform.
     ```conf
     cmak.zkhosts="192.168.50.100:2181"
     ```
-4. 执行`bin/cmak`启动CMAK，后台运行执行`nohup bin/cmak &`,从浏览器访问`http://192.1168.50.52:9000`进入WebUI界面,并添加KAFKA集群即可;
+4. 执行`bin/cmak`启动CMAK，需要后台运行执行`nohup bin/cmak &`，也可以添加`-Dhttp.port=9001`参数修改启动端口；
+5. 从浏览器访问`http://192.1168.50.52:9000`进入WebUI界面,并添加KAFKA集群即可;
