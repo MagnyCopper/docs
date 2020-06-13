@@ -43,24 +43,22 @@
     sudo systemctl daemon-reload
     sudo systemctl restart docker
     ```
-5. 禁用swarp分区,执行命令:`sudo swapoff -a`;
-6. 修改DNS配置,执行命令;
+5. 修改DNS配置,执行命令;
 
     ```shell
+    # 临时修改DNS
+    sudo vim /etc/resolv.conf
+    nameserver 223.5.5.5 223.6.6.6
+    # 永久修改DNS
     sudo vim /etc/systemd/resolved.conf
     [Resolve]
     DNS=223.5.5.5 223.6.6.6
-    #FallbackDNS=
-    #Domains=
-    #LLMNR=no
-    #MulticastDNS=no
-    #DNSSEC=no
-    #Cache=yes
-    #DNSStubListener=yes
     systemctl restart systemd-resolved.service
+    sudo reboot
     ```
-6. 初始化k8s集群的Master节点,执行命令:`sudo kubeadm init --pod-network-cidr=192.168.0.0/16`,参数`--pod-network-cidr`是用来设置pod使用的网段,应避免使用局域网真实IP网段;
-7. 配置kubectl工具,免除使用root权限
+6. 禁用swarp分区,执行命令:`sudo swapoff -a`;
+7. 初始化k8s集群的Master节点,执行命令:`sudo kubeadm init --pod-network-cidr=192.168.0.0/16`,参数`--pod-network-cidr`是用来设置pod使用的网段,应避免使用局域网真实IP网段;
+8. 配置kubectl工具,免除使用root权限
 
     ```shell
     mkdir -p $HOME/.kube
@@ -68,7 +66,7 @@
     sudo chown $(id -u):$(id -g) $HOME/.kube/config
     ```
 
-8. 执行命令,修改K8s的调度策略,允许Master节点执行任务`kubectl taint nodes --all node-role.kubernetes.io/master-`;
-9. k8s集群的Slave节点,执行命令:`sudo kubeadm join 192.168.50.101:6443 --token 58f08t.bbiigeglrb7w9bp2 --discovery-token-ca-cert-hash sha256:8d8ccca3cab952d54a6269d7ccec0dbd26aedd0c6468637b2df97596ec489ae2`;将Slave节点加入集群
-10. 安装集群网络插件,执行命令:`kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml`;
-11. 等待集群准备就绪,使用`kubectl get nodes`和`kubectl get pods --all-namespaces`进行检查进度;
+9. 执行命令,修改K8s的调度策略,允许Master节点执行任务`kubectl taint nodes --all node-role.kubernetes.io/master-`;
+10. k8s集群的Slave节点,执行命令:`sudo kubeadm join 192.168.50.101:6443 --token 58f08t.bbiigeglrb7w9bp2 --discovery-token-ca-cert-hash sha256:8d8ccca3cab952d54a6269d7ccec0dbd26aedd0c6468637b2df97596ec489ae2`;将Slave节点加入集群
+11. 安装集群网络插件,执行命令:`kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml`;
+12. 等待集群准备就绪,使用`kubectl get nodes`和`kubectl get pods --all-namespaces`进行检查进度;
