@@ -13,11 +13,9 @@
 
 ---
 <!-- 容器 -->
-* [docker](docker/README.md)
-  * [安装docker](docker/install_docker.md)
-  * [部署portainer](docker/install_portainer.md)
-* [rancher](rancher/README.md)
-  * [安装rancher](rancher/install_rancher.md)
+* [Docker](containers/docker/README.md)
+  * [Docker Swarm管理](containers/docker/docker_swarm.md)
+  * [安装Portainer监控平台](containers/docker/install_portainer.md)
 
 --- 
 <!-- 消息队列 -->
@@ -25,7 +23,7 @@
 * [Apache Kafka](MQ/kafka.md)
 
 ---
-<!-- Java框架 -->
+<!-- 框架 -->
 * [Spring](frameworks/spring/README.md)
   * [自定义Spring Boot Starter](frameworks/spring/creating_spring_boot_starter.md)
 
