@@ -9,7 +9,7 @@
 1. 安装Docker,具体流程参见Docker章节;
 2. 确保iptables工具不使用nftables后端,仅针对Debian 10 (Buster)、Ubuntu 19.04、Fedora 29 和较新的发行版本,执行命令;
 
-    ```shell
+    ```bash
     sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
     sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
     sudo update-alternatives --set arptables /usr/sbin/arptables-legacy
@@ -17,7 +17,7 @@
     ```
 3. 安装kubeadm、kubelet和kubectl
 
-    ```shell
+    ```bash
     sudo apt update && sudo apt install -y apt-transport-https curl
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
@@ -26,11 +26,12 @@
     sudo apt update
     sudo apt install -y kubelet kubeadm kubectl
     ```
-4. 修改Docker驱动;
+4. 修改Docker驱动为overlay2;
 
-    ```shell
+    ```bash
     sudo touch /etc/docker/daemon.json
     sudo vim /etc/docker/daemon.json
+    # 写入以下内容
     {
     "exec-opts": ["native.cgroupdriver=systemd"],
     "log-driver": "json-file",
@@ -45,7 +46,7 @@
     ```
 5. 修改DNS配置,执行命令;
 
-    ```shell
+    ```bash
     # 临时修改DNS
     sudo vim /etc/resolv.conf
     nameserver 223.5.5.5 223.6.6.6
@@ -58,9 +59,9 @@
     ```
 6. 禁用swarp分区,执行命令:`sudo swapoff -a`;
 7. 初始化k8s集群的Master节点,执行命令:`sudo kubeadm init --pod-network-cidr=192.168.0.0/16`,参数`--pod-network-cidr`是用来设置pod使用的网段,应避免使用局域网真实IP网段;
-8. 配置kubectl工具,免除使用root权限
+8. 配置kubectl工具；
 
-    ```shell
+    ```bash
     mkdir -p $HOME/.kube
     sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
     sudo chown $(id -u):$(id -g) $HOME/.kube/config
