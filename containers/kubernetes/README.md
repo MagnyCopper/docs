@@ -57,7 +57,7 @@
     systemctl restart systemd-resolved.service
     sudo reboot
     ```
-6. 禁用swarp分区,执行命令:`sudo swapoff -a`;
+6. 禁用swarp分区,执行命令:`sudo swapoff -a`,若要永久禁用swarp,则修改文件,注释全部swarp相关配置`sudo vim /etc/fstab`;
 7. 初始化k8s集群的Master节点,执行命令:`sudo kubeadm init --pod-network-cidr=192.168.0.0/16`,参数`--pod-network-cidr`是用来设置pod使用的网段,应避免使用局域网真实IP网段;
 8. 配置kubectl工具；
 

@@ -17,6 +17,7 @@
   * [Docker Swarm管理](containers/docker/docker_swarm.md)
   * [安装Portainer监控平台](containers/docker/install_portainer.md)
 * [Kubernetes](containers/kubernetes/README.md)
+  * [Helm](containers/kubernetes/helm.md)
 
 --- 
 <!-- 消息队列 -->
