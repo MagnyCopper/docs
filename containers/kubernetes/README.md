@@ -44,7 +44,22 @@
     sudo systemctl restart docker
     ```
 5. 禁用swarp分区,执行命令:`sudo swapoff -a`;
-6. 初始化k8s集群的Master节点,执行命令:`sudo kubeadm init --pod-network-cidr=192.168.0.0/16`,`--pod-network-cidr`参数为pod使用的网段,应避免使用局域网真实IP网段;
+6. 修改DNS配置,执行命令;
+
+    ```shell
+    sudo vim /etc/systemd/resolved.conf
+    [Resolve]
+    DNS=223.5.5.5 223.6.6.6
+    #FallbackDNS=
+    #Domains=
+    #LLMNR=no
+    #MulticastDNS=no
+    #DNSSEC=no
+    #Cache=yes
+    #DNSStubListener=yes
+    systemctl restart systemd-resolved.service
+    ```
+6. 初始化k8s集群的Master节点,执行命令:`sudo kubeadm init --pod-network-cidr=192.168.0.0/16`,参数`--pod-network-cidr`是用来设置pod使用的网段,应避免使用局域网真实IP网段;
 7. 配置kubectl工具,免除使用root权限
 
     ```shell
