@@ -472,15 +472,15 @@
 <ol>
 <li>&#x5B89;&#x88C5;Docker,&#x5177;&#x4F53;&#x6D41;&#x7A0B;&#x53C2;&#x89C1;Docker&#x7AE0;&#x8282;;</li>
 <li><p>&#x786E;&#x4FDD;iptables&#x5DE5;&#x5177;&#x4E0D;&#x4F7F;&#x7528;nftables&#x540E;&#x7AEF;,&#x4EC5;&#x9488;&#x5BF9;Debian 10 (Buster)&#x3001;Ubuntu 19.04&#x3001;Fedora 29 &#x548C;&#x8F83;&#x65B0;&#x7684;&#x53D1;&#x884C;&#x7248;&#x672C;,&#x6267;&#x884C;&#x547D;&#x4EE4;;</p>
-<pre><code class="lang-shell"> sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+<pre><code class="lang-bash"> sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
  sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
  sudo update-alternatives --set arptables /usr/sbin/arptables-legacy
  sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
 </code></pre>
 </li>
 <li><p>&#x5B89;&#x88C5;kubeadm&#x3001;kubelet&#x548C;kubectl</p>
-<pre><code class="lang-shell"> sudo apt update &amp;&amp; sudo apt install -y apt-transport-https curl
- curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+<pre><code class="lang-bash"> sudo apt update &amp;&amp; sudo apt install -y apt-transport-https curl
+ curl <span class="hljs-_">-s</span> https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
  cat &lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
  deb https://apt.kubernetes.io/ kubernetes-xenial main
  EOF
@@ -488,16 +488,17 @@
  sudo apt install -y kubelet kubeadm kubectl
 </code></pre>
 </li>
-<li><p>&#x4FEE;&#x6539;Docker&#x9A71;&#x52A8;;</p>
-<pre><code class="lang-shell"> sudo touch /etc/docker/daemon.json
+<li><p>&#x4FEE;&#x6539;Docker&#x9A71;&#x52A8;&#x4E3A;overlay2;</p>
+<pre><code class="lang-bash"> sudo touch /etc/docker/daemon.json
  sudo vim /etc/docker/daemon.json
+ <span class="hljs-comment"># &#x5199;&#x5165;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;</span>
  {
- &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;],
- &quot;log-driver&quot;: &quot;json-file&quot;,
- &quot;log-opts&quot;: {
-     &quot;max-size&quot;: &quot;100m&quot;
+ <span class="hljs-string">&quot;exec-opts&quot;</span>: [<span class="hljs-string">&quot;native.cgroupdriver=systemd&quot;</span>],
+ <span class="hljs-string">&quot;log-driver&quot;</span>: <span class="hljs-string">&quot;json-file&quot;</span>,
+ <span class="hljs-string">&quot;log-opts&quot;</span>: {
+     <span class="hljs-string">&quot;max-size&quot;</span>: <span class="hljs-string">&quot;100m&quot;</span>
  },
- &quot;storage-driver&quot;: &quot;overlay2&quot;
+ <span class="hljs-string">&quot;storage-driver&quot;</span>: <span class="hljs-string">&quot;overlay2&quot;</span>
  }
  sudo mkdir -p /etc/systemd/system/docker.service.d
  sudo systemctl daemon-reload
@@ -505,10 +506,10 @@
 </code></pre>
 </li>
 <li><p>&#x4FEE;&#x6539;DNS&#x914D;&#x7F6E;,&#x6267;&#x884C;&#x547D;&#x4EE4;;</p>
-<pre><code class="lang-shell"> # &#x4E34;&#x65F6;&#x4FEE;&#x6539;DNS
+<pre><code class="lang-bash"> <span class="hljs-comment"># &#x4E34;&#x65F6;&#x4FEE;&#x6539;DNS</span>
  sudo vim /etc/resolv.conf
  nameserver 223.5.5.5 223.6.6.6
- # &#x6C38;&#x4E45;&#x4FEE;&#x6539;DNS
+ <span class="hljs-comment"># &#x6C38;&#x4E45;&#x4FEE;&#x6539;DNS</span>
  sudo vim /etc/systemd/resolved.conf
  [Resolve]
  DNS=223.5.5.5 223.6.6.6
@@ -518,10 +519,10 @@
 </li>
 <li>&#x7981;&#x7528;swarp&#x5206;&#x533A;,&#x6267;&#x884C;&#x547D;&#x4EE4;:<code>sudo swapoff -a</code>;</li>
 <li>&#x521D;&#x59CB;&#x5316;k8s&#x96C6;&#x7FA4;&#x7684;Master&#x8282;&#x70B9;,&#x6267;&#x884C;&#x547D;&#x4EE4;:<code>sudo kubeadm init --pod-network-cidr=192.168.0.0/16</code>,&#x53C2;&#x6570;<code>--pod-network-cidr</code>&#x662F;&#x7528;&#x6765;&#x8BBE;&#x7F6E;pod&#x4F7F;&#x7528;&#x7684;&#x7F51;&#x6BB5;,&#x5E94;&#x907F;&#x514D;&#x4F7F;&#x7528;&#x5C40;&#x57DF;&#x7F51;&#x771F;&#x5B9E;IP&#x7F51;&#x6BB5;;</li>
-<li><p>&#x914D;&#x7F6E;kubectl&#x5DE5;&#x5177;,&#x514D;&#x9664;&#x4F7F;&#x7528;root&#x6743;&#x9650;</p>
-<pre><code class="lang-shell"> mkdir -p $HOME/.kube
- sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
- sudo chown $(id -u):$(id -g) $HOME/.kube/config
+<li><p>&#x914D;&#x7F6E;kubectl&#x5DE5;&#x5177;&#xFF1B;</p>
+<pre><code class="lang-bash"> mkdir -p <span class="hljs-variable">$HOME</span>/.kube
+ sudo cp -i /etc/kubernetes/admin.conf <span class="hljs-variable">$HOME</span>/.kube/config
+ sudo chown $(id -u):$(id -g) <span class="hljs-variable">$HOME</span>/.kube/config
 </code></pre>
 </li>
 <li><p>&#x6267;&#x884C;&#x547D;&#x4EE4;,&#x4FEE;&#x6539;K8s&#x7684;&#x8C03;&#x5EA6;&#x7B56;&#x7565;,&#x5141;&#x8BB8;Master&#x8282;&#x70B9;&#x6267;&#x884C;&#x4EFB;&#x52A1;<code>kubectl taint nodes --all node-role.kubernetes.io/master-</code>;</p>
@@ -573,7 +574,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Kubernetes","level":"3.2","depth":1,"next":{"title":"RabbitMQ","level":"4.1","depth":1,"path":"MQ/rabbitmq.md","ref":"MQ/rabbitmq.md","articles":[]},"previous":{"title":"安装Portainer监控平台","level":"3.1.2","depth":2,"path":"containers/docker/install_portainer.md","ref":"containers/docker/install_portainer.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"containers/kubernetes/README.md","mtime":"2020-06-13T14:36:40.804Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-06-13T14:37:03.820Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Kubernetes","level":"3.2","depth":1,"next":{"title":"RabbitMQ","level":"4.1","depth":1,"path":"MQ/rabbitmq.md","ref":"MQ/rabbitmq.md","articles":[]},"previous":{"title":"安装Portainer监控平台","level":"3.1.2","depth":2,"path":"containers/docker/install_portainer.md","ref":"containers/docker/install_portainer.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"containers/kubernetes/README.md","mtime":"2020-06-13T16:35:54.304Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-06-13T16:36:25.087Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
