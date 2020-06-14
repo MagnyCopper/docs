@@ -18,6 +18,7 @@
   * [安装Portainer监控平台](containers/docker/install_portainer.md)
 * [Kubernetes](containers/kubernetes/README.md)
   * [Helm](containers/kubernetes/helm.md)
+  * [Ingress](containers/kubernetes/ingress.md)
 
 --- 
 <!-- 消息队列 -->

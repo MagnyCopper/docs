@@ -68,6 +68,6 @@
     ```
 
 9. 执行命令,修改K8s的调度策略,允许Master节点执行任务`kubectl taint nodes --all node-role.kubernetes.io/master-`;
-10. k8s集群的Slave节点,执行命令:`sudo kubeadm join 192.168.50.101:6443 --token 58f08t.bbiigeglrb7w9bp2 --discovery-token-ca-cert-hash sha256:8d8ccca3cab952d54a6269d7ccec0dbd26aedd0c6468637b2df97596ec489ae2`;将Slave节点加入集群
+10. k8s集群的Slave节点,执行命令:`sudo kubeadm join 192.168.50.101:6443 --token 58f08t.bbiigeglrb7w9bp2 --discovery-token-ca-cert-hash sha256:8d8ccca3cab952d54a6269d7ccec0dbd26aedd0c6468637b2df97596ec489ae2`将Slave节点加入集群；
 11. 安装集群网络插件,执行命令:`kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml`;
 12. 等待集群准备就绪,使用`kubectl get nodes`和`kubectl get pods --all-namespaces`进行检查进度;
