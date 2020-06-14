@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>安装Portainer监控平台 · GitBook</title>
+        <title>Ingress · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../kubernetes/" />
+    <link rel="next" href="../../MQ/rabbitmq.html" />
     
     
-    <link rel="prev" href="docker_swarm.html" />
+    <link rel="prev" href="helm.html" />
     
 
     </head>
@@ -229,9 +229,9 @@
         
         
     
-        <li class="chapter " data-level="3.1" data-path="./">
+        <li class="chapter " data-level="3.1" data-path="../docker/">
             
-                <a href="./">
+                <a href="../docker/">
             
                     
                         <b>3.1.</b>
@@ -245,9 +245,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.1" data-path="docker_swarm.html">
+        <li class="chapter " data-level="3.1.1" data-path="../docker/docker_swarm.html">
             
-                <a href="docker_swarm.html">
+                <a href="../docker/docker_swarm.html">
             
                     
                         <b>3.1.1.</b>
@@ -260,9 +260,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.1.2" data-path="install_portainer.html">
+        <li class="chapter " data-level="3.1.2" data-path="../docker/install_portainer.html">
             
-                <a href="install_portainer.html">
+                <a href="../docker/install_portainer.html">
             
                     
                         <b>3.1.2.</b>
@@ -280,9 +280,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2" data-path="../kubernetes/">
+        <li class="chapter " data-level="3.2" data-path="./">
             
-                <a href="../kubernetes/">
+                <a href="./">
             
                     
                         <b>3.2.</b>
@@ -296,9 +296,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.2.1" data-path="../kubernetes/helm.html">
+        <li class="chapter " data-level="3.2.1" data-path="helm.html">
             
-                <a href="../kubernetes/helm.html">
+                <a href="helm.html">
             
                     
                         <b>3.2.1.</b>
@@ -311,9 +311,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2.2" data-path="../kubernetes/ingress.html">
+        <li class="chapter active" data-level="3.2.2" data-path="ingress.html">
             
-                <a href="../kubernetes/ingress.html">
+                <a href="ingress.html">
             
                     
                         <b>3.2.2.</b>
@@ -484,7 +484,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >安装Portainer监控平台</a>
+        <a href="../.." >Ingress</a>
     </h1>
 </div>
 
@@ -499,67 +499,40 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x90E8;&#x7F72;portainer">&#x90E8;&#x7F72;portainer</h1>
-<p>&#x672C;&#x6587;&#x4EE5;Ubuntu18.06&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E3A;&#x4F8B;&#x3002;</p>
-<h2 id="&#x51C6;&#x5907;&#x5DE5;&#x4F5C;">&#x51C6;&#x5907;&#x5DE5;&#x4F5C;</h2>
+                                <h1 id="ingress">Ingress</h1>
+<blockquote>
+<p>&#x5728; Kubernetes&#x96C6;&#x7FA4;&#x4E2D;&#xFF0C;Ingress&#x662F;&#x6388;&#x6743;&#x5165;&#x7AD9;&#x8FDE;&#x63A5;&#x5230;&#x8FBE;&#x96C6;&#x7FA4;&#x670D;&#x52A1;&#x7684;&#x89C4;&#x5219;&#x96C6;&#x5408;&#xFF0C;&#x4E3A;&#x60A8;&#x63D0;&#x4F9B;&#x4E03;&#x5C42;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x80FD;&#x529B;&#x3002;&#x60A8;&#x53EF;&#x4EE5;&#x7ED9;Ingress&#x914D;&#x7F6E;&#x63D0;&#x4F9B;&#x5916;&#x90E8;&#x53EF;&#x8BBF;&#x95EE;&#x7684;URL&#x3001;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x3001;SSL&#x3001;&#x57FA;&#x4E8E;&#x540D;&#x79F0;&#x7684;&#x865A;&#x62DF;&#x4E3B;&#x673A;&#x7B49;&#x3002;</p>
+</blockquote>
+<h2 id="&#x540D;&#x8BCD;&#x89E3;&#x91CA;">&#x540D;&#x8BCD;&#x89E3;&#x91CA;</h2>
+<ul>
+<li><strong>Ingress Controller</strong>&#xFF1A;Ingress Controller&#x5B9E;&#x8D28;&#x4E0A;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x662F;&#x4E2A;&#x76D1;&#x89C6;&#x5668;&#xFF0C;Ingress Controller&#x901A;&#x8FC7;&#x4E0D;&#x65AD;&#x5730;&#x8DDF; kubernetes API&#x6253;&#x4EA4;&#x9053;&#xFF0C;&#x5B9E;&#x65F6;&#x7684;&#x611F;&#x77E5;&#x540E;&#x7AEF;service&#x3001;pod&#x7B49;&#x53D8;&#x5316;&#xFF0C;&#x6BD4;&#x5982;&#x65B0;&#x589E;&#x548C;&#x51CF;&#x5C11;pod&#xFF0C;service&#x589E;&#x52A0;&#x4E0E;&#x51CF;&#x5C11;&#x7B49;&#xFF1B;&#x5F53;&#x5F97;&#x5230;&#x8FD9;&#x4E9B;&#x53D8;&#x5316;&#x4FE1;&#x606F;&#x540E;&#xFF0C;Ingress Controller&#x518D;&#x7ED3;&#x5408;&#x4E0B;&#x6587;&#x7684;Ingress&#x751F;&#x6210;&#x914D;&#x7F6E;&#xFF0C;&#x7136;&#x540E;&#x66F4;&#x65B0;&#x53CD;&#x5411;&#x4EE3;&#x7406;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x5668;&#xFF0C;&#x5E76;&#x5237;&#x65B0;&#x5176;&#x914D;&#x7F6E;&#xFF0C;&#x8FBE;&#x5230;&#x670D;&#x52A1;&#x53D1;&#x73B0;&#x7684;&#x4F5C;&#x7528;&#x3002;</li>
+<li><strong>Ingress</strong>&#xFF1A;&#x7B80;&#x5355;&#x7684;&#x8BF4;&#xFF0C;ingress&#x5C31;&#x662F;&#x4ECE;kubernetes&#x96C6;&#x7FA4;&#x5916;&#x8BBF;&#x95EE;&#x96C6;&#x7FA4;&#x7684;&#x5165;&#x53E3;&#xFF0C;&#x5C06;&#x7528;&#x6237;&#x7684;URL&#x8BF7;&#x6C42;&#x8F6C;&#x53D1;&#x5230;&#x4E0D;&#x540C;&#x7684;service&#x4E0A;&#x3002;Ingress&#x76F8;&#x5F53;&#x4E8E;nginx&#x3001;apache&#x7B49;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x65B9;&#x5411;&#x4EE3;&#x7406;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x5176;&#x4E2D;&#x8FD8;&#x5305;&#x62EC;&#x89C4;&#x5219;&#x5B9A;&#x4E49;&#xFF0C;&#x5373;URL&#x7684;&#x8DEF;&#x7531;&#x4FE1;&#x606F;&#xFF0C;&#x8DEF;&#x7531;&#x4FE1;&#x606F;&#x5F97;&#x7684;&#x5237;&#x65B0;&#x7531;Ingress controller&#x6765;&#x63D0;&#x4F9B;&#x3002;</li>
+</ul>
+<h2 id="&#x90E8;&#x7F72;ingress-controller">&#x90E8;&#x7F72;Ingress Controller</h2>
+<h3 id="nginx-ingress">nginx-ingress</h3>
 <ol>
-<li>docker&#x5DF2;&#x5B89;&#x88C5;&#x81F3;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF1B;</li>
-<li>&#x5DF2;&#x521B;&#x5EFA;docker swarm&#x96C6;&#x7FA4;&#x3002;</li>
-</ol>
-<h2 id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</h2>
-<ol>
-<li>&#x521B;&#x5EFA;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<strong>portainer.yml</strong>;</li>
-<li><p>&#x5411;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5199;&#x5165;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;&#xFF1A;</p>
-<pre><code class="lang-yaml"><span class="hljs-attr"> version:</span> <span class="hljs-string">&apos;3.7&apos;</span>
-
-<span class="hljs-attr"> services:</span>
-<span class="hljs-attr">   agent:</span>
-<span class="hljs-attr">     image:</span> portainer/agent
-<span class="hljs-attr">     environment:</span>
-       <span class="hljs-comment"># REQUIRED: Should be equal to the service name prefixed by &quot;tasks.&quot; when</span>
-       <span class="hljs-comment"># deployed inside an overlay network</span>
-<span class="hljs-attr">       AGENT_CLUSTER_ADDR:</span> tasks.agent
-       <span class="hljs-comment"># AGENT_PORT: 9001y</span>
-       <span class="hljs-comment"># LOG_LEVEL: debug</span>
-<span class="hljs-attr">     volumes:</span>
-<span class="hljs-bullet">       -</span> /var/run/docker.sock:/var/run/docker.sock
-<span class="hljs-bullet">       -</span> /var/lib/docker/volumes:/var/lib/docker/volumes
-<span class="hljs-attr">     networks:</span>
-<span class="hljs-bullet">       -</span> agent_network
-<span class="hljs-attr">     deploy:</span>
-<span class="hljs-attr">       mode:</span> global
-<span class="hljs-attr">       update_config:</span>
-<span class="hljs-attr">         order:</span> start-first
-<span class="hljs-attr">       placement:</span>
-<span class="hljs-attr">         constraints:</span> [node.platform.os == linux]
-<span class="hljs-attr">   server:</span>
-<span class="hljs-attr">     image:</span> portainer/portainer
-<span class="hljs-attr">     command:</span> -H tcp://tasks.agent:<span class="hljs-number">9001</span> --tlsskipverify
-<span class="hljs-attr">     ports:</span>
-<span class="hljs-bullet">       -</span> <span class="hljs-number">9090</span>:<span class="hljs-number">9000</span>
-<span class="hljs-attr">     volumes:</span>
-<span class="hljs-attr">       - server_data:</span>/data
-<span class="hljs-attr">     networks:</span>
-<span class="hljs-bullet">       -</span> agent_network
-<span class="hljs-attr">     deploy:</span>
-<span class="hljs-attr">       mode:</span> replicated
-<span class="hljs-attr">       replicas:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">       update_config:</span>
-<span class="hljs-attr">         order:</span> start-first
-<span class="hljs-attr">       placement:</span>
-<span class="hljs-attr">         constraints:</span> [node.role == manager]
-
-<span class="hljs-attr"> networks:</span>
-<span class="hljs-attr">   agent_network:</span>
-<span class="hljs-attr">     driver:</span> overlay
-<span class="hljs-attr">     attachable:</span> <span class="hljs-literal">true</span>
-
-<span class="hljs-attr"> volumes:</span>
-<span class="hljs-attr">   server_data:</span>
+<li>&#x4E3A;k8s&#x8282;&#x70B9;&#x6253;&#x4E0A;&#x8FB9;&#x7F18;&#x8282;&#x70B9;&#x89D2;&#x8272;&#xFF0C;<code>kubectl label node NODE_NAME node-role.kubernetes.io/edge=</code>;</li>
+<li>&#x6DFB;&#x52A0;&#x4ED3;&#x5E93;&#xFF0C;<code>helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx</code>;</li>
+<li>&#x66F4;&#x65B0;&#x4ED3;&#x5E93;&#xFF0C;<code>helm repo update</code>;</li>
+<li><p>&#x521B;&#x5EFA;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<code>nginx_ingress_values.yml</code>&#xFF0C;&#x5E76;&#x5199;&#x5165;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;&#xFF1B;</p>
+<pre><code class="lang-yaml"><span class="hljs-attr"> rbac:</span>
+   <span class="hljs-comment"># &#x542F;&#x7528;RBAC&#x89D2;&#x8272;&#x63A7;&#x5236;</span>
+<span class="hljs-attr">   create:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr"> controller:</span>
+   <span class="hljs-comment"># &#x90E8;&#x7F72;&#x63A7;&#x5236;&#x5668;&#x4F7F;&#x7528;DaemonSet</span>
+<span class="hljs-attr">   kind:</span> DaemonSet
+   <span class="hljs-comment"># &#x4F7F;&#x7528;hostNetwork&#x65B9;&#x5F0F;&#x66B4;&#x9732;&#x670D;&#x52A1;</span>
+<span class="hljs-attr">   hostNetwork:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">   service:</span> 
+<span class="hljs-attr">     type:</span> ClusterIP
+<span class="hljs-attr">   nodeSelector:</span>
+     node-role.kubernetes.io/edge: <span class="hljs-string">&apos;&apos;</span>
+ <span class="hljs-comment"># &#x542F;&#x7528;&#x9ED8;&#x8BA4;&#x540E;&#x7AEF;&#x670D;&#x52A1;</span>
+<span class="hljs-attr"> defaultBackend:</span>
+<span class="hljs-attr">   enabled:</span> <span class="hljs-literal">true</span>
 </code></pre>
 </li>
-<li>&#x6267;&#x884C;&#x90E8;&#x7F72;&#x547D;&#x4EE4;<code>sudo docker stack deploy -c=portainer.yml portainer</code>;</li>
-<li>&#x7B49;&#x5F85;&#x90E8;&#x7F72;&#x7ED3;&#x675F;&#xFF0C;&#x8BBF;&#x95EE;<code>http://docker-host:9090</code>&#x3002;</li>
+<li>&#x90E8;&#x7F72;&#x81F3;k8s&#x96C6;&#x7FA4;&#xFF0C;<code>helm install ingress-nginx ingress-nginx/ingress-nginx -n kube-system -f nginx_ingress_values.yml</code>;</li>
 </ol>
 
                                 
@@ -588,12 +561,12 @@
 
             
                 
-                <a href="docker_swarm.html" class="navigation navigation-prev " aria-label="Previous page: Docker Swarm管理">
+                <a href="helm.html" class="navigation navigation-prev " aria-label="Previous page: Helm">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../kubernetes/" class="navigation navigation-next " aria-label="Next page: Kubernetes">
+                <a href="../../MQ/rabbitmq.html" class="navigation navigation-next " aria-label="Next page: RabbitMQ">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -604,7 +577,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"安装Portainer监控平台","level":"3.1.2","depth":2,"next":{"title":"Kubernetes","level":"3.2","depth":1,"path":"containers/kubernetes/README.md","ref":"containers/kubernetes/README.md","articles":[{"title":"Helm","level":"3.2.1","depth":2,"path":"containers/kubernetes/helm.md","ref":"containers/kubernetes/helm.md","articles":[]},{"title":"Ingress","level":"3.2.2","depth":2,"path":"containers/kubernetes/ingress.md","ref":"containers/kubernetes/ingress.md","articles":[]}]},"previous":{"title":"Docker Swarm管理","level":"3.1.1","depth":2,"path":"containers/docker/docker_swarm.md","ref":"containers/docker/docker_swarm.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"containers/docker/install_portainer.md","mtime":"2020-06-14T11:31:26.738Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-06-14T11:31:55.934Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Ingress","level":"3.2.2","depth":2,"next":{"title":"RabbitMQ","level":"4.1","depth":1,"path":"MQ/rabbitmq.md","ref":"MQ/rabbitmq.md","articles":[]},"previous":{"title":"Helm","level":"3.2.1","depth":2,"path":"containers/kubernetes/helm.md","ref":"containers/kubernetes/helm.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"containers/kubernetes/ingress.md","mtime":"2020-06-14T11:31:26.738Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-06-14T11:31:55.934Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
