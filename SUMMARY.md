@@ -19,6 +19,7 @@
 * [Kubernetes](containers/kubernetes/README.md)
   * [Helm](containers/kubernetes/helm.md)
   * [Ingress](containers/kubernetes/ingress.md)
+  * [Kubernetes Dashboard](containers/kubernetes/kubernetes_dashboard.md)
 
 --- 
 <!-- 消息队列 -->
