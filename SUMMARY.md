@@ -1,4 +1,5 @@
 # Summary
+* [Template](template.md)
 <!-- 中间件/服务 -->
 * [MinIO](middleware/MinIO.md)
 * [ELK Stack](middleware/ELK_Stack.md)
