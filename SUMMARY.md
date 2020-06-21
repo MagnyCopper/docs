@@ -1,5 +1,4 @@
 # Summary
-* [Template](template.md)
 <!-- 中间件/服务 -->
 * [MinIO](middleware/MinIO.md)
 * [ELK Stack](middleware/ELK_Stack.md)
@@ -21,6 +20,7 @@
   * [Helm](containers/kubernetes/helm.md)
   * [Ingress](containers/kubernetes/ingress.md)
   * [Kubernetes Dashboard](containers/kubernetes/kubernetes_dashboard.md)
+  * [Storage](containers/kubernetes/storage.md)
 
 --- 
 <!-- 消息队列 -->
