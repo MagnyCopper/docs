@@ -2,9 +2,11 @@
 <!-- 中间件/服务 -->
 * [MinIO](middleware/MinIO.md)
 * [ELK Stack](middleware/ELK_Stack.md)
-* [MySQL](middleware/MySQL.md)
 * [ZooKeeper](middleware/ZooKeeper.md)
 * [Consul](middleware/Consul.md)
+---
+<!-- 数据库 -->
+* [MySQL](database/MySQL.md)
 
 ---
 <!-- 操作系统 -->
