@@ -11,7 +11,7 @@
 
 ### nginx-ingress
 
-1. 为k8s节点打上边缘节点角色，`kubectl label node NODE_NAME node-role.kubernetes.io/edge=`;
+1. 为k8s节点打上边缘节点角色，使用真实的边缘节点名称替换NODE_NAME:`kubectl label node NODE_NAME node-role.kubernetes.io/edge=`;
 2. 添加仓库，`helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx`;
 3. 更新仓库，`helm repo update`;
 4. 创建配置文件`nginx_ingress_values.yml`，并写入以下内容；

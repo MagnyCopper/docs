@@ -20,9 +20,12 @@
     ```bash
     sudo apt update && sudo apt install -y apt-transport-https curl
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    
+    # 修改成仓库文件
     cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
     deb https://apt.kubernetes.io/ kubernetes-xenial main
     EOF
+
     sudo apt update
     sudo apt install -y kubelet kubeadm kubectl
     ```
@@ -31,6 +34,7 @@
     ```bash
     sudo touch /etc/docker/daemon.json
     sudo vim /etc/docker/daemon.json
+   
     # 写入以下内容
     {
     "exec-opts": ["native.cgroupdriver=systemd"],
@@ -40,6 +44,7 @@
     },
     "storage-driver": "overlay2"
     }
+    
     sudo mkdir -p /etc/systemd/system/docker.service.d
     sudo systemctl daemon-reload
     sudo systemctl restart docker
@@ -51,13 +56,25 @@
     sudo vim /etc/resolv.conf
     nameserver 223.5.5.5 223.6.6.6
     # 永久修改DNS
-    sudo vim /etc/systemd/resolved.conf
-    [Resolve]
-    DNS=223.5.5.5 223.6.6.6
-    systemctl restart systemd-resolved.service
+    sudo apt install resolvconf
+    sudo vim /etc/resolvconf/resolv.conf.d/base
+    # 插入DNS配置
+    nameserver 223.5.5.5
+    nameserver 223.6.6.6
+    # 应用配置
+    sudo resolvconf -u
     sudo reboot
     ```
-6. 禁用swarp分区,执行命令:`sudo swapoff -a`,若要永久禁用swarp,则修改文件,注释全部swarp相关配置`sudo vim /etc/fstab`;
+6. 禁用swarp分区,执行命令:
+
+    ```bash
+    # 临时禁用（重启失效）
+    sudo swapoff -a
+    # 若要永久禁用swarp
+    sudo vim /etc/fstab
+    # 注释以下内容
+    /swap.img       none    swap    sw      0       0
+    ```
 7. 初始化k8s集群的Master节点,执行命令:`sudo kubeadm init --pod-network-cidr=192.168.0.0/16`,参数`--pod-network-cidr`是用来设置pod使用的网段,应避免使用局域网真实IP网段;
 8. 配置kubectl工具；
 
