@@ -7,15 +7,7 @@
 ### kubeadm方式
 
 1. 安装Docker,具体流程参见Docker章节;
-2. 确保iptables工具不使用nftables后端,仅针对Debian 10 (Buster)、Ubuntu 19.04、Fedora 29 和较新的发行版本,执行命令;
-
-    ```bash
-    sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
-    sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-    sudo update-alternatives --set arptables /usr/sbin/arptables-legacy
-    sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
-    ```
-3. 安装kubeadm、kubelet和kubectl
+2. 安装kubeadm、kubelet和kubectl
 
     ```bash
     sudo apt update && sudo apt install -y apt-transport-https curl
@@ -29,7 +21,7 @@
     sudo apt update
     sudo apt install -y kubelet kubeadm kubectl
     ```
-4. 修改Docker驱动为overlay2;
+3. 修改Docker驱动为overlay2;
 
     ```bash
     sudo touch /etc/docker/daemon.json
@@ -37,19 +29,20 @@
    
     # 写入以下内容
     {
-    "exec-opts": ["native.cgroupdriver=systemd"],
-    "log-driver": "json-file",
-    "log-opts": {
-        "max-size": "100m"
-    },
-    "storage-driver": "overlay2"
+        "exec-opts": [
+            "native.cgroupdriver=systemd"],
+        "log-driver": "json-file",
+        "log-opts": {
+            "max-size": "100m"
+        },
+        "storage-driver": "overlay2"
     }
     
     sudo mkdir -p /etc/systemd/system/docker.service.d
     sudo systemctl daemon-reload
     sudo systemctl restart docker
     ```
-5. 修改DNS配置,执行命令;
+4. 修改DNS配置,执行命令;
 
     ```bash
     # 临时修改DNS
@@ -65,7 +58,7 @@
     sudo resolvconf -u
     sudo reboot
     ```
-6. 禁用swarp分区,执行命令:
+5. 禁用swarp分区,执行命令:
 
     ```bash
     # 临时禁用（重启失效）
@@ -75,8 +68,8 @@
     # 注释以下内容
     /swap.img       none    swap    sw      0       0
     ```
-7. 初始化k8s集群的Master节点,执行命令:`sudo kubeadm init --pod-network-cidr=192.168.0.0/16`,参数`--pod-network-cidr`是用来设置pod使用的网段,应避免使用局域网真实IP网段;
-8. 配置kubectl工具；
+6. 初始化k8s集群的Master节点,执行命令:`sudo kubeadm init --pod-network-cidr=192.168.0.0/16`,参数`--pod-network-cidr`是用来设置pod使用的网段,应避免使用局域网真实IP网段;
+7. 配置kubectl工具；
 
     ```bash
     mkdir -p $HOME/.kube
@@ -84,7 +77,7 @@
     sudo chown $(id -u):$(id -g) $HOME/.kube/config
     ```
 
-9. 执行命令,修改K8s的调度策略,允许Master节点执行任务`kubectl taint nodes --all node-role.kubernetes.io/master-`;
-10. k8s集群的Slave节点,执行命令:`sudo kubeadm join 192.168.50.101:6443 --token 58f08t.bbiigeglrb7w9bp2 --discovery-token-ca-cert-hash sha256:8d8ccca3cab952d54a6269d7ccec0dbd26aedd0c6468637b2df97596ec489ae2`将Slave节点加入集群；
-11. 安装集群网络插件,执行命令:`kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml`;
-12. 等待集群准备就绪,使用`kubectl get nodes`和`kubectl get pods --all-namespaces`进行检查进度;
+8. 执行命令,修改K8s的调度策略,允许Master节点执行任务`kubectl taint nodes --all node-role.kubernetes.io/master-`;
+9. k8s集群的Slave节点,执行命令:`sudo kubeadm join 192.168.50.101:6443 --token 58f08t.bbiigeglrb7w9bp2 --discovery-token-ca-cert-hash sha256:8d8ccca3cab952d54a6269d7ccec0dbd26aedd0c6468637b2df97596ec489ae2`将Slave节点加入集群；
+10. 安装集群网络插件,执行命令:`kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml`;
+11. 等待集群准备就绪,使用`kubectl get nodes`和`kubectl get pods --all-namespaces`进行检查进度;
