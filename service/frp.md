@@ -30,7 +30,7 @@
     WantedBy=multi-user.target
     ```
 5. 执行`sudo systemctl start frps`启动服务；
-6. 执行`sudo systemctl enable frps`启动服务；
+6. 执行`sudo systemctl enable frps`设置自动启动服务；
 
 ### 客户端
 1. 在客户端执行命令`wget https://github.com/fatedier/frp/releases/download/v0.33.0/frp_0.33.0_linux_amd64.tar.gz`下载安装包；
@@ -53,7 +53,7 @@
     WantedBy=multi-user.target
     ```
 5. 执行`sudo systemctl start frpc`启动服务；
-6. 执行`sudo systemctl enable frpc`启动服务；
+6. 执行`sudo systemctl enable frpc`设置自动启动服务；
 
 ## 命令说明
 
