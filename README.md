@@ -11,28 +11,6 @@
 5. 执行安装gitbook到本地`gitbook install`；
 6. 运行本地调试命令`gitbook serve`后，使用浏览器访问`http://localhost:4000`
 
-## 文档模版
-
-```markdown
-# 标题
-
-> 标题简介
-
-## 名词解释
-
-- **名词A**：名词解释；
-
-## 说明
-
-1. xxxxxxx；
-2. 重点内容添加*特殊标记*；
-3. 代码添加`特殊格式`;
-
-## 注意事项/其他
-
-1. xxxxxxx；
-```
-
 ## Markdown语法
 
 ### 标题
