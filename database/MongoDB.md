@@ -5,13 +5,14 @@
 ## 名词解释
 
 - **基础概念**：Mongo中的各个概念与传统SQL中各个概念的对比；
-    SQL数据库|MongoDB|解释说明
-    --|--|--|
-    database|database|数据库
-    table|collection|数据库表/集合
-    row|document|数据记录行/文档
-    column|field|数据字段/域
-    index|index|索引
+
+|SQL数据库|MongoDB|解释说明|
+|--|--|--|
+|database|database|数据库|
+|table|collection|数据库表/集合|
+|row|document|数据记录行/文档|
+|column|field|数据字段/域|
+|index|index|索引|
 
 ## 安装说明
 
