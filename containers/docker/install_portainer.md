@@ -18,12 +18,6 @@
     services:
       agent:
         image: portainer/agent
-        environment:
-          # REQUIRED: Should be equal to the service name prefixed by "tasks." when
-          # deployed inside an overlay network
-          AGENT_CLUSTER_ADDR: tasks.agent
-          # AGENT_PORT: 9001y
-          # LOG_LEVEL: debug
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
           - /var/lib/docker/volumes:/var/lib/docker/volumes
@@ -36,10 +30,11 @@
           placement:
             constraints: [node.platform.os == linux]
       server:
-        image: portainer/portainer
+        image: portainer/portainer-ce
         command: -H tcp://tasks.agent:9001 --tlsskipverify
         ports:
           - 9090:9000
+          - 8000:8000
         volumes:
           - server_data:/data
         networks:
