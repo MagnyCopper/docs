@@ -589,12 +589,6 @@
 <span class="hljs-attr"> services:</span>
 <span class="hljs-attr">   agent:</span>
 <span class="hljs-attr">     image:</span> portainer/agent
-<span class="hljs-attr">     environment:</span>
-       <span class="hljs-comment"># REQUIRED: Should be equal to the service name prefixed by &quot;tasks.&quot; when</span>
-       <span class="hljs-comment"># deployed inside an overlay network</span>
-<span class="hljs-attr">       AGENT_CLUSTER_ADDR:</span> tasks.agent
-       <span class="hljs-comment"># AGENT_PORT: 9001y</span>
-       <span class="hljs-comment"># LOG_LEVEL: debug</span>
 <span class="hljs-attr">     volumes:</span>
 <span class="hljs-bullet">       -</span> /var/run/docker.sock:/var/run/docker.sock
 <span class="hljs-bullet">       -</span> /var/lib/docker/volumes:/var/lib/docker/volumes
@@ -607,10 +601,11 @@
 <span class="hljs-attr">       placement:</span>
 <span class="hljs-attr">         constraints:</span> [node.platform.os == linux]
 <span class="hljs-attr">   server:</span>
-<span class="hljs-attr">     image:</span> portainer/portainer
+<span class="hljs-attr">     image:</span> portainer/portainer-ce
 <span class="hljs-attr">     command:</span> -H tcp://tasks.agent:<span class="hljs-number">9001</span> --tlsskipverify
 <span class="hljs-attr">     ports:</span>
 <span class="hljs-bullet">       -</span> <span class="hljs-number">9090</span>:<span class="hljs-number">9000</span>
+<span class="hljs-bullet">       -</span> <span class="hljs-number">8000</span>:<span class="hljs-number">8000</span>
 <span class="hljs-attr">     volumes:</span>
 <span class="hljs-attr">       - server_data:</span>/data
 <span class="hljs-attr">     networks:</span>
@@ -678,7 +673,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"安装Portainer监控平台","level":"4.1.2","depth":2,"next":{"title":"Kubernetes","level":"4.2","depth":1,"path":"containers/kubernetes/README.md","ref":"containers/kubernetes/README.md","articles":[{"title":"Helm","level":"4.2.1","depth":2,"path":"containers/kubernetes/helm.md","ref":"containers/kubernetes/helm.md","articles":[]},{"title":"Ingress","level":"4.2.2","depth":2,"path":"containers/kubernetes/ingress.md","ref":"containers/kubernetes/ingress.md","articles":[]},{"title":"Kubernetes Dashboard","level":"4.2.3","depth":2,"path":"containers/kubernetes/kubernetes_dashboard.md","ref":"containers/kubernetes/kubernetes_dashboard.md","articles":[]},{"title":"Storage","level":"4.2.4","depth":2,"path":"containers/kubernetes/storage.md","ref":"containers/kubernetes/storage.md","articles":[]}]},"previous":{"title":"Docker Swarm管理","level":"4.1.1","depth":2,"path":"containers/docker/docker_swarm.md","ref":"containers/docker/docker_swarm.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"containers/docker/install_portainer.md","mtime":"2020-08-08T07:35:48.963Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-08T07:36:17.092Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"安装Portainer监控平台","level":"4.1.2","depth":2,"next":{"title":"Kubernetes","level":"4.2","depth":1,"path":"containers/kubernetes/README.md","ref":"containers/kubernetes/README.md","articles":[{"title":"Helm","level":"4.2.1","depth":2,"path":"containers/kubernetes/helm.md","ref":"containers/kubernetes/helm.md","articles":[]},{"title":"Ingress","level":"4.2.2","depth":2,"path":"containers/kubernetes/ingress.md","ref":"containers/kubernetes/ingress.md","articles":[]},{"title":"Kubernetes Dashboard","level":"4.2.3","depth":2,"path":"containers/kubernetes/kubernetes_dashboard.md","ref":"containers/kubernetes/kubernetes_dashboard.md","articles":[]},{"title":"Storage","level":"4.2.4","depth":2,"path":"containers/kubernetes/storage.md","ref":"containers/kubernetes/storage.md","articles":[]}]},"previous":{"title":"Docker Swarm管理","level":"4.1.1","depth":2,"path":"containers/docker/docker_swarm.md","ref":"containers/docker/docker_swarm.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"containers/docker/install_portainer.md","mtime":"2020-10-06T16:36:01.029Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-10-06T16:36:29.024Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
