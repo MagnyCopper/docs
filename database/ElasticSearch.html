@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>ELK Stack · GitBook</title>
+        <title>MongoDB · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="ZooKeeper.html" />
+    <link rel="next" href="../ubuntu/README.md" />
     
     
-    <link rel="prev" href="MinIO.html" />
+    <link rel="prev" href="MongoDB.html" />
     
 
     </head>
@@ -104,9 +104,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2" data-path="MinIO.html">
+        <li class="chapter " data-level="1.2" data-path="../middleware/MinIO.html">
             
-                <a href="MinIO.html">
+                <a href="../middleware/MinIO.html">
             
                     
                         <b>1.2.</b>
@@ -119,27 +119,12 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.3" data-path="ELK_Stack.html">
+        <li class="chapter " data-level="1.3" data-path="../middleware/ZooKeeper.html">
             
-                <a href="ELK_Stack.html">
+                <a href="../middleware/ZooKeeper.html">
             
                     
                         <b>1.3.</b>
-                    
-                    ELK Stack
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.4" data-path="ZooKeeper.html">
-            
-                <a href="ZooKeeper.html">
-            
-                    
-                        <b>1.4.</b>
                     
                     ZooKeeper
             
@@ -149,12 +134,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="Consul.html">
+        <li class="chapter " data-level="1.4" data-path="../middleware/Consul.md">
             
-                <a href="Consul.html">
+                <span>
             
                     
-                        <b>1.5.</b>
+                        <b>1.4.</b>
                     
                     Consul
             
@@ -171,9 +156,9 @@
         
         
     
-        <li class="chapter " data-level="2.1" data-path="../database/MySQL.html">
+        <li class="chapter " data-level="2.1" data-path="MySQL.html">
             
-                <a href="../database/MySQL.html">
+                <a href="MySQL.html">
             
                     
                         <b>2.1.</b>
@@ -186,12 +171,27 @@
             
         </li>
     
-        <li class="chapter " data-level="2.2" data-path="../database/MongoDB.html">
+        <li class="chapter " data-level="2.2" data-path="MongoDB.html">
             
-                <a href="../database/MongoDB.html">
+                <a href="MongoDB.html">
             
                     
                         <b>2.2.</b>
+                    
+                    MongoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.3" data-path="ElasticSearch.html">
+            
+                <a href="ElasticSearch.html">
+            
+                    
+                        <b>2.3.</b>
                     
                     MongoDB
             
@@ -558,7 +558,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >ELK Stack</a>
+        <a href=".." >MongoDB</a>
     </h1>
 </div>
 
@@ -573,20 +573,26 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="elk-stack">ELK Stack</h1>
-<p>&#x4EC0;&#x4E48;&#x662F; ELK Stack?&#x5F88;&#x7B80;&#x5355;,&#x6307;&#x7684;&#x5C31;&#x662F; Elastic Stack.
-&#x201C;ELK&#x201D;&#x662F;&#x4E09;&#x4E2A;&#x5F00;&#x6E90;&#x9879;&#x76EE;&#x7684;&#x9996;&#x5B57;&#x6BCD;&#x7F29;&#x5199;&#xFF0C;&#x8FD9;&#x4E09;&#x4E2A;&#x9879;&#x76EE;&#x5206;&#x522B;&#x662F;&#xFF1A;Elasticsearch&#x3001;Logstash &#x548C; Kibana&#x3002;Elasticsearch &#x662F;&#x4E00;&#x4E2A;&#x641C;&#x7D22;&#x548C;&#x5206;&#x6790;&#x5F15;&#x64CE;&#x3002;Logstash &#x662F;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x6570;&#x636E;&#x5904;&#x7406;&#x7BA1;&#x9053;&#xFF0C;&#x80FD;&#x591F;&#x540C;&#x65F6;&#x4ECE;&#x591A;&#x4E2A;&#x6765;&#x6E90;&#x91C7;&#x96C6;&#x6570;&#x636E;&#xFF0C;&#x8F6C;&#x6362;&#x6570;&#x636E;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x6570;&#x636E;&#x53D1;&#x9001;&#x5230;&#x8BF8;&#x5982; Elasticsearch &#x7B49;&#x201C;&#x5B58;&#x50A8;&#x5E93;&#x201D;&#x4E2D;&#x3002;Kibana &#x5219;&#x53EF;&#x4EE5;&#x8BA9;&#x7528;&#x6237;&#x5728; Elasticsearch &#x4E2D;&#x4F7F;&#x7528;&#x56FE;&#x5F62;&#x548C;&#x56FE;&#x8868;&#x5BF9;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x53EF;&#x89C6;&#x5316;&#x3002;</p>
+                                <h1 id="elasticsearch">ElasticSearch</h1>
+<blockquote>
+<p>Elasticsearch &#x662F;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x3001;&#x9AD8;&#x6269;&#x5C55;&#x3001;&#x9AD8;&#x5B9E;&#x65F6;&#x7684;&#x641C;&#x7D22;&#x4E0E;&#x6570;&#x636E;&#x5206;&#x6790;&#x5F15;&#x64CE;&#x3002;&#x5B83;&#x80FD;&#x5F88;&#x65B9;&#x4FBF;&#x7684;&#x4F7F;&#x5927;&#x91CF;&#x6570;&#x636E;&#x5177;&#x6709;&#x641C;&#x7D22;&#x3001;&#x5206;&#x6790;&#x548C;&#x63A2;&#x7D22;&#x7684;&#x80FD;&#x529B;&#x3002;&#x5145;&#x5206;&#x5229;&#x7528;Elasticsearch&#x7684;&#x6C34;&#x5E73;&#x4F38;&#x7F29;&#x6027;&#xFF0C;&#x80FD;&#x4F7F;&#x6570;&#x636E;&#x5728;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x53D8;&#x5F97;&#x66F4;&#x6709;&#x4EF7;&#x503C;&#x3002;Elasticsearch &#x7684;&#x5B9E;&#x73B0;&#x539F;&#x7406;&#x4E3B;&#x8981;&#x5206;&#x4E3A;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x6B65;&#x9AA4;&#xFF0C;&#x9996;&#x5148;&#x7528;&#x6237;&#x5C06;&#x6570;&#x636E;&#x63D0;&#x4EA4;&#x5230;Elasticsearch &#x6570;&#x636E;&#x5E93;&#x4E2D;&#xFF0C;&#x518D;&#x901A;&#x8FC7;&#x5206;&#x8BCD;&#x63A7;&#x5236;&#x5668;&#x53BB;&#x5C06;&#x5BF9;&#x5E94;&#x7684;&#x8BED;&#x53E5;&#x5206;&#x8BCD;&#xFF0C;&#x5C06;&#x5176;&#x6743;&#x91CD;&#x548C;&#x5206;&#x8BCD;&#x7ED3;&#x679C;&#x4E00;&#x5E76;&#x5B58;&#x5165;&#x6570;&#x636E;&#xFF0C;&#x5F53;&#x7528;&#x6237;&#x641C;&#x7D22;&#x6570;&#x636E;&#x65F6;&#x5019;&#xFF0C;&#x518D;&#x6839;&#x636E;&#x6743;&#x91CD;&#x5C06;&#x7ED3;&#x679C;&#x6392;&#x540D;&#xFF0C;&#x6253;&#x5206;&#xFF0C;&#x518D;&#x5C06;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x5448;&#x73B0;&#x7ED9;&#x7528;&#x6237;&#x3002;</p>
+</blockquote>
+<h2 id="&#x540D;&#x8BCD;&#x89E3;&#x91CA;">&#x540D;&#x8BCD;&#x89E3;&#x91CA;</h2>
+<ul>
+<li><strong>Node&#x4E0E;Cluster</strong>&#xFF1A;Elastic &#x672C;&#x8D28;&#x4E0A;&#x662F;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x5141;&#x8BB8;&#x591A;&#x53F0;&#x670D;&#x52A1;&#x5668;&#x534F;&#x540C;&#x5DE5;&#x4F5C;&#xFF0C;&#x6BCF;&#x53F0;&#x670D;&#x52A1;&#x5668;&#x53EF;&#x4EE5;&#x8FD0;&#x884C;&#x591A;&#x4E2A; Elastic &#x5B9E;&#x4F8B;&#x3002;&#x5355;&#x4E2A; Elastic &#x5B9E;&#x4F8B;&#x79F0;&#x4E3A;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#xFF08;node&#xFF09;&#x3002;&#x4E00;&#x7EC4;&#x8282;&#x70B9;&#x6784;&#x6210;&#x4E00;&#x4E2A;&#x96C6;&#x7FA4;&#xFF08;cluster&#xFF09;&#x3002;</li>
+<li><strong>Index</strong>&#xFF1A;Elastic &#x4F1A;&#x7D22;&#x5F15;&#x6240;&#x6709;&#x5B57;&#x6BB5;&#xFF0C;&#x7ECF;&#x8FC7;&#x5904;&#x7406;&#x540E;&#x5199;&#x5165;&#x4E00;&#x4E2A;&#x53CD;&#x5411;&#x7D22;&#x5F15;&#xFF08;Inverted Index&#xFF09;&#x3002;&#x67E5;&#x627E;&#x6570;&#x636E;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x76F4;&#x63A5;&#x67E5;&#x627E;&#x8BE5;&#x7D22;&#x5F15;&#x3002;&#x6240;&#x4EE5;&#xFF0C;Elastic &#x6570;&#x636E;&#x7BA1;&#x7406;&#x7684;&#x9876;&#x5C42;&#x5355;&#x4F4D;&#x5C31;&#x53EB;&#x505A; Index&#xFF08;&#x7D22;&#x5F15;&#xFF09;&#x3002;&#x5B83;&#x662F;&#x5355;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x7684;&#x540C;&#x4E49;&#x8BCD;&#x3002;&#x6BCF;&#x4E2A; Index &#xFF08;&#x5373;&#x6570;&#x636E;&#x5E93;&#xFF09;&#x7684;&#x540D;&#x5B57;&#x5FC5;&#x987B;&#x662F;&#x5C0F;&#x5199;&#x3002;</li>
+<li><strong>Document</strong>&#xFF1A;Index &#x91CC;&#x9762;&#x5355;&#x6761;&#x7684;&#x8BB0;&#x5F55;&#x79F0;&#x4E3A; Document&#xFF08;&#x6587;&#x6863;&#xFF09;&#x3002;&#x8BB8;&#x591A;&#x6761; Document &#x6784;&#x6210;&#x4E86;&#x4E00;&#x4E2A; Index&#x3002;</li>
+</ul>
 <h2 id="&#x5B89;&#x88C5;">&#x5B89;&#x88C5;</h2>
 <h3 id="docker&#x90E8;&#x7F72;">Docker&#x90E8;&#x7F72;</h3>
 <ol>
-<li>&#x4FEE;&#x6539;&#x8FD0;&#x884C;ES&#x7684;&#x4E3B;&#x673A;&#x914D;&#x7F6E;:&#x6267;&#x884C;<code>sudo sysctl -w vm.max_map_count=262144</code>&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#xFF1B;</li>
-<li>&#x521B;&#x5EFA;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<strong>ELK_Stack.yml</strong>&#xFF1B;</li>
-<li><p>&#x5411;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5199;&#x5165;&#x5982;&#x4E0B;&#x5185;&#x5BB9;&#xFF1A;</p>
-<pre><code class="lang-yml"><span class="hljs-attr"> version:</span> <span class="hljs-string">&quot;3.7&quot;</span>
+<li>&#x6267;&#x884C;&#x547D;&#x4EE4;&#x4FEE;&#x6539;&#x5185;&#x6838;&#x53C2;&#x6570;<code>sudo sysctl -w vm.max_map_count=262144</code></li>
+<li>&#x521B;&#x5EFA;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<strong>ElasticSearch.yml</strong>&#xFF1B;</li>
+<li>&#x5411;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5199;&#x5165;&#x5982;&#x4E0B;&#x5185;&#x5BB9;&#xFF1A;<pre><code class="lang-yml"><span class="hljs-attr"> version:</span> <span class="hljs-string">&quot;3.7&quot;</span>
 <span class="hljs-attr"> services:</span>
    <span class="hljs-comment"># Elasticsearch&#x670D;&#x52A1;</span>
 <span class="hljs-attr">   elasticsearch:</span>
-<span class="hljs-attr">     image:</span> elasticsearch:<span class="hljs-number">7.7</span><span class="hljs-number">.0</span>
+<span class="hljs-attr">     image:</span> elasticsearch:<span class="hljs-number">7.9</span><span class="hljs-number">.3</span>
 <span class="hljs-attr">     ports:</span>
 <span class="hljs-bullet">       -</span> <span class="hljs-number">9300</span>:<span class="hljs-number">9300</span>
 <span class="hljs-bullet">       -</span> <span class="hljs-number">9200</span>:<span class="hljs-number">9200</span>
@@ -601,7 +607,7 @@
 <span class="hljs-attr">         order:</span> start-first
    <span class="hljs-comment"># kibana&#x670D;&#x52A1;</span>
 <span class="hljs-attr">   kibana:</span>
-<span class="hljs-attr">     image:</span> kibana:<span class="hljs-number">7.7</span><span class="hljs-number">.0</span>
+<span class="hljs-attr">     image:</span> kibana:<span class="hljs-number">7.9</span><span class="hljs-number">.3</span>
 <span class="hljs-attr">     ports:</span>
 <span class="hljs-bullet">       -</span> <span class="hljs-number">5601</span>:<span class="hljs-number">5601</span>
 <span class="hljs-attr">     deploy:</span>
@@ -609,25 +615,16 @@
 <span class="hljs-attr">       replicas:</span> <span class="hljs-number">1</span>
 <span class="hljs-attr">       update_config:</span>
 <span class="hljs-attr">         order:</span> start-first
-   <span class="hljs-comment"># logstash</span>
-<span class="hljs-attr">   logstash:</span>
-<span class="hljs-attr">     image:</span> logstash:<span class="hljs-number">7.7</span><span class="hljs-number">.0</span>
-<span class="hljs-attr">     ports:</span>
-<span class="hljs-bullet">       -</span> <span class="hljs-number">9900</span>:<span class="hljs-number">9900</span>
-<span class="hljs-attr">     volumes:</span>
-<span class="hljs-attr">       - logstash_data:</span>/usr/share/logstash/config/
-<span class="hljs-attr">     deploy:</span>
-<span class="hljs-attr">       mode:</span> replicated
-<span class="hljs-attr">       replicas:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">       update_config:</span>
-<span class="hljs-attr">         order:</span> start-first
 <span class="hljs-attr"> volumes:</span>
 <span class="hljs-attr">   elasticsearch_data:</span>
-<span class="hljs-attr">   logstash_data:</span>
 </code></pre>
 </li>
-<li>&#x6267;&#x884C;&#x90E8;&#x7F72;&#x547D;&#x4EE4;<code>sudo docker stack deploy -c=ELK_Stack.yml ELK_Stack</code>;</li>
+<li>&#x6267;&#x884C;&#x90E8;&#x7F72;&#x547D;&#x4EE4;<code>sudo docker stack deploy -c=ElasticSearch.yml ElasticSearch</code>;</li>
 <li>&#x7B49;&#x5F85;&#x90E8;&#x7F72;&#x7ED3;&#x675F;&#xFF0C;&#x8BBF;&#x95EE;<code>http://docker-host:5601</code>&#x3002;</li>
+</ol>
+<h2 id="&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#x5176;&#x4ED6;">&#x6CE8;&#x610F;&#x4E8B;&#x9879;/&#x5176;&#x4ED6;</h2>
+<ol>
+<li>xxxxxxx&#xFF1B;</li>
 </ol>
 
                                 
@@ -656,12 +653,12 @@
 
             
                 
-                <a href="MinIO.html" class="navigation navigation-prev " aria-label="Previous page: MinIO">
+                <a href="MongoDB.html" class="navigation navigation-prev " aria-label="Previous page: MongoDB">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="ZooKeeper.html" class="navigation navigation-next " aria-label="Next page: ZooKeeper">
+                <a href="../ubuntu/README.md" class="navigation navigation-next " aria-label="Next page: Ubuntu">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -672,7 +669,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"ELK Stack","level":"1.3","depth":1,"next":{"title":"ZooKeeper","level":"1.4","depth":1,"path":"middleware/ZooKeeper.md","ref":"middleware/ZooKeeper.md","articles":[]},"previous":{"title":"MinIO","level":"1.2","depth":1,"path":"middleware/MinIO.md","ref":"middleware/MinIO.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"middleware/ELK_Stack.md","mtime":"2020-10-29T15:54:39.436Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-10-29T15:55:13.129Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"MongoDB","level":"2.3","depth":1,"next":{"title":"Ubuntu","level":"3.1","depth":1,"path":"ubuntu/README.md","ref":"ubuntu/README.md","articles":[{"title":"安装Ubuntu Server","level":"3.1.1","depth":2,"path":"ubuntu/install_ubuntu_server.md","ref":"ubuntu/install_ubuntu_server.md","articles":[]}]},"previous":{"title":"MongoDB","level":"2.2","depth":1,"path":"database/MongoDB.md","ref":"database/MongoDB.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"database/ElasticSearch.md","mtime":"2020-11-08T12:25:26.264Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-11-08T12:25:52.460Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
