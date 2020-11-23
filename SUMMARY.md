@@ -7,7 +7,7 @@
 <!-- 数据库(database) -->
 * [MySQL](database/MySQL.md)
 * [MongoDB](database/MongoDB.md)
-* [MongoDB](database/ElasticSearch.md)
+* [ElasticSearch](database/ElasticSearch.md)
 
 ---
 <!-- 操作系统(System) -->
@@ -43,3 +43,8 @@
 ---
 <!-- 服务（Service） -->
 * [Frp](service/frp.md)
+
+---
+<!-- 编程（program） -->
+* [设计模式](program/design_pattern/README.md)
+  * [工厂方法模式](program/design_pattern/factory_method.md)
