@@ -109,7 +109,6 @@
     # By default, this value is false.
     oidc_skip_expiry_check = false
 
-
     # oidc_skip_issuer_check specifies whether to skip checking if the OIDC token's issuer claim matches the issuer specified in OidcIssuer.
     # By default, this value is false.
     oidc_skip_issuer_check = false
