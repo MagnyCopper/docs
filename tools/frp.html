@@ -203,127 +203,147 @@
 <h2 id="&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#x5176;&#x4ED6;">&#x6CE8;&#x610F;&#x4E8B;&#x9879;/&#x5176;&#x4ED6;</h2>
 <ol>
 <li><p>&#x53C2;&#x8003;&#x7684;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x914D;&#x7F6E;&#x5982;&#x4E0B;:</p>
-<p> ```ini</p>
-<h1 id="common-is-integral-section">[common] is integral section</h1>
-<p> [common]</p>
-<h1 id="a-literal-address-or-host-name-for-ipv6-must-be-enclosed">A literal address or host name for IPv6 must be enclosed</h1>
-<h1 id="in-square-brackets-as-in-180-ipv6-hosthttp-or-ipv6-hostzone80">in square brackets, as in &quot;[::1]:80&quot;, &quot;[ipv6-host]:http&quot; or &quot;[ipv6-host%zone]:80&quot;</h1>
-<p> bind_addr = 0.0.0.0
- bind_port = 7000</p>
-<h1 id="udp-port-to-help-make-udp-hole-to-penetrate-nat">udp port to help make udp hole to penetrate nat</h1>
-<p> bind_udp_port = 7001</p>
-<h1 id="udp-port-used-for-kcp-protocol-it-can-be-same-with-bindport">udp port used for kcp protocol, it can be same with &apos;bind_port&apos;</h1>
-<h1 id="if-not-set-kcp-is-disabled-in-frps">if not set, kcp is disabled in frps</h1>
-<p> kcp_bind_port = 7000</p>
-<h1 id="specify-which-address-proxy-will-listen-for-default-value-is-same-with-bindaddr">specify which address proxy will listen for, default value is same with bind_addr</h1>
-<h1 id="proxybindaddr--127001">proxy_bind_addr = 127.0.0.1</h1>
-<h1 id="if-you-want-to-support-virtual-host-you-must-set-the-http-port-for-listening-optional">if you want to support virtual host, you must set the http port for listening (optional)</h1>
-<h1 id="note-http-port-and-https-port-can-be-same-with-bindport">Note: http port and https port can be same with bind_port</h1>
-<p> vhost_http_port = 80
- vhost_https_port = 443</p>
-<h1 id="response-header-timeoutseconds-for-vhost-http-server-default-is-60s">response header timeout(seconds) for vhost http server, default is 60s</h1>
-<h1 id="vhosthttptimeout--60">vhost_http_timeout = 60</h1>
-<h1 id="tcpmuxhttpconnectport-specifies-the-port-that-the-server-listens-for-tcp">tcpmux_httpconnect_port specifies the port that the server listens for TCP</h1>
-<h1 id="http-connect-requests-if-the-value-is-0-the-server-will-not-multiplex-tcp">HTTP CONNECT requests. If the value is 0, the server will not multiplex TCP</h1>
-<h1 id="requests-on-one-single-port-if-its-not---it-will-listen-on-this-value-for">requests on one single port. If it&apos;s not - it will listen on this value for</h1>
-<h1 id="http-connect-requests-by-default-this-value-is-0">HTTP CONNECT requests. By default, this value is 0.</h1>
-<h1 id="tcpmuxhttpconnectport--1337">tcpmux_httpconnect_port = 1337</h1>
-<h1 id="set-dashboardaddr-and-dashboardport-to-view-dashboard-of-frps">set dashboard_addr and dashboard_port to view dashboard of frps</h1>
-<h1 id="dashboardaddrs-default-value-is-same-with-bindaddr">dashboard_addr&apos;s default value is same with bind_addr</h1>
-<h1 id="dashboard-is-available-only-if-dashboardport-is-set">dashboard is available only if dashboard_port is set</h1>
-<p> dashboard_addr = 0.0.0.0
- dashboard_port = 7500</p>
-<h1 id="dashboard-user-and-passwd-for-basic-auth-protect-if-not-set-both-default-value-is-admin">dashboard user and passwd for basic auth protect, if not set, both default value is admin</h1>
-<p> dashboard_user = admin
- dashboard_pwd = password</p>
-<h1 id="enableprometheus-will-export-prometheus-metrics-on-dashboardaddrdashboardport-in-metrics-api">enable_prometheus will export prometheus metrics on {dashboard_addr}:{dashboard_port} in /metrics api.</h1>
-<p> enable_prometheus = false</p>
-<h1 id="dashboard-assets-directoryonly-for-debug-mode">dashboard assets directory(only for debug mode)</h1>
-<h1 id="assetsdir--static">assets_dir = ./static</h1>
-<h1 id="console-or-real-logfile-path-like-frpslog">console or real logFile path like ./frps.log</h1>
-<p> log_file = ./frps.log</p>
-<h1 id="trace-debug-info-warn-error">trace, debug, info, warn, error</h1>
-<p> log_level = info</p>
-<p> log_max_days = 3</p>
-<h1 id="disable-log-colors-when-logfile-is-console-default-is-false">disable log colors when log_file is console, default is false</h1>
-<p> disable_log_color = false</p>
-<h1 id="detailederrorstoclient-defines-whether-to-send-the-specific-error-with-debug-info-to-frpc-by-default-this-value-is-true">DetailedErrorsToClient defines whether to send the specific error (with debug info) to frpc. By default, this value is true.</h1>
-<p> detailed_errors_to_client = true</p>
-<h1 id="authenticationmethod-specifies-what-authentication-method-to-use-authenticate-frpc-with-frps">authentication_method specifies what authentication method to use authenticate frpc with frps.</h1>
-<h1 id="if-token-is-specified---token-will-be-read-into-login-message">If &quot;token&quot; is specified - token will be read into login message.</h1>
-<h1 id="if-oidc-is-specified---oidc-open-id-connect-token-will-be-issued-using-oidc-settings-by-default-this-value-is-token">If &quot;oidc&quot; is specified - OIDC (Open ID Connect) token will be issued using OIDC settings. By default, this value is &quot;token&quot;.</h1>
-<p> authentication_method = token</p>
-<h1 id="authenticateheartbeats-specifies-whether-to-include-authentication-token-in-heartbeats-sent-to-frps-by-default-this-value-is-false">authenticate_heartbeats specifies whether to include authentication token in heartbeats sent to frps. By default, this value is false.</h1>
-<p> authenticate_heartbeats = false</p>
-<h1 id="authenticatenewworkconns-specifies-whether-to-include-authentication-token-in-new-work-connections-sent-to-frps-by-default-this-value-is-false">AuthenticateNewWorkConns specifies whether to include authentication token in new work connections sent to frps. By default, this value is false.</h1>
-<p> authenticate_new_work_conns = false</p>
-<h1 id="auth-token">auth token</h1>
-<p> token = password</p>
-<h1 id="oidcissuer-specifies-the-issuer-to-verify-oidc-tokens-with">oidc_issuer specifies the issuer to verify OIDC tokens with.</h1>
-<h1 id="by-default-this-value-is-">By default, this value is &quot;&quot;.</h1>
-<p> oidc_issuer =</p>
-<h1 id="oidcaudience-specifies-the-audience-oidc-tokens-should-contain-when-validated">oidc_audience specifies the audience OIDC tokens should contain when validated.</h1>
-<h1 id="by-default-this-value-is-">By default, this value is &quot;&quot;.</h1>
-<p> oidc_audience =</p>
-<h1 id="oidcskipexpirycheck-specifies-whether-to-skip-checking-if-the-oidc-token-is-expired">oidc_skip_expiry_check specifies whether to skip checking if the OIDC token is expired.</h1>
-<h1 id="by-default-this-value-is-false">By default, this value is false.</h1>
-<p> oidc_skip_expiry_check = false</p>
+<pre><code class="lang-ini"> # [common] is integral section
+ [common]
+ # A literal address or host name for IPv6 must be enclosed
+ # in square brackets, as in &quot;[::1]:80&quot;, &quot;[ipv6-host]:http&quot; or &quot;[ipv6-host%zone]:80&quot;
+ bind_addr = 0.0.0.0
+ bind_port = 7000
+
+ # udp port to help make udp hole to penetrate nat
+ bind_udp_port = 7001
+
+ # udp port used for kcp protocol, it can be same with &apos;bind_port&apos;
+ # if not set, kcp is disabled in frps
+ kcp_bind_port = 7000
+
+ # specify which address proxy will listen for, default value is same with bind_addr
+ # proxy_bind_addr = 127.0.0.1
+
+ # if you want to support virtual host, you must set the http port for listening (optional)
+ # Note: http port and https port can be same with bind_port
+ vhost_http_port = 80
+ vhost_https_port = 443
+
+ # response header timeout(seconds) for vhost http server, default is 60s
+ # vhost_http_timeout = 60
+
+ # tcpmux_httpconnect_port specifies the port that the server listens for TCP
+ # HTTP CONNECT requests. If the value is 0, the server will not multiplex TCP
+ # requests on one single port. If it&apos;s not - it will listen on this value for
+ # HTTP CONNECT requests. By default, this value is 0.
+ # tcpmux_httpconnect_port = 1337
+
+ # set dashboard_addr and dashboard_port to view dashboard of frps
+ # dashboard_addr&apos;s default value is same with bind_addr
+ # dashboard is available only if dashboard_port is set
+ dashboard_addr = 0.0.0.0
+ dashboard_port = 7500
+
+ # dashboard user and passwd for basic auth protect, if not set, both default value is admin
+ dashboard_user = admin
+ dashboard_pwd = password
+
+ # enable_prometheus will export prometheus metrics on {dashboard_addr}:{dashboard_port} in /metrics api.
+ enable_prometheus = false
+
+ # dashboard assets directory(only for debug mode)
+ # assets_dir = ./static
+
+ # console or real logFile path like ./frps.log
+ log_file = ./frps.log
+
+ # trace, debug, info, warn, error
+ log_level = info
+
+ log_max_days = 3
+
+ # disable log colors when log_file is console, default is false
+ disable_log_color = false
+
+ # DetailedErrorsToClient defines whether to send the specific error (with debug info) to frpc. By default, this value is true.
+ detailed_errors_to_client = true
+
+ # authentication_method specifies what authentication method to use authenticate frpc with frps.
+ # If &quot;token&quot; is specified - token will be read into login message.
+ # If &quot;oidc&quot; is specified - OIDC (Open ID Connect) token will be issued using OIDC settings. By default, this value is &quot;token&quot;.
+ authentication_method = token
+
+ # authenticate_heartbeats specifies whether to include authentication token in heartbeats sent to frps. By default, this value is false.
+ authenticate_heartbeats = false
+
+ # AuthenticateNewWorkConns specifies whether to include authentication token in new work connections sent to frps. By default, this value is false.
+ authenticate_new_work_conns = false
+
+ # auth token
+ token = password
+
+ # oidc_issuer specifies the issuer to verify OIDC tokens with.
+ # By default, this value is &quot;&quot;.
+ oidc_issuer =
+
+ # oidc_audience specifies the audience OIDC tokens should contain when validated.
+ # By default, this value is &quot;&quot;.
+ oidc_audience =
+
+ # oidc_skip_expiry_check specifies whether to skip checking if the OIDC token is expired.
+ # By default, this value is false.
+ oidc_skip_expiry_check = false
+
+ # oidc_skip_issuer_check specifies whether to skip checking if the OIDC token&apos;s issuer claim matches the issuer specified in OidcIssuer.
+ # By default, this value is false.
+ oidc_skip_issuer_check = false
+
+ # heartbeat configure, it&apos;s not recommended to modify the default value
+ # the default value of heartbeat_timeout is 90
+ # heartbeat_timeout = 90
+
+ # user_conn_timeout configure, it&apos;s not recommended to modify the default value
+ # the default value of user_conn_timeout is 10
+ # user_conn_timeout = 10
+
+ # only allow frpc to bind ports you list, if you set nothing, there won&apos;t be any limit
+ allow_ports = 7000-8000
+
+ # pool_count in each proxy will change to max_pool_count if they exceed the maximum value
+ max_pool_count = 5
+
+ # max ports can be used for each client, default value is 0 means no limit
+ max_ports_per_client = 0
+
+ # tls_only specifies whether to only accept TLS-encrypted connections. By default, the value is false.
+ tls_only = false
+
+ # tls_cert_file = server.crt
+ # tls_key_file = server.key
+ # tls_trusted_ca_file = ca.crt
+
+ # if subdomain_host is not empty, you can set subdomain when type is http or https in frpc&apos;s configure file
+ # when subdomain is test, the host used by routing is test.frps.com
+ subdomain_host = magnycopper.cool
+
+ # if tcp stream multiplexing is used, default is true
+ tcp_mux = true
+
+ # custom 404 page for HTTP requests
+ # custom_404_page = /path/to/404.html
+
+ # specify udp packet size, unit is byte. If not set, the default value is 1500.
+ # This parameter should be same between client and server.
+ # It affects the udp and sudp proxy.
+ udp_packet_size = 1500
+
+ [plugin.user-manager]
+ addr = 127.0.0.1:9000
+ path = /handler
+ ops = Login
+
+ [plugin.port-manager]
+ addr = 127.0.0.1:9001
+ path = /handler
+ ops = NewProxy
+</code></pre>
 </li>
-</ol>
-<pre><code># oidc_skip_issuer_check specifies whether to skip checking if the OIDC token&apos;s issuer claim matches the issuer specified in OidcIssuer.
-# By default, this value is false.
-oidc_skip_issuer_check = false
-
-# heartbeat configure, it&apos;s not recommended to modify the default value
-# the default value of heartbeat_timeout is 90
-# heartbeat_timeout = 90
-
-# user_conn_timeout configure, it&apos;s not recommended to modify the default value
-# the default value of user_conn_timeout is 10
-# user_conn_timeout = 10
-
-# only allow frpc to bind ports you list, if you set nothing, there won&apos;t be any limit
-allow_ports = 7000-8000
-
-# pool_count in each proxy will change to max_pool_count if they exceed the maximum value
-max_pool_count = 5
-
-# max ports can be used for each client, default value is 0 means no limit
-max_ports_per_client = 0
-
-# tls_only specifies whether to only accept TLS-encrypted connections. By default, the value is false.
-tls_only = false
-
-# tls_cert_file = server.crt
-# tls_key_file = server.key
-# tls_trusted_ca_file = ca.crt
-
-# if subdomain_host is not empty, you can set subdomain when type is http or https in frpc&apos;s configure file
-# when subdomain is test, the host used by routing is test.frps.com
-subdomain_host = magnycopper.cool
-
-# if tcp stream multiplexing is used, default is true
-tcp_mux = true
-
-# custom 404 page for HTTP requests
-# custom_404_page = /path/to/404.html
-
-# specify udp packet size, unit is byte. If not set, the default value is 1500.
-# This parameter should be same between client and server.
-# It affects the udp and sudp proxy.
-udp_packet_size = 1500
-
-[plugin.user-manager]
-addr = 127.0.0.1:9000
-path = /handler
-ops = Login
-
-[plugin.port-manager]
-addr = 127.0.0.1:9001
-path = /handler
-ops = NewProxy
-```
-</code></pre><ol>
 <li><p>&#x90E8;&#x7F72;frp&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x65F6;,&#x5E94;&#x5C06;frps.service&#x6587;&#x4EF6;&#x4E2D;&#x7684;<strong>User=nobody</strong>&#x90E8;&#x5206;&#x53BB;&#x6389;,&#x5B8C;&#x6574;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5982;&#x4E0B;:</p>
 <pre><code> [Unit]
  Description=Frp Server Service
@@ -378,7 +398,7 @@ ops = NewProxy
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"FRP","level":"1.2.1","depth":2,"previous":{"title":"各类工具","level":"1.2","depth":1,"path":"tools/README.md","ref":"tools/README.md","articles":[{"title":"FRP","level":"1.2.1","depth":2,"path":"tools/frp.md","ref":"tools/frp.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"tools/frp.md","mtime":"2021-02-20T16:40:00.291Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-02-20T16:40:31.633Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"FRP","level":"1.2.1","depth":2,"previous":{"title":"各类工具","level":"1.2","depth":1,"path":"tools/README.md","ref":"tools/README.md","articles":[{"title":"FRP","level":"1.2.1","depth":2,"path":"tools/frp.md","ref":"tools/frp.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"tools/frp.md","mtime":"2021-02-20T19:50:02.192Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-02-20T19:50:25.732Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
