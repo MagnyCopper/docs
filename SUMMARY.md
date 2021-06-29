@@ -1,6 +1,6 @@
 # Summary
 
-<!-- 数据库(databases) -->
-* [数据库](databases/README.md)
-  * [MySQL](databases/MySQL.md)
+<!--中间件(middleware) -->
+* [中间件](middleware/README.md)
+  * [Redis](middleware/redis.md)
 ---
