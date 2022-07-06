@@ -31,6 +31,8 @@
        environment:
          - KAFKA_BROKER_ID=1
          - KAFKA_CFG_ZOOKEEPER_CONNECT=192.168.10.5:2181
+         - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+         - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://192.168.10.5:9092
          - ALLOW_PLAINTEXT_LISTENER=yes
        deploy:
          mode: replicated
