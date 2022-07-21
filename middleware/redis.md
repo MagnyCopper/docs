@@ -105,3 +105,32 @@ pub/sub 有个问题在于消费端不在线时会丢失消息,若有此场景�
 
 - 垃圾邮件过滤;
 - 爬虫网址过滤;
+
+### Redis 的 key 淘汰策略
+
+key 的过期策略一般是由定期删除+惰性删除组合而来的;
+
+- 定期删除:每过 100s 就随机抽取一些过期的 key 进行删除(不全部删除的原因是全表查询 redis 很消耗资源)
+- 惰性删除:当查询时发现 key 过期直接删除;
+
+若定期删除没命中同时也灭有查询过该 key 怎么删除呢?
+
+- volatile-lru（least recently used）：从已设置过期时间的数据集（server.db[i].expires）中挑选最近少使用的数据淘汰
+- volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰
+- volatile-random：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰
+- allkeys-lru（least recently used）：当内存不足以容纳新写入数据时，在键空间中，移除最近最少使用的 key（这个是最常用的）
+- allkeys-random：从数据集（server.db[i].dict）中任意选择数据淘汰
+- no-eviction：禁止驱逐数据，也就是说当内存不足以容纳新写入数据时，新写入操作会报错。这个应该没人使用吧！
+- volatile-lfu（least frequently used）：从已设置过期时间的数据集（server.db[i].expires）中挑选最不经常使用的数据淘汰
+- allkeys-lfu（least frequently used）：当内存不足以容纳新写入数据时，在键空间中，移除最不经常使用的 key
+
+一个简单的 LRU 实现(容量为 100,超过时自动删掉最老的)
+
+```java
+Map<Long, Object> cacheLRU = Collections.synchronizedMap(new LinkedHashMap<Long, Object>(100, .75f, true) {
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<Long, Object> eldest) {
+        return size() > 100;
+    }
+});
+```
