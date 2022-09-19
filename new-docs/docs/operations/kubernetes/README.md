@@ -13,6 +13,8 @@
 
 ### 使用 kubeadm 部署 k8s
 
+以下内容均使用 Ubuntu22.04 操作系统 部署 1.25.0 版本的 k8s
+
 1. 检查每台节点的 MAC 地址和 product_uuid 唯一性;
 
    ```bash
@@ -49,8 +51,8 @@
    sudo apt update
    sudo apt install cri-o cri-o-runc
    # 添加启动
-   sudo systemctl enable cri-o.service
-   sudo systemctl start cri-o.service
+   sudo systemctl enable crio.service
+   sudo systemctl start crio.service
    ```
 
 3. 安装 kubeadm ;
@@ -72,7 +74,68 @@
 4. 使用 kubeadm 创建集群;
 
    ```bash
-   sudo kubeadm init --apiserver-advertise-address=192.168.10.7
+   sudo kubeadm init --apiserver-advertise-address=192.168.10.7 --pod-network-cidr=192.168.99.0/16
+   ```
+
+5. 添加集群配置文件
+
+   ```bash
+   mkdir -p $HOME/.kube
+   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+   sudo chown $(id -u):$(id -g) $HOME/.kube/config
+   ```
+
+6. 添加网络插件
+
+   calico 插件
+
+   ```bash
+   kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/tigera-operator.yaml
+   ```
+
+   创建配置文件`calico.yaml`,cidr 修改为与上面`--pod-network-cidr`相同的地址
+
+   ```json
+   # This section includes base Calico installation configuration.
+   # For more information, see: https://projectcalico.docs.tigera.io/master/reference/   installation/api#operator.tigera.io/v1.Installation
+   apiVersion: operator.tigera.io/v1
+   kind: Installation
+   metadata:
+     name: default
+   spec:
+     # Configures Calico networking.
+     calicoNetwork:
+       # Note: The ipPools section cannot be modified post-install.
+       ipPools:
+       - blockSize: 26
+         cidr: 192.168.99.0/16
+         encapsulation: VXLANCrossSubnet
+         natOutgoing: Enabled
+         nodeSelector: all()
+
+   ---
+
+   # This section configures the Calico API server.
+   # For more information, see: https://projectcalico.docs.tigera.io/master/reference/   installation/api#operator.tigera.io/v1.APIServer
+   apiVersion: operator.tigera.io/v1
+   kind: APIServer
+   metadata:
+     name: default
+   spec: {}
+   ```
+
+   执行`kubectl create -f calico.yaml`安装插件
+
+7. 允许 master 节点部署 pod
+
+   ```bash
+   sudo kubectl taint nodes --all node-role.kubernetes.io/control-plane- node-role.kubernetes.io/master-
+   ```
+
+8. 添加 worker 节点
+
+   ```bash
+   kubeadm join 192.168.10.7:6443 --token zmy28z.d8u3slbiseiknn67    --discovery-token-ca-cert-hash   sha256:1d6cffbd46bbe709c47cc891ec0dd6a1f9b5391206d2cc28504600621a68c5bf
    ```
 
 ## 知识点
