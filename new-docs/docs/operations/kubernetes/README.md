@@ -13,7 +13,7 @@
 
 ### 使用 kubeadm 部署 k8s
 
-以下内容均使用 Ubuntu22.04 操作系统
+以下内容均使用 Ubuntu22.04 操作系统 部署 1.25.0 版本的 k8s
 
 1. 检查每台节点的 MAC 地址和 product_uuid 唯一性;
 
