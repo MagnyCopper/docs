@@ -7,8 +7,8 @@
 - [基础属性](#基础属性)
 - [知识点](#知识点)
   - [使用 kubeadm 部署 k8s](#使用-kubeadm-部署-k8s)
-  - [部署 helm3](#部署-helm3)
-  - [安装 dashboard](#安装-dashboard)
+  - [helm3](#helm3)
+  - [dashboard](#dashboard)
 
 ## 基础属性
 
@@ -141,9 +141,9 @@
    kubeadm join 192.168.10.7:6443 --token w61gas.dr8j67znkhrjul2g  --discovery-token-ca-cert-hash sha256:633db36bb128847f227ed7d411e595a4169cea65ce49f44014fef81905a381c9
    ```
 
-### 部署 helm3
+### helm3
 
-执行以下命令
+执行以下命令进行安装
 
 ```bash
 curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usrshare/keyrings/helm.gpg > /dev/null
@@ -153,9 +153,9 @@ sudo apt update
 sudo apt install helm
 ```
 
-### 安装 dashboard
+### dashboard
 
-执行以下命令
+执行以下命令进行安装
 
 ```bash
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
