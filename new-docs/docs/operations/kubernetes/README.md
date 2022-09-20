@@ -5,11 +5,14 @@
 目录:
 
 - [基础属性](#基础属性)
-  - [使用 kubeadm 部署 k8s](#使用-kubeadm-部署-k8s)
 - [知识点](#知识点)
-  - [第一个知识点 XXXXXX](#第一个知识点-xxxxxx)
+  - [使用 kubeadm 部署 k8s](#使用-kubeadm-部署-k8s)
+  - [部署 helm3](#部署-helm3)
+  - [安装 dashboard](#安装-dashboard)
 
 ## 基础属性
+
+## 知识点
 
 ### 使用 kubeadm 部署 k8s
 
@@ -87,7 +90,7 @@
 
 6. 添加网络插件
 
-   calico 插件
+   calico 插件:
 
    ```bash
    kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/tigera-operator.yaml
@@ -135,11 +138,26 @@
 8. 添加 worker 节点
 
    ```bash
-   kubeadm join 192.168.10.7:6443 --token zmy28z.d8u3slbiseiknn67    --discovery-token-ca-cert-hash   sha256:1d6cffbd46bbe709c47cc891ec0dd6a1f9b5391206d2cc28504600621a68c5bf
+   kubeadm join 192.168.10.7:6443 --token w61gas.dr8j67znkhrjul2g  --discovery-token-ca-cert-hash sha256:633db36bb128847f227ed7d411e595a4169cea65ce49f44014fef81905a381c9
    ```
 
-## 知识点
+### 部署 helm3
 
-### 第一个知识点 XXXXXX
+执行以下命令
 
-知识点的描述部分
+```bash
+curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usrshare/keyrings/helm.gpg > /dev/null
+sudo apt install apt-transport-https --yes
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyringshelm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt update
+sudo apt install helm
+```
+
+### 安装 dashboard
+
+执行以下命令
+
+```bash
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm install kubernetes-dashboard kubernetes-dashboard/ubernetes-dashboard
+```
