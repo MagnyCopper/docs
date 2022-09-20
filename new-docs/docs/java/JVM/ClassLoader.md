@@ -15,6 +15,9 @@
   - [数组类如何创建?](#数组类如何创建)
   - [系统类加载器加载的类能否被卸载?](#系统类加载器加载的类能否被卸载)
   - [系统类加载器](#系统类加载器)
+  - [双亲委派模型](#双亲委派模型)
+  - [双亲委派模型的好处](#双亲委派模型的好处)
+  - [打破双亲委派机制](#打破双亲委派机制)
 
 ## 基础属性
 
@@ -93,3 +96,33 @@ JVM 中内置了 3 个 ClassLoader:
 - BootstrapClassLoader(启动类加载器):最顶层的加载类,负责加载%JAVA_HOME%/lib 目录下的 jar 包和类
 - ExtensionClassLoader(扩展类加载器):主要负责加载 %JRE_HOME%/lib/ext 目录下的 jar 包和类
 - AppClassLoader(应用程序类加载器):负责加载当前应用 classpath 下的所有 jar 包和类
+
+### 双亲委派模型
+
+每个类都会有个对应的 ClassLoader(类加载器),系统中的 ClassLoader 协同工作时采用双亲委派机制,主要内容如下:
+
+1. 检查该类是否已经被加载过,若已加载则直接返回类信息;
+2. 若需要加载则优先使用夫类加载器(不一定是继承关系,一般使用优先级更高的加载器)进行加载,一般是由 BootstrapClassLoader 完成加载;
+3. 父加载器无法完成加载时,使用子加载器进行加载;
+4. 父加载器为 null 时,使用 BootstrapClassLoader 进行加载;
+
+总结如下:
+
+优先级:BootstrapClassLoader->ExtensionClassLoader->AppClassLoader->UserDefineClassLoader
+
+- 自顶向下尝试进行类加载;
+- 自底向上检查类是否被加载;
+
+### 双亲委派模型的好处
+
+- 保证了 java 程序的稳定运行;
+- 确保类不会被重复加载;
+- 保证核心 API 不会被篡改;
+
+### 打破双亲委派机制
+
+如果想打破双亲委派机制需要复写 ClassLoader 类中的 `loadClass()`方法;
+
+打破双亲委派机制的场景:
+
+- tomcat 的 war 加载;
