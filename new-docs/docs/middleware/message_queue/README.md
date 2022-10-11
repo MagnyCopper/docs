@@ -4,7 +4,7 @@
 
 ## 主目录
 
-- [消息队列](./message_queue/README.md)
+- [Kafka](./message_queue/Kafka.md)
 
 ## 知识点
 
@@ -42,3 +42,6 @@
 - **消费者**:采用关闭最自动提交的方式由程序确认完成数据消费后再手动提交;
 
 ### 如何保证消费顺序
+
+- **rabbitMQ**:单 queue 对应一个消费者即可保证顺序消费;
+- **kafka**:单 partition,消费者单线程处理即可保证顺序消费;
