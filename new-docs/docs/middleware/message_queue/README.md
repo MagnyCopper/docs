@@ -4,7 +4,7 @@
 
 ## 主目录
 
-- [Kafka](./message_queue/Kafka.md)
+- [Kafka](./Kafka.md)
 
 ## 知识点
 
