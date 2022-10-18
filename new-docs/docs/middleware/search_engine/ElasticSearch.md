@@ -7,6 +7,7 @@
 - [基础属性](#基础属性)
   - [基础概念](#基础概念)
   - [ES 与 RDBMS 的概念映射](#es-与-rdbms-的概念映射)
+  - [部署安装](#部署安装)
 - [知识点](#知识点)
   - [ES 数据操作流程](#es-数据操作流程)
   - [ES 集群中的节点有哪些角色?](#es-集群中的节点有哪些角色)
@@ -32,6 +33,53 @@
 |  column   |  field   |
 |    SQL    |   DSL    |
 |  schema   | mapping  |
+
+### 部署安装
+
+测试环境：
+
+1. 修改系统配置文件：`/etc/sysctl.conf` 添加`vm.max_map_count=262144`;
+2. 创建配置文件`es.yaml`；
+3. 添加以下内容：
+
+   ```yaml
+   version: "3.7"
+   services:
+     # Elasticsearch服务
+     elasticsearch_server:
+       image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+       ports:
+         - 9200:9200
+         - 9300:9300
+       volumes:
+         - elasticsearch_server_data:/usr/share/elasticsearch/data
+       environment:
+         - discovery.type=single-node
+         - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+       deploy:
+         mode: replicated
+         replicas: 1
+         update_config:
+           order: start-first
+     # Kibana 服务
+     kibana_server:
+       image: docker.elastic.co/kibana/kibana:8.4.3
+       ports:
+         - 5601:5601
+       volumes:
+         - kibana_server_data:/usr/share/kibana
+       deploy:
+         mode: replicated
+         replicas: 1
+         update_config:
+           order: start-first
+   volumes:
+     elasticsearch_server_data:
+     kibana_server_data:
+   ```
+
+4. 执行命令`sudo docker stack deploy --compose-file es.yml es`;
+5. 查看日志中输出 elastic 的密码或在容器中使用命令`/usr/share/elasticsearch/bin/elasticsearch-reset-password -i -u elastic --url https://localhost:9200`重设密码；
 
 ## 知识点
 
