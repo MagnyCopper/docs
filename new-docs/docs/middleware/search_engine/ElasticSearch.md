@@ -43,39 +43,49 @@
 3. 添加以下内容：
 
    ```yaml
-   version: "3.7"
-   services:
-     # Elasticsearch服务
-     elasticsearch_server:
-       image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
-       ports:
-         - 9200:9200
-         - 9300:9300
-       volumes:
-         - elasticsearch_server_data:/usr/share/elasticsearch/data
-       environment:
-         - discovery.type=single-node
-         - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
-       deploy:
-         mode: replicated
-         replicas: 1
-         update_config:
-           order: start-first
-     # Kibana 服务
-     kibana_server:
-       image: docker.elastic.co/kibana/kibana:8.4.3
-       ports:
-         - 5601:5601
-       volumes:
-         - kibana_server_data:/usr/share/kibana
-       deploy:
-         mode: replicated
-         replicas: 1
-         update_config:
-           order: start-first
-   volumes:
-     elasticsearch_server_data:
-     kibana_server_data:
+  version: "3.7"
+  services:
+    # Elasticsearch服务
+    elasticsearch_server:
+      image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+      ports:
+        - 9200:9200
+        - 9300:9300
+      volumes:
+        - elasticsearch_server_data:/usr/share/elasticsearch/data
+      environment:
+        - discovery.type=single-node
+        - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      deploy:
+        mode: replicated
+        replicas: 1
+        update_config:
+          order: start-first
+    # cerebro服务
+    cerebro_server:
+      image: lmenezes/cerebro
+      ports:
+        - 9000:9000
+      deploy:
+        mode: replicated
+        replicas: 1
+        update_config:
+          order: start-first
+    # Kibana 服务
+    kibana_server:
+      image: docker.elastic.co/kibana/kibana:8.4.3
+      ports:
+        - 5601:5601
+      volumes:
+        - kibana_server_data:/usr/share/kibana
+      deploy:
+        mode: replicated
+        replicas: 1
+        update_config:
+          order: start-first
+  volumes:
+    elasticsearch_server_data:
+    kibana_server_data:
    ```
 
 4. 执行命令`sudo docker stack deploy --compose-file es.yml es`;
