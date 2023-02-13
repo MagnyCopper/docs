@@ -7,11 +7,21 @@
 - [基础属性](#基础属性)
   - [InnoDB引擎](#innodb引擎)
 - [知识点](#知识点)
+  - [DoubleWriteBuffer](#doublewritebuffer)
+  - [MySQL优化](#mysql优化)
+    - [分库分表](#分库分表)
+      - [垂直拆分](#垂直拆分)
+      - [水平拆分](#水平拆分)
+  - [MySQL日志](#mysql日志)
+    - [RedoLog](#redolog)
+    - [BinLog](#binlog)
+    - [UndoLog](#undolog)
+    - [其他问题](#其他问题)
   - [Buffer Pool](#buffer-pool)
     - [Free链表](#free链表)
     - [Flush链表](#flush链表)
     - [LRU链表](#lru链表)
-    - [其他问题:](#其他问题)
+    - [其他问题:](#其他问题-1)
   - [索引](#索引)
     - [索引页(page)](#索引页page)
     - [InnoDB的索引](#innodb的索引)
@@ -26,6 +36,49 @@ InnoDB引擎的内存及磁盘结构如图所示:
 ![](./MySQL-img-4.png)
 
 ## 知识点
+
+### DoubleWriteBuffer
+
+### MySQL优化
+
+#### 分库分表
+
+##### 垂直拆分
+
+特点:
+
+- 每个库(表)的结构都不相同,专库(表)专用;
+- 不同的库(表)间存在相同字段用于关联;
+- 全部库(表)的数据并集即为全部数据;
+
+缺点:
+
+- 由于业务特性导致压力会集中在某个库(表)上;
+- 由于横跨多个实例将导致无法通过JOIN操作获取数据,提高了开发难度;
+
+##### 水平拆分
+
+### MySQL日志
+
+#### RedoLog
+
+RedoLog是InnoDB引擎提供的日志文件,RedoLog日志和事务及BufferPool的脏页回写紧密相关,通俗的讲,该日志用于将用户的更新操作记录下来(RedoLog将直接记录被操作的页编码及对应的数据地址和更新内容)并在合适的时机在磁盘上"重放"已达到更新磁盘数据的目的,同时也作为MySQL启动时重建BufferPool的依据;
+
+默认情况下RedoLog先写入MySQL内存中的LogBuffer部分,在事务提交时自动持久化到磁盘上(由其他后台线程完成根据RedoLog更新磁盘数据的过程),也可以通过配置的方式修改为写入系统缓存或交由其他后台线程定时写入RedoLog文件;
+
+#### BinLog
+
+BinLog是MySQL提供的系统级日志文件,一般用于提供主从同步功能,内部主要记录了用户执行的SQL语句;
+
+#### UndoLog
+
+UndoLog是InnoDB引擎提供的日志文件,一般用于提供事务回滚功能,内部主要记录了用户执行的SQL语句的逆向操作;
+
+#### 其他问题
+
+- BinLog和RedoLog的功能是否有些重复?
+  
+  BinLog和RedoLog记录的数据是类似的,不过由于BinLog中是保存的SQL,而RedoLog中保存的直接时页编码和数据地址及更新内容,因此RedoLog在进行数据恢复时速度更快,在主从场景下由于受限于RedoLog的48M大小和页编码等数据不一致的原因,因此采用BinLog进行同步;
 
 ### Buffer Pool
 
