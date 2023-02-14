@@ -9,9 +9,11 @@
 - [知识点](#知识点)
   - [DoubleWriteBuffer](#doublewritebuffer)
   - [MySQL优化](#mysql优化)
+    - [NewSQL](#newsql)
     - [分库分表](#分库分表)
       - [垂直拆分](#垂直拆分)
       - [水平拆分](#水平拆分)
+      - [分库分表组件](#分库分表组件)
   - [MySQL日志](#mysql日志)
     - [RedoLog](#redolog)
     - [BinLog](#binlog)
@@ -41,7 +43,18 @@ InnoDB引擎的内存及磁盘结构如图所示:
 
 ### MySQL优化
 
+#### NewSQL
+
+选择一些源生支持分布式方案的新数据库
+
+- TiDB;
+- PostgreSQL;
+
 #### 分库分表
+
+MySQL官方建议单表数据量应小于500w;
+
+一般来说在实际的使用场景中会采用读写分离+垂直分库+水平分表的形式对应高并发的场景;
 
 ##### 垂直拆分
 
@@ -57,6 +70,11 @@ InnoDB引擎的内存及磁盘结构如图所示:
 - 由于横跨多个实例将导致无法通过JOIN操作获取数据,提高了开发难度;
 
 ##### 水平拆分
+
+##### 分库分表组件
+
+- **proxy层**:通过代理程序完成数据的分库分表操作,对应用层无感知,但性能稍差,如:my-cat,atlas,mysql-proxy,shardingproxy
+- **app层**:在应用侧完成数据的分库分表操作,配置时连接多个真实数据库,但性能较好,如:shardingJDBC,TDDL
 
 ### MySQL日志
 
