@@ -9,6 +9,9 @@
 - [知识点](#知识点)
   - [事务](#事务)
     - [事务隔离级别](#事务隔离级别)
+  - [MVCC](#mvcc)
+    - [ReadView](#readview)
+  - [锁](#锁)
   - [DoubleWriteBuffer](#doublewritebuffer)
   - [MySQL优化](#mysql优化)
     - [NewSQL](#newsql)
@@ -64,6 +67,40 @@ MySQL中多个并发执行的事务之间是存在隔离级别的,一般来说�
 - **脏读**:读取到其他事务未提交的数据修改;
 - **幻读**:在事务内的查询SQL前后两次读取结果不一致,更关注数据数量的变化;
 - **不可重复读**:在事务内的查询SQL前后两次读取结果不一致,更关注数据字段值的变化;
+
+MySQL如何实现各个事务隔离级别?
+
+- **Read Uncommitted读未提交**:直接读取库中最新数据即可;
+- **Read Committed读已提交**:基于行数据的版本链(隐藏字段t_id和roll_point)及readview(m_ids未提交的事务id,min_trx_id未提交的事务中最小的事务id,max_trx_id生成readview时系统应分配的下一个事务id,creator_trx_id用于生成readview的事务id等字段)实现,每次读取**前**生成readview;
+- **Repeatable Read重复读**:基于行数据的版本链(隐藏字段t_id和roll_point)及readview(m_ids未提交的事务id,min_trx_id未提交的事务中最小的事务id,max_trx_id生成readview时系统应分配的下一个事务id,creator_trx_id用于生成readview的事务id等字段)实现,第一次读取**时**生成readview;
+- **Serializable序列化**:利用数据库锁实现串行化处理;
+
+### MVCC
+
+#### ReadView
+
+
+### 锁
+
+MySQL的锁仅能在事务的范围内生效并随着事务的提交而释放锁;
+
+总体上来说可以分为2类(单独的SELECT语句不涉及任何锁)
+
+- **读锁**:共享锁,S锁,加锁后不能更新可以读,如:SELECT...LOCK IN SHARE MODE;
+- **写锁**:排他锁,X锁,加锁后既不能更新也不能读,如:SELECT...FOR UPDATE/DELETE,UPDATE语句/INSERT语句未提交时被其他事务操作该数据将被加锁;
+
+从加锁的范围来说,可以分以下集中:
+
+- **表级锁**:加锁范围是整个表,几乎不会用到;
+- **行级锁**:加锁范围是单行记录;
+- **间隙锁**:加锁范围时对应行及前后间隙范围;
+
+针对不同的事务隔离级别,MySQL的行级锁范围稍有不同:
+
+- **Read Committed读已提交**:仅针对查出来的行加锁,其他事务可以插入符合本查询条件的数据;
+- **Repeatable Read重复读**:针对查出来的行和行间隙加锁(如果没走索引全表扫描将导致锁住全部行+间隙),其他事务插入符合本查询条件的数据将阻塞;
+
+针对表级锁和行级锁的冲突MySQL是通过在行级锁加锁时为该表添加意向锁的方式实现的,当添加表级锁时会优先检查是否已经被添加了意向锁;
 
 ### DoubleWriteBuffer
 
