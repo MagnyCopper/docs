@@ -9,8 +9,9 @@
 - [知识点](#知识点)
   - [事务](#事务)
     - [事务隔离级别](#事务隔离级别)
+  - [版本链](#版本链)
+  - [ReadView](#readview)
   - [MVCC](#mvcc)
-    - [ReadView](#readview)
   - [锁](#锁)
   - [DoubleWriteBuffer](#doublewritebuffer)
   - [MySQL优化](#mysql优化)
@@ -53,6 +54,13 @@ InnoDB引擎的内存及磁盘结构如图所示:
 - **C-一致性**:事务开始和结束后数据是完整的(比如AB总共100块钱,不管AB如何转账,总金额都不会变化);
 - **D-持久性**:事务处理后对数据的修改是持久的,不会丢失;
 
+如何保障
+
+- **A-原子性**:由UndoLog机制保证;
+- **I-隔离性**:由MVCC机制保证;
+- **C-一致性**:由其他三特性组合保证,程序代码需要保证业务的一致性;
+- **D-持久性**:由内存+RedoLog保证;
+
 #### 事务隔离级别
 
 MySQL中多个并发执行的事务之间是存在隔离级别的,一般来说存在以4种隔离级别:
@@ -75,10 +83,51 @@ MySQL如何实现各个事务隔离级别?
 - **Repeatable Read重复读**:基于行数据的版本链(隐藏字段t_id和roll_point)及readview(m_ids未提交的事务id,min_trx_id未提交的事务中最小的事务id,max_trx_id生成readview时系统应分配的下一个事务id,creator_trx_id用于生成readview的事务id等字段)实现,第一次读取**时**生成readview;
 - **Serializable序列化**:利用数据库锁实现串行化处理;
 
+### 版本链
+
+MySQL针对每行数据都存在2个隐藏列用来生成每条数据的版本链
+
+- trx_id:保存每次对该行数据操作的事务ID
+- roll_pointer:保存每次修改时修改前的数据在UndoLog中的位置指针(即修改前的数据);
+
+某一条数据的版本链是由该数据的最新版本和UndoLog日志中的历史版本共同组成的;
+
+具体如图:
+
+![](./MySQL-img-7.png)
+
+### ReadView
+
+ReadView中主要包含以下几个关键属性:
+
+- up_limit_id:创建ReadView时,当前活跃的事务id列表的最小事务id;
+- low_limit_id:创建ReadView时,当前活跃的事务id列表的最大事务id;
+- m_ids:当前活跃的事务id列表;
+
+ReadView跟随SQL的执行一起创建,具体时机在不同的隔离级别下有点区别:
+
+- **Read Committed读已提交**:每次读取**前**生成ReadView;
+- **Repeatable Read重复读**:第一次读取**时**生成ReadView;
+
 ### MVCC
 
-#### ReadView
+MVCC即多版本并发控制,是指读取数据时通过一种类似快照的方式将数据保存下来,这样写锁和读锁就不冲突了,不同事务session会看到自己特定的版本的数据和版本链;
 
+MVCC只在Read Committed读已提交和Repeatable Read重复读这两个隔离级别生效,其他隔离级别和MVCC不兼容;
+
+MVCC的实现依托于版本链和ReadView,流程如下:
+
+1. 开启事务后执行一条SQL;
+2. 将根据当前数据库状态创建ReadView;
+3. 获取被操作的行数据的隐藏字段trx_id,并与ReadView的最大/最小事务id/活跃事务id进行比较;
+
+    | 状态               | 说明                                   |
+    | :----------------- | :------------------------------------- |
+    | 小于最小           | 该数据的全部事务均已提交               |
+    | 大于最大           | 该数据生成ReadView之后被新建事务修改过 |
+    | 之间且在活动列表   | 创建ReadView时被其他事务修改           |
+    | 之间但不在活动列表 | 创建ReadView之前已经被其他事务修改     |
+4. 按照各个隔离级别的可见性和roll_pointer指针调取可用的历史版本数据进行返回;
 
 ### 锁
 
