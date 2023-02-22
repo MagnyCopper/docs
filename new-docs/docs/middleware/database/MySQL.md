@@ -7,6 +7,10 @@
 - [基础属性](#基础属性)
   - [InnoDB引擎](#innodb引擎)
 - [知识点](#知识点)
+  - [执行计划](#执行计划)
+    - [select\_type:](#select_type)
+    - [type](#type)
+    - [Extra](#extra)
   - [事务](#事务)
     - [事务隔离级别](#事务隔离级别)
   - [版本链](#版本链)
@@ -44,6 +48,50 @@ InnoDB引擎的内存及磁盘结构如图所示:
 ![](./MySQL-img-4.png)
 
 ## 知识点
+
+### 执行计划
+
+MySQL的执行计划主要包含以下几个属性:
+
+- **id**:是一个有序的编号,查询的执行顺序,id越大的越优先执行,id相同的从上往下执行,id为NULL的最后执行;
+- **select_type**:用于表明每个select子句的类型;
+- **table**:表明该语句所查询的表;
+- **partitions**:查询分区表时分区的命中情况;
+- **type**:该语句的执行类型;
+- **possible_keys**:该语句可能使用的索引
+- **key**:该语句真实使用的索引;
+- **key_len**:联合索引中使用多少个索引字段;
+- **ref**:输出命中索引的数据库全名;
+- **rows**:预估扫描的行数
+- **filtered**:储引擎返回的数据在经过过滤后，剩下满足条件的记录数量的比例
+- **Extra**:该SQL执行的额外信息;
+
+#### select_type:
+
+- **SIMPLE**:简单查询,不包含UNION或子查询;
+- **PRIMARY**:表示该SQL是最外层的查询语句(子查询场景);
+- **SUBQUERY**:子查询语句;
+- **UNION**:该查询是UNION的第二个或后面的查询;
+- **UNION RESULT**:从UNION的临时表中读取的数据;
+
+#### type
+
+type对应的查询速度:**system > const > eq_ref > ref > ref_or_null > index_merge > unique_subquery > index_subquery > range > index > ALL**
+
+- **system**:表中仅一行数据/系统表;
+- **const**:通过索引依次找到且仅匹配一条数据;
+- **eq_ref**:通过一个唯一性索引扫描
+- **ref**:通过一个非唯一性索引匹配独特值的所有行(=/</>)
+- **range**:只检索指定范围的行并使用一个或多个索引来选择行;
+- **index**:遍历全部索引树
+- **ALL**:全表扫描;
+
+#### Extra
+
+- **using filesort**:使用本地文件进行排序;
+- **using index**:使用覆盖索引查询,无需回表;
+- **using tempoary**:使用到临时表,多出现于排序/分组/多表join;
+- **using where**:使用where条件过滤
 
 ### 事务
 
