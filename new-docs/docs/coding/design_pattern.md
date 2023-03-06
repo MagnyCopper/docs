@@ -5,17 +5,21 @@
 目录:
 
 - [基础属性](#基础属性)
+- [知识点](#知识点)
   - [单例模式](#单例模式)
+    - [单例模式失效场景](#单例模式失效场景)
     - [线程安全的懒汉模式实现](#线程安全的懒汉模式实现)
     - [饿汉模式实现](#饿汉模式实现)
     - [内部静态类实现](#内部静态类实现)
-- [知识点](#知识点)
+    - [枚举类型单例模式](#枚举类型单例模式)
 
 ## 基础属性
 
+## 知识点
+
 ### 单例模式
 
-即一个类只有一个对象并且提供一个全局访问点;
+> 即一个类只有一个对象并且提供一个全局访问点;
 
 主要由以下几种实现方式:
 
@@ -24,12 +28,25 @@
 - **静态内部类**:单例对象在内部静态类中定义,本质也是一种懒加载,单例对象在第一次调取getInstance()时JVM加载内部静态类的同时完成单例对象创建;
 - **枚举类型**:
 
-反射攻击:
+#### 单例模式失效场景
+
+- **反射攻击**:通过反射的方式修改构造函数访问修饰符并且完成调用生成对象;
+- **反序列化攻击**:通过对象的序列化和反序列化机制实现对象创建;
+
+| 攻击方式     | 懒汉模式                                                                | 饿汉模式                                                                | 静态内部类                                                              | 枚举 |
+| :----------- | :---------------------------------------------------------------------- | :---------------------------------------------------------------------- | :---------------------------------------------------------------------- | :--- |
+| 反射攻击     | 无解                                                                    | 不安全(可通过在私有构造函数种判断单例对象是否不为NULL解决)              | 不安全(可通过在私有构造函数种判断单例对象是否不为NULL解决)              | 安全 |
+| 反序列化攻击 | 不安全(可通过实现Serializable接口并在readResolve方法中获取单例对象解决) | 不安全(可通过实现Serializable接口并在readResolve方法中获取单例对象解决) | 不安全(可通过实现Serializable接口并在readResolve方法中获取单例对象解决) | 安全 |
 
 #### 线程安全的懒汉模式实现
 
 ```java
-class LazySingleton {
+class LazySingleton implements Serializable {
+
+    /**
+     * 序列化版本号
+     */
+    private static final long serialVersionUID = 42L;
 
     /**
      * 单例对象
@@ -62,13 +79,28 @@ class LazySingleton {
         }
         return instance;
     }
+
+    /**
+     * 通过添加该方法阻止反序列化时由JVM自动生成对象
+     *
+     * @return 单例对象
+     * @throws ObjectStreamException 对象反序列化发生异常
+     */
+    private Object readResolve() throws ObjectStreamException {
+        return getInstance();
+    }
 }
 ```
 
 #### 饿汉模式实现
 
 ```java
-class HungrySingleton {
+class HungrySingleton implements Serializable {
+
+    /**
+     * 序列化版本号
+     */
+    private static final long serialVersionUID = 42L;
 
     /**
      * 在类定义时直接采用静态变量的方式初始化,该方式由JVM的类加载器保证线程安全
@@ -79,6 +111,10 @@ class HungrySingleton {
      * 私有构造函数,防止从构造函数创建对象
      */
     private HungrySingleton() {
+        // 通过以下代码防止通过反射调用构造方法破坏单例模式
+        if (getInstance() != null) {
+            throw new RuntimeException("单例模式被破坏");
+        }
     }
 
     /**
@@ -89,13 +125,28 @@ class HungrySingleton {
     public static HungrySingleton getInstance() {
         return instance;
     }
+
+    /**
+     * 通过添加该方法阻止反序列化时由JVM自动生成对象
+     *
+     * @return 单例对象
+     * @throws ObjectStreamException 对象反序列化发生异常
+     */
+    private Object readResolve() throws ObjectStreamException {
+        return getInstance();
+    }
 }
 ```
 
 #### 内部静态类实现
 
 ```java
-class InnerClassSingleton {
+class InnerClassSingleton implements Serializable {
+
+    /**
+     * 序列化版本号
+     */
+    private static final long serialVersionUID = 42L;
 
     /**
      * 用于持有单例对象的静态内部类
@@ -113,6 +164,10 @@ class InnerClassSingleton {
      * 私有构造函数,防止从构造函数创建对象
      */
     private InnerClassSingleton() {
+        // 通过以下代码防止通过反射调用构造方法破坏单例模式
+        if (getInstance() != null) {
+            throw new RuntimeException("单例模式被破坏");
+        }
     }
 
     /**
@@ -123,7 +178,36 @@ class InnerClassSingleton {
     public static InnerClassSingleton getInstance() {
         return InnerClassSingletonHolder.instance;
     }
+
+    /**
+     * 通过添加该方法阻止反序列化时由JVM自动生成对象
+     *
+     * @return 单例对象
+     * @throws ObjectStreamException 对象反序列化发生异常
+     */
+    private Object readResolve() throws ObjectStreamException {
+        return getInstance();
+    }
 }
 ```
 
-## 知识点
+#### 枚举类型单例模式
+
+```java
+/**
+ * 创建枚举类型对象
+ */
+public enum EnumSingleton {
+
+    /**
+     * 单例对象
+     */
+    INSTANCE;
+
+    /**
+     * 私有构造函数,防止外部调用
+     */
+    EnumSingleton() {
+    }
+}
+```
