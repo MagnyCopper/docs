@@ -6,6 +6,8 @@
 
 - [基础属性](#基础属性)
 - [知识点](#知识点)
+  - [简单工厂模式](#简单工厂模式)
+    - [简单工厂的实现](#简单工厂的实现)
   - [单例模式](#单例模式)
     - [单例模式失效场景](#单例模式失效场景)
     - [线程安全的懒汉模式实现](#线程安全的懒汉模式实现)
@@ -16,6 +18,71 @@
 ## 基础属性
 
 ## 知识点
+
+### 简单工厂模式
+
+> 简单工厂(静态工厂)属于创建型模式,是工厂模式的一种,大体来说简单工厂模式定义了一个创建对象的类,由这个类来封装实例化对象的行为,一般应用在大量创建某种/某类或某批对象时;
+
+#### 简单工厂的实现
+
+```java
+/**
+ * 定义产品行为接口
+ */
+interface Product {
+
+    /**
+     * 抽象共性产品方法声明
+     */
+    void action();
+}
+
+/**
+ * 产品A的类定义
+ * 实现了抽象产品接口
+ */
+class ProductA implements Product {
+
+    @Override
+    public void action() {
+        System.out.println("ProductA action ...");
+    }
+}
+
+/**
+ * 产品B的类定义
+ * 实现了抽象产品接口
+ */
+class ProductB implements Product {
+
+    @Override
+    public void action() {
+        System.out.println("ProductB action ...");
+    }
+}
+
+/**
+ * 简单工程类
+ */
+class SimpleFactory {
+
+    /**
+     * 通过静态方法根据传入的参数实例化对应的产品对象
+     *
+     * @param productType 产品类型
+     * @return 产品对象
+     */
+    public static Product getProdct(String productType) {
+        if (productType.equals("A")) {
+            return new ProductA();
+        } else if (productType.equals("B")) {
+            return new ProductB();
+        } else {
+            return null;
+        }
+    }
+}
+```
 
 ### 单例模式
 
