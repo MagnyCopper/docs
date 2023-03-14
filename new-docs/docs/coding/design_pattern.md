@@ -4,85 +4,21 @@
 
 目录:
 
-- [基础属性](#基础属性)
 - [知识点](#知识点)
-  - [简单工厂模式](#简单工厂模式)
-    - [简单工厂的实现](#简单工厂的实现)
   - [单例模式](#单例模式)
     - [单例模式失效场景](#单例模式失效场景)
     - [线程安全的懒汉模式实现](#线程安全的懒汉模式实现)
     - [饿汉模式实现](#饿汉模式实现)
     - [内部静态类实现](#内部静态类实现)
     - [枚举类型单例模式](#枚举类型单例模式)
-
-## 基础属性
+  - [简单工厂模式](#简单工厂模式)
+    - [简单工厂的实现](#简单工厂的实现)
+  - [工厂方法模式](#工厂方法模式)
+    - [工厂方法模式实现](#工厂方法模式实现)
+  - [抽象工厂模式](#抽象工厂模式)
+    - [抽象工厂模式实现](#抽象工厂模式实现)
 
 ## 知识点
-
-### 简单工厂模式
-
-> 简单工厂(静态工厂)属于创建型模式,是工厂模式的一种,大体来说简单工厂模式定义了一个创建对象的类,由这个类来封装实例化对象的行为,一般应用在大量创建某种/某类或某批对象时;
-
-#### 简单工厂的实现
-
-```java
-/**
- * 定义产品行为接口
- */
-interface Product {
-
-    /**
-     * 抽象共性产品方法声明
-     */
-    void action();
-}
-
-/**
- * 产品A的类定义
- * 实现了抽象产品接口
- */
-class ProductA implements Product {
-
-    @Override
-    public void action() {
-        System.out.println("ProductA action ...");
-    }
-}
-
-/**
- * 产品B的类定义
- * 实现了抽象产品接口
- */
-class ProductB implements Product {
-
-    @Override
-    public void action() {
-        System.out.println("ProductB action ...");
-    }
-}
-
-/**
- * 简单工程类
- */
-class SimpleFactory {
-
-    /**
-     * 通过静态方法根据传入的参数实例化对应的产品对象
-     *
-     * @param productType 产品类型
-     * @return 产品对象
-     */
-    public static Product getProdct(String productType) {
-        if (productType.equals("A")) {
-            return new ProductA();
-        } else if (productType.equals("B")) {
-            return new ProductB();
-        } else {
-            return null;
-        }
-    }
-}
-```
 
 ### 单例模式
 
@@ -275,6 +211,274 @@ public enum EnumSingleton {
      * 私有构造函数,防止外部调用
      */
     EnumSingleton() {
+    }
+}
+```
+
+### 简单工厂模式
+
+> 简单工厂(静态工厂)属于创建型模式,是工厂模式的一种,大体来说简单工厂模式定义了一个创建对象的类,由这个类来封装实例化对象的行为,一般应用在大量创建某种/某类或某批对象时;
+
+#### 简单工厂的实现
+
+```java
+/**
+ * 定义产品行为接口
+ */
+interface Product {
+
+    /**
+     * 抽象共性产品方法声明
+     */
+    void action();
+}
+
+/**
+ * 产品A的类定义
+ * 实现了抽象产品接口
+ */
+class ProductA implements Product {
+
+    @Override
+    public void action() {
+        System.out.println("ProductA action ...");
+    }
+}
+
+/**
+ * 产品B的类定义
+ * 实现了抽象产品接口
+ */
+class ProductB implements Product {
+
+    @Override
+    public void action() {
+        System.out.println("ProductB action ...");
+    }
+}
+
+/**
+ * 简单工程类
+ */
+class SimpleFactory {
+
+    /**
+     * 通过静态方法根据传入的参数实例化对应的产品对象
+     *
+     * @param productType 产品类型
+     * @return 产品对象
+     */
+    public static Product getProdct(String productType) {
+        if (productType.equals("A")) {
+            return new ProductA();
+        } else if (productType.equals("B")) {
+            return new ProductB();
+        } else {
+            return null;
+        }
+    }
+}
+```
+
+### 工厂方法模式
+
+> 定义一个用于创建对象的接口,让子类决定实例化哪个类
+
+#### 工厂方法模式实现
+
+```java
+/**
+ * 定义产品行为接口
+ */
+interface Product {
+
+    /**
+     * 抽象共性产品方法声明
+     */
+    void action();
+}
+
+/**
+ * 产品A的类定义
+ * 实现了抽象产品接口
+ */
+class ProductA implements Product {
+
+    @Override
+    public void action() {
+        System.out.println("ProductA action ...");
+    }
+}
+
+/**
+ * 产品B的类定义
+ * 实现了抽象产品接口
+ */
+class ProductB implements Product {
+
+    @Override
+    public void action() {
+        System.out.println("ProductB action ...");
+    }
+}
+
+/**
+ * 定义抽象的工厂接口
+ */
+interface FactoryMethodInterface {
+
+    /**
+     * 该方法用于描绘该类型的全部工厂的公有方法
+     *
+     * @return 返回对应的产品
+     */
+    Product getProduct();
+}
+
+/**
+ * A产品的生产工厂
+ */
+class ProductAFactory implements FactoryMethodInterface {
+
+    @Override
+    public Product getProduct() {
+        return new ProductA();
+    }
+}
+
+/**
+ * B产品的生产工厂
+ */
+class ProductBFactory implements FactoryMethodInterface {
+
+    @Override
+    public Product getProduct() {
+        return new ProductB();
+    }
+}
+```
+
+### 抽象工厂模式
+
+> 定义多个抽象产品接口及对应的工厂接口,并在不同的工厂实现中获取对应的产品组合;
+
+#### 抽象工厂模式实现
+
+```java
+/**
+ * 定义其他产品抽象
+ */
+interface Car {
+
+    void run();
+}
+
+/**
+ * car类型产品A
+ */
+class SportCar implements Car {
+
+    @Override
+    public void run() {
+        System.out.println("Sport Car ...");
+    }
+}
+
+/**
+ * car类型产品B
+ */
+class FlyCar implements Car {
+
+    @Override
+    public void run() {
+        System.out.println("Fly Car ...");
+    }
+}
+
+/**
+ * 定义产品行为接口
+ */
+interface Product {
+
+    /**
+     * 抽象共性产品方法声明
+     */
+    void action();
+}
+
+/**
+ * 产品A的类定义
+ * 实现了抽象产品接口
+ */
+class ProductA implements Product {
+
+    @Override
+    public void action() {
+        System.out.println("ProductA action ...");
+    }
+}
+
+/**
+ * 产品B的类定义
+ * 实现了抽象产品接口
+ */
+class ProductB implements Product {
+
+    @Override
+    public void action() {
+        System.out.println("ProductB action ...");
+    }
+}
+
+/**
+ * 定义抽象的工厂接口
+ */
+interface FactoryMethodInterface {
+
+    /**
+     * 该方法用于描绘该类型的全部工厂的公有方法
+     *
+     * @return 返回对应的产品
+     */
+    Product getProduct();
+
+    /**
+     * 第二种产品的对应方法
+     *
+     * @return 反会对应的产品
+     */
+    Car getCar();
+}
+
+/**
+ * A产品的生产工厂
+ */
+class ProductAFactory implements FactoryMethodInterface {
+
+    @Override
+    public Product getProduct() {
+        return new ProductA();
+    }
+
+    @Override
+    public Car getCar() {
+        return new SportCar();
+    }
+}
+
+/**
+ * B产品的生产工厂
+ */
+class ProductBFactory implements FactoryMethodInterface {
+
+    @Override
+    public Product getProduct() {
+        return new ProductB();
+    }
+
+    @Override
+    public Car getCar() {
+        return new FlyCar();
     }
 }
 ```
