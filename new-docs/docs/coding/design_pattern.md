@@ -17,6 +17,8 @@
     - [工厂方法模式实现](#工厂方法模式实现)
   - [抽象工厂模式](#抽象工厂模式)
     - [抽象工厂模式实现](#抽象工厂模式实现)
+  - [创建者模式](#创建者模式)
+    - [创建者模式实现](#创建者模式实现)
 
 ## 知识点
 
@@ -479,6 +481,141 @@ class ProductBFactory implements FactoryMethodInterface {
     @Override
     public Car getCar() {
         return new FlyCar();
+    }
+}
+```
+
+### 创建者模式
+
+> 使用创建者模式将构建对象的过程分离出来,方便快速按照不用的预设方案创建复杂对象
+
+#### 创建者模式实现
+
+```java
+/**
+ * 基础产品创建接口主要包含实际产品属性的各个set方法以及返回最终产品的方法
+ */
+interface CarBuilder {
+
+    void buildSpeed(int speed);
+
+    void buildPrice(int price);
+
+    void buildName(String name);
+
+    void buildType();
+
+    Car build();
+}
+
+/**
+ * 运动型汽车的创建类实现
+ */
+class SportCarBuilder implements CarBuilder {
+
+    private Car car = new Car();
+
+    @Override
+    public void buildSpeed(int speed) {
+        car.setSpeed(speed + 1000);
+    }
+
+    @Override
+    public void buildPrice(int price) {
+        car.setPrice(price);
+    }
+
+    @Override
+    public void buildName(String name) {
+        car.setName(name);
+    }
+
+    @Override
+    public void buildType() {
+        car.setType("SportCar");
+    }
+
+    @Override
+    public Car build() {
+        return car;
+    }
+}
+
+/**
+ * 运动型汽车的创建类实现
+ */
+class FlyCarBuilder implements CarBuilder {
+
+    private Car car = new Car();
+
+    @Override
+    public void buildSpeed(int speed) {
+        car.setSpeed(speed);
+    }
+
+    @Override
+    public void buildPrice(int price) {
+        car.setPrice(price + 1000);
+    }
+
+    @Override
+    public void buildName(String name) {
+        car.setName(name);
+    }
+
+    @Override
+    public void buildType() {
+        car.setType("FlyCar");
+    }
+
+    @Override
+    public Car build() {
+        return car;
+    }
+}
+
+
+class CarBuildDirector {
+
+    private CarBuilder carBuilder;
+
+    public CarBuildDirector(CarBuilder carBuilder) {
+        this.carBuilder = carBuilder;
+    }
+
+    public Car build(int speed, int price, String name) {
+        carBuilder.buildSpeed(speed);
+        carBuilder.buildPrice(price);
+        carBuilder.buildName(name);
+        return carBuilder.build();
+    }
+}
+
+/**
+ * 具体的产品类
+ */
+class Car {
+
+    private int speed;
+    private int price;
+    private String name;
+
+    private String type;
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
 ```
