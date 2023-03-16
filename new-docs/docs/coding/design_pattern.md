@@ -19,6 +19,8 @@
     - [抽象工厂模式实现](#抽象工厂模式实现)
   - [创建者模式](#创建者模式)
     - [创建者模式实现](#创建者模式实现)
+  - [原型模式](#原型模式)
+    - [原型模式实现](#原型模式实现)
 
 ## 知识点
 
@@ -616,6 +618,84 @@ class Car {
 
     public void setType(String type) {
         this.type = type;
+    }
+}
+```
+
+### 原型模式
+
+> 原型模式是创建型模式的一种，其特点在于通过「复制」一个已经存在的实例来返回新的实例,而不是新建实例。
+
+#### 原型模式实现
+
+```java
+class Person implements Cloneable {
+
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    protected Person clone() throws CloneNotSupportedException {
+        return (Person) super.clone();
+    }
+}
+
+/**
+ * 用于测试原型模式的类
+ * 只有实现了Cloneable才能够调用Object.clone()方法
+ */
+class Car implements Cloneable {
+
+    private int price;
+    private Person person;
+
+    public Car(int price, Person person) {
+        this.price = price;
+        this.person = person;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    /**
+     * 用于执行复制对象的方法
+     *
+     * @return 该对象this的复制对象
+     * @throws CloneNotSupportedException 对象未添加Cloneable标识时抛出
+     */
+    @Override
+    protected Car clone() throws CloneNotSupportedException {
+        // 调用Object.clone()仅能实现基础数据类型及其包装类类型的属性复制,一旦涉及引用对象将复制引用
+        Car car = (Car) super.clone();
+        // 需要通过递归的调用的对应属性本身的clone方法实现对象的深拷贝
+        Person person = this.getPerson().clone();
+        car.setPerson(person);
+        // 如果对象结构十分复杂,可以考虑采用对象的序列化和反序列机制实现对象的深复制;
+        return car;
     }
 }
 ```
