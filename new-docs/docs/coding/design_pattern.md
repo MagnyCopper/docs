@@ -21,6 +21,10 @@
     - [创建者模式实现](#创建者模式实现)
   - [原型模式](#原型模式)
     - [原型模式实现](#原型模式实现)
+  - [享元模式](#享元模式)
+    - [享元模式实现](#享元模式实现)
+  - [外观模式](#外观模式)
+    - [外观模式实现](#外观模式实现)
 
 ## 知识点
 
@@ -696,6 +700,159 @@ class Car implements Cloneable {
         car.setPerson(person);
         // 如果对象结构十分复杂,可以考虑采用对象的序列化和反序列机制实现对象的深复制;
         return car;
+    }
+}
+```
+
+### 享元模式
+
+> 享元模式是一种结构型设计模式，它摒弃了在每个对象中保存所有数据的方式，通过共享多个对象所共有的相同状态，让你能在有限的内存容量中载入更多对象。
+
+享元模式的意义?
+
+- 举一个实际的例子,比如要创建100个柳树对象,属性中仅有坐标不同,这样创建出来的话重复的属性比如树名称/种类等被重复的创建因此产生了浪费,若将这部分属性集中到一个对象中,其他树对象持有这个对象的引用即可大大降低内存空间的占用;
+
+#### 享元模式实现
+
+```java
+/**
+ * 享元对象
+ * 一个对象中相对静态的属性集中在这个类中
+ */
+class Tree {
+
+    /**
+     * 由于name属性相对时静态因此使用final修饰由构造函数进行初始化
+     */
+    private final String name;
+
+    private final int type;
+
+    public Tree(String name, int type) {
+        this.name = name;
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getType() {
+        return type;
+    }
+}
+
+/**
+ * 业务对象
+ * 类结构中直接引用享元对象类
+ * 这个栗子中是将相同的树种在不同的位置因此tree是作为享元出现的
+ * 而坐标作为变化数据为每个对象独有的
+ */
+class TreeNode {
+
+    private int x;
+
+    private int y;
+
+    private Tree tree;
+
+    public TreeNode(int x, int y, Tree tree) {
+        this.x = x;
+        this.y = y;
+        this.tree = tree;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Tree getTree() {
+        return tree;
+    }
+}
+
+/**
+ * 一些情况下也可以使用工厂的方式提供享元对象
+ */
+class TreeFactory {
+
+    /**
+     * 享元对象的缓存
+     */
+    private static final Map<String, Tree> TREE_CACHE = new ConcurrentHashMap<>();
+
+    /**
+     * 用来提供享元对象的静态方法懒加载
+     *
+     * @param name 树对象的名称
+     * @param type 树对象的类型
+     * @return 树对象
+     */
+    public static Tree getTree(String name, int type) {
+        if (TREE_CACHE.containsKey(name)) {
+            return TREE_CACHE.get(name);
+        }
+        Tree tree = new Tree(name, type);
+        TREE_CACHE.put(name, tree);
+        return tree;
+    }
+}
+```
+
+### 外观模式
+
+> 外观模式是一种结构型设计模式，能为程序库、框架或其他复杂类提供一个简单的接口;
+
+外观模式的意义
+
+- 举一个例子,回家需要打开3个灯,1个热水器,1个电视,如果没有外观模式将在业务系统中直接依赖灯/热水器/电视等子系统对象,引入外观模式后将上述流程全部封装进一个goHome门面方法中,业务系统无需引入子系统的依赖仅依赖门面类即可;
+
+#### 外观模式实现
+
+```java
+class Light {
+
+    public void open() {
+        System.out.println("opening...light");
+    }
+}
+
+class Heater {
+
+    public void open() {
+        System.out.println("opening...heater");
+    }
+}
+
+class TV {
+
+    public void open() {
+        System.out.println("opening...tv");
+    }
+}
+
+/**
+ * 门面类依赖各个子系统并封装子系统的业务方法对外暴露服务
+ */
+class Facade {
+
+    private Light light1 = new Light();
+    private Light light2 = new Light();
+    private Light light3 = new Light();
+
+    private Heater heater = new Heater();
+    private TV tv = new TV();
+
+    public void goHome() {
+        light1.open();
+        light2.open();
+        light3.open();
+        heater.open();
+        tv.open();
     }
 }
 ```
