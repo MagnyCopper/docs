@@ -25,6 +25,8 @@
     - [享元模式实现](#享元模式实现)
   - [外观模式](#外观模式)
     - [外观模式实现](#外观模式实现)
+  - [适配器模式](#适配器模式)
+    - [适配器模式实现](#适配器模式实现)
 
 ## 知识点
 
@@ -853,6 +855,95 @@ class Facade {
         light3.open();
         heater.open();
         tv.open();
+    }
+}
+```
+
+### 适配器模式
+
+组合实现和继承实现有什么区别?
+
+- 通过继承实现时将会对外暴露其父类的函数,违反迪米特法则;
+
+#### 适配器模式实现
+
+被适配对象及需要提供的接口
+
+```java
+/**
+ * 需要被适配的类,电源输出220v电压
+ */
+class Power {
+
+    /**
+     * 电源的输出方法
+     *
+     * @return 220v电压
+     */
+    public int output() {
+        return 220;
+    }
+}
+
+/**
+ * 使用方期待使用的函数
+ */
+interface TargetPower {
+
+    /**
+     * 期待获取5v电压输出
+     *
+     * @return 5v电压输出
+     */
+    int output5v();
+}
+```
+
+组合实现:
+
+```java
+class PowerAdapter implements TargetPower {
+
+    /**
+     * 内部引用被适配的对象
+     */
+    private Power power;
+
+    public PowerAdapter(Power power) {
+        this.power = power;
+    }
+
+    /**
+     * 在接口实现中完成转换方法
+     *
+     * @return 输出5v电压
+     */
+    @Override
+    public int output5v() {
+        int output = power.output();
+        // 一系列花里胡哨的处理
+        output = 5;
+        return output;
+    }
+}
+```
+
+继承实现:
+
+```java
+class PowerAdapter extends Power implements TargetPower {
+
+    /**
+     * 继承后直接引用父类方法并完成转换
+     *
+     * @return 5v电压
+     */
+    @Override
+    public int output5v() {
+        int output = output();
+        // 一系列花里胡哨的处理
+        output = 5;
+        return output;
     }
 }
 ```
