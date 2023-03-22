@@ -27,6 +27,8 @@
     - [外观模式实现](#外观模式实现)
   - [适配器模式](#适配器模式)
     - [适配器模式实现](#适配器模式实现)
+  - [装饰模式](#装饰模式)
+    - [装饰模式实现](#装饰模式实现)
 
 ## 知识点
 
@@ -944,6 +946,71 @@ class PowerAdapter extends Power implements TargetPower {
         // 一系列花里胡哨的处理
         output = 5;
         return output;
+    }
+}
+```
+
+### 装饰模式
+
+> 装饰模式是一种结构型设计模式， 允许你通过将对象放入包含行为的特殊封装对象中来为原对象绑定新的行为。
+
+透明模板与半透明模式
+
+- **透明模式**:要求客户端完全针对抽象编程，装饰模式的透明性要求客户端程序不应该将对象声明为具体构件类型或具体装饰类型，而应该全部声明为抽象构件类型。对客户端而言，具体构件类和具体装饰类对象没有任何区别;
+- **半透明模式**:用具体装饰类型来定义装饰后的对象，而具体构件类型仍然可以使用抽象构件类型来定义，可以单独调用装饰的独有方法。
+
+#### 装饰模式实现
+
+```java
+interface TextNotifiy {
+
+    void show();
+}
+
+/**
+ * 需要被装饰的类
+ */
+class MailTextNotifiy implements TextNotifiy {
+
+    @Override
+    public void show() {
+        System.out.println("sending...mail");
+    }
+}
+
+/**
+ * 通过实现相同接口并引入被装饰对象的方式扩展方法功能
+ */
+class SMSTextNotifiyDecorator implements TextNotifiy {
+
+    private TextNotifiy textNotifiy;
+
+    public SMSTextNotifiyDecorator(TextNotifiy textNotifiy) {
+        this.textNotifiy = textNotifiy;
+    }
+
+    /**
+     * 在原有对象的基础上扩展新功能
+     */
+    @Override
+    public void show() {
+        textNotifiy.show();
+        System.out.println("and sending...SMS");
+    }
+}
+
+class QQTextNotifiyDecorator implements TextNotifiy {
+
+    private TextNotifiy textNotifiy;
+
+    public QQTextNotifiyDecorator(TextNotifiy textNotifiy) {
+        this.textNotifiy = textNotifiy;
+    }
+
+    @Override
+    public void show() {
+        textNotifiy.show();
+        System.out.println("and sending...QQ");
     }
 }
 ```
