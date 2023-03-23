@@ -29,6 +29,8 @@
     - [适配器模式实现](#适配器模式实现)
   - [装饰模式](#装饰模式)
     - [装饰模式实现](#装饰模式实现)
+  - [策略模式](#策略模式)
+    - [策略模式实现](#策略模式实现)
 
 ## 知识点
 
@@ -1011,6 +1013,88 @@ class QQTextNotifiyDecorator implements TextNotifiy {
     public void show() {
         textNotifiy.show();
         System.out.println("and sending...QQ");
+    }
+}
+```
+
+### 策略模式
+
+> 策略模式是一种行为设计模式， 它能让你定义一系列算法， 并将每种算法分别放入独立的类中， 以使算法的对象能够相互替换。
+
+#### 策略模式实现
+
+```java
+/**
+ * 抽象的策略接口用于抽象算法
+ */
+interface PaymentStrategy {
+
+    /**
+     * 抽象出来的支付方法
+     *
+     * @param amount 支付金额
+     * @return 是否支付成功
+     */
+    boolean pay(int amount);
+}
+
+/**
+ * PayPal实现策略
+ */
+class PayPalPayment implements PaymentStrategy {
+
+    @Override
+    public boolean pay(int amount) {
+        System.out.println("PayPalPayment...");
+        return true;
+    }
+}
+
+/**
+ * PayPal实现策略
+ */
+class ZhiFuBaoPayment implements PaymentStrategy {
+
+    @Override
+    public boolean pay(int amount) {
+        System.out.println("ZhiFuBaoPayment...");
+        return true;
+    }
+}
+
+/**
+ * 使用到策略的具体实现类
+ */
+class Order {
+
+    /**
+     * 实现类中的策略抽象
+     */
+    private PaymentStrategy payment;
+
+    public Order() {
+    }
+
+    public Order(PaymentStrategy payment) {
+        this.payment = payment;
+    }
+
+    public PaymentStrategy getPayment() {
+        return payment;
+    }
+
+    public void setPayment(PaymentStrategy payment) {
+        this.payment = payment;
+    }
+
+    /**
+     * 在实现中调取抽象的算法方法
+     *
+     * @param amount 支付金额
+     * @return 支付结果
+     */
+    public boolean pay(int amount) {
+        return payment.pay(amount);
     }
 }
 ```
