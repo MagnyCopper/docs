@@ -31,6 +31,10 @@
     - [装饰模式实现](#装饰模式实现)
   - [策略模式](#策略模式)
     - [策略模式实现](#策略模式实现)
+  - [模板方法模式](#模板方法模式)
+    - [模板方法模式实现](#模板方法模式实现)
+  - [观察者模式](#观察者模式)
+    - [观察者模式实现](#观察者模式实现)
 
 ## 知识点
 
@@ -1095,6 +1099,113 @@ class Order {
      */
     public boolean pay(int amount) {
         return payment.pay(amount);
+    }
+}
+```
+
+### 模板方法模式
+
+> 模板方法模式是一种行为设计模式，它在超类中定义了一个算法的框架， 允许子类在不修改结构的情况下重写算法的特定步骤。
+
+#### 模板方法模式实现
+
+```java
+/**
+ * 父层抽象类用于定义函数的骨架
+ */
+public abstract class BaseCalss {
+
+    /**
+     * 主要函数的骨架方法,其中step1/step2均为固定步骤直接提供实现,step3的实现将由子类提供
+     */
+    public void start() {
+        step1();
+        step2();
+        step3();
+    }
+
+    private void step1() {
+        System.out.println("this is step 1 ...");
+    }
+
+    private void step2() {
+        System.out.println("this is step 2 ...");
+    }
+
+    /**
+     * 子类实现的step3,可以表现多态
+     */
+    protected abstract void step3();
+}
+public class SubClass extends BaseCalss {
+
+    /**
+     * 在子类中具体实现的步骤三
+     */
+    @Override
+    protected void step3() {
+        System.out.println("this is My Step 3 ...");
+    }
+}
+```
+
+### 观察者模式
+
+> 观察者模式是一种行为设计模式，允许你定义一种订阅机制，可在对象事件发生时通知多个“观察”该对象的其他对象。
+
+#### 观察者模式实现
+
+```java
+/**
+ * 通用的观察对象接口
+ */
+interface Observerable {
+
+    /**
+     * 被观察的对象发生事件时会调用该方法
+     *
+     * @param message 事件消息
+     */
+    void update(String message);
+}
+
+/**
+ * 被观察的对象
+ */
+class ObserverSubject {
+
+    /**
+     * 用于容纳观察者的容器
+     */
+    private List<Observerable> observerables = new ArrayList<>();
+
+    /**
+     * 添加观察者的方法
+     *
+     * @param observerable 观察者对象
+     */
+    public void addObserver(Observerable observerable) {
+        observerables.add(observerable);
+    }
+
+    /**
+     * 移除观察者的方法
+     *
+     * @param observerable 观察者对象
+     */
+    public void deleteObserver(Observerable observerable) {
+        observerables.remove(observerable);
+    }
+
+    /**
+     * 对象发生变更时发送消息的方法
+     *
+     * @param message 通知的消息
+     */
+    public void sendMessage(String message) {
+        for (Observerable observerable : observerables) {
+            observerable.update(message);
+        }
     }
 }
 ```
