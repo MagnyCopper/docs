@@ -5,6 +5,7 @@
 目录:
 
 - [知识点](#知识点)
+  - [设计模式5大原则-SOLID](#设计模式5大原则-solid)
   - [单例模式](#单例模式)
     - [单例模式失效场景](#单例模式失效场景)
     - [线程安全的懒汉模式实现](#线程安全的懒汉模式实现)
@@ -35,8 +36,18 @@
     - [模板方法模式实现](#模板方法模式实现)
   - [观察者模式](#观察者模式)
     - [观察者模式实现](#观察者模式实现)
+  - [责任链模式](#责任链模式)
+    - [责任链模式实现](#责任链模式实现)
 
 ## 知识点
+
+### 设计模式5大原则-SOLID
+
+-  S(单一职责原则):对象应该仅具有一种单一功能
+-  O(开闭原则):软件应该是对于扩展开放的，但是对于修改封闭的
+-  L(里氏替换原则):程序中的对象应该是可以在不改变程序正确性的前提下被它的子类所替换的
+-  I(接口隔离原则):多个特定客户端接口要好于一个宽泛用途的接口
+-  D(依赖倒置原则):依赖于抽象而不是一个实例
 
 ### 单例模式
 
@@ -1206,6 +1217,91 @@ class ObserverSubject {
         for (Observerable observerable : observerables) {
             observerable.update(message);
         }
+    }
+}
+```
+
+### 责任链模式
+
+> 责任链模式是一种行为设计模式，允许你将请求沿着处理者链进行发送。收到请求后，每个处理者均可对请求进行处理，或将其传递给链上的下个处理者
+
+#### 责任链模式实现
+
+```java
+/**
+ * 责任链的基础结构
+ */
+abstract class Handler {
+
+    /**
+     * 责任链中用于指向下一个节点的指针
+     */
+    private Handler next;
+
+    public void setNext(Handler next) {
+        this.next = next;
+    }
+
+    /**
+     * 抽象的责任链处理函数,交由具体子类实现
+     *
+     * @param parms 用于业务处理的参数
+     * @return 业务处理结果, 判断是否需要向后接着处理
+     */
+    abstract protected boolean check(Object parms);
+
+    /**
+     * 公共的用于判断是否接着处理下一个责任链节点的函数
+     *
+     * @param parms 判断依赖的参数
+     * @return 是否继续处理的判断结果
+     */
+    protected boolean checkNext(Object parms) {
+        if (next == null) {
+            return true;
+        }
+        return check(parms);
+    }
+}
+
+/**
+ * 具体子类的责任链实现
+ */
+class LoginHandler extends Handler {
+
+    /**
+     * 子类结合业务逻辑具体实现的校验郭泽
+     *
+     * @param parms 用于业务处理的参数
+     * @return 该流程的校验结果
+     */
+    @Override
+    protected boolean check(Object parms) {
+        if (parms == null) {
+            return false;
+        }
+        return checkNext(parms);
+    }
+}
+
+/**
+ * 另一种子类的实现方式
+ */
+class ThrottlingHandler extends Handler {
+
+    /**
+     * 检查子类的处理事件是否符合要求,不满足则延时
+     *
+     * @param parms 用于业务处理的参数
+     * @return 该流程的校验结果
+     */
+    @Override
+    protected boolean check(Object parms) {
+        if (parms != null && System.nanoTime() <= 100000) {
+            // todo 阻塞当前线程延迟一定时间
+            // Thread.currentThread().wait(1000);
+        }
+        return checkNext(parms);
     }
 }
 ```
