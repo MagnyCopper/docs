@@ -6,22 +6,23 @@
 
 - [知识点](#知识点)
   - [设计模式5大原则-SOLID](#设计模式5大原则-solid)
-  - [单例模式](#单例模式)
-    - [单例模式失效场景](#单例模式失效场景)
-    - [线程安全的懒汉模式实现](#线程安全的懒汉模式实现)
-    - [饿汉模式实现](#饿汉模式实现)
-    - [内部静态类实现](#内部静态类实现)
-    - [枚举类型单例模式](#枚举类型单例模式)
-  - [简单工厂模式](#简单工厂模式)
-    - [简单工厂的实现](#简单工厂的实现)
-  - [工厂方法模式](#工厂方法模式)
-    - [工厂方法模式实现](#工厂方法模式实现)
-  - [抽象工厂模式](#抽象工厂模式)
-    - [抽象工厂模式实现](#抽象工厂模式实现)
-  - [创建者模式](#创建者模式)
-    - [创建者模式实现](#创建者模式实现)
-  - [原型模式](#原型模式)
-    - [原型模式实现](#原型模式实现)
+  - [创建型模式](#创建型模式)
+    - [简单工厂模式](#简单工厂模式)
+      - [简单工厂的实现](#简单工厂的实现)
+    - [工厂方法模式](#工厂方法模式)
+      - [工厂方法模式实现](#工厂方法模式实现)
+    - [抽象工厂模式](#抽象工厂模式)
+      - [抽象工厂模式实现](#抽象工厂模式实现)
+    - [创建者模式](#创建者模式)
+      - [创建者模式实现](#创建者模式实现)
+    - [原型模式](#原型模式)
+      - [原型模式实现](#原型模式实现)
+    - [单例模式](#单例模式)
+      - [单例模式失效场景](#单例模式失效场景)
+      - [线程安全的懒汉模式实现](#线程安全的懒汉模式实现)
+      - [饿汉模式实现](#饿汉模式实现)
+      - [内部静态类实现](#内部静态类实现)
+      - [枚举类型单例模式](#枚举类型单例模式)
   - [享元模式](#享元模式)
     - [享元模式实现](#享元模式实现)
   - [外观模式](#外观模式)
@@ -38,6 +39,8 @@
     - [观察者模式实现](#观察者模式实现)
   - [责任链模式](#责任链模式)
     - [责任链模式实现](#责任链模式实现)
+  - [代理模式](#代理模式)
+    - [代理模式实现](#代理模式实现)
 
 ## 知识点
 
@@ -49,206 +52,13 @@
 -  I(接口隔离原则):多个特定客户端接口要好于一个宽泛用途的接口
 -  D(依赖倒置原则):依赖于抽象而不是一个实例
 
-### 单例模式
+### 创建型模式
 
-> 即一个类只有一个对象并且提供一个全局访问点;
-
-主要由以下几种实现方式:
-
-- **懒汉模式**:延迟创建对象,只有在第一次调取getInstance()时才生成对象,存在线程安全问题;
-- **饿汉模式**:以静态变量的形式初始化单例对象,该对象将随着第一次该类被加载而一起初始化;
-- **静态内部类**:单例对象在内部静态类中定义,本质也是一种懒加载,单例对象在第一次调取getInstance()时JVM加载内部静态类的同时完成单例对象创建;
-- **枚举类型**:
-
-#### 单例模式失效场景
-
-- **反射攻击**:通过反射的方式修改构造函数访问修饰符并且完成调用生成对象;
-- **反序列化攻击**:通过对象的序列化和反序列化机制实现对象创建;
-
-| 攻击方式     | 懒汉模式                                                                | 饿汉模式                                                                | 静态内部类                                                              | 枚举 |
-| :----------- | :---------------------------------------------------------------------- | :---------------------------------------------------------------------- | :---------------------------------------------------------------------- | :--- |
-| 反射攻击     | 无解                                                                    | 不安全(可通过在私有构造函数种判断单例对象是否不为NULL解决)              | 不安全(可通过在私有构造函数种判断单例对象是否不为NULL解决)              | 安全 |
-| 反序列化攻击 | 不安全(可通过实现Serializable接口并在readResolve方法中获取单例对象解决) | 不安全(可通过实现Serializable接口并在readResolve方法中获取单例对象解决) | 不安全(可通过实现Serializable接口并在readResolve方法中获取单例对象解决) | 安全 |
-
-#### 线程安全的懒汉模式实现
-
-```java
-class LazySingleton implements Serializable {
-
-    /**
-     * 序列化版本号
-     */
-    private static final long serialVersionUID = 42L;
-
-    /**
-     * 单例对象
-     * volatile关键字实现了禁用指令重排序和保证可见性,防止在并发场景下出现拿到未初始化完成的对象;
-     */
-    private volatile static LazySingletonDemo instance;
-
-    /**
-     * 私有构造函数,防止从构造函数创建对象
-     */
-    private LazySingleton() {
-    }
-
-    /**
-     * 获取单例对象函数
-     * 使用双重检查和加锁的方式保证线程安全
-     *
-     * @return 该类的唯一实例
-     */
-    public static LazySingletonDemo getInstance() {
-        // 双重检查的第一次检查
-        if (instance == null) {
-            // 加锁锁住类对象
-            synchronized (LazySingletonDemo.class) {
-                // 已加锁后的第二次检查
-                if (instance == null) {
-                    instance = new LazySingletonDemo();
-                }
-            }
-        }
-        return instance;
-    }
-
-    /**
-     * 通过添加该方法阻止反序列化时由JVM自动生成对象
-     *
-     * @return 单例对象
-     * @throws ObjectStreamException 对象反序列化发生异常
-     */
-    private Object readResolve() throws ObjectStreamException {
-        return getInstance();
-    }
-}
-```
-
-#### 饿汉模式实现
-
-```java
-class HungrySingleton implements Serializable {
-
-    /**
-     * 序列化版本号
-     */
-    private static final long serialVersionUID = 42L;
-
-    /**
-     * 在类定义时直接采用静态变量的方式初始化,该方式由JVM的类加载器保证线程安全
-     */
-    private static final HungrySingleton instance = new HungrySingleton();
-
-    /**
-     * 私有构造函数,防止从构造函数创建对象
-     */
-    private HungrySingleton() {
-        // 通过以下代码防止通过反射调用构造方法破坏单例模式
-        if (getInstance() != null) {
-            throw new RuntimeException("单例模式被破坏");
-        }
-    }
-
-    /**
-     * 获取单例对象函数
-     *
-     * @return 该类的唯一实例
-     */
-    public static HungrySingleton getInstance() {
-        return instance;
-    }
-
-    /**
-     * 通过添加该方法阻止反序列化时由JVM自动生成对象
-     *
-     * @return 单例对象
-     * @throws ObjectStreamException 对象反序列化发生异常
-     */
-    private Object readResolve() throws ObjectStreamException {
-        return getInstance();
-    }
-}
-```
-
-#### 内部静态类实现
-
-```java
-class InnerClassSingleton implements Serializable {
-
-    /**
-     * 序列化版本号
-     */
-    private static final long serialVersionUID = 42L;
-
-    /**
-     * 用于持有单例对象的静态内部类
-     * 当调用getInstance()方法时随着单例对象持有类的初始化一并完成单例对象的初始化,且由JVM的类加载器保证线程安全
-     */
-    private static class InnerClassSingletonHolder {
-
-        /**
-         * 单例对象
-         */
-        private static final InnerClassSingleton instance = new InnerClassSingleton();
-    }
-
-    /**
-     * 私有构造函数,防止从构造函数创建对象
-     */
-    private InnerClassSingleton() {
-        // 通过以下代码防止通过反射调用构造方法破坏单例模式
-        if (getInstance() != null) {
-            throw new RuntimeException("单例模式被破坏");
-        }
-    }
-
-    /**
-     * 获取单例对象函数
-     *
-     * @return 该类的唯一实例
-     */
-    public static InnerClassSingleton getInstance() {
-        return InnerClassSingletonHolder.instance;
-    }
-
-    /**
-     * 通过添加该方法阻止反序列化时由JVM自动生成对象
-     *
-     * @return 单例对象
-     * @throws ObjectStreamException 对象反序列化发生异常
-     */
-    private Object readResolve() throws ObjectStreamException {
-        return getInstance();
-    }
-}
-```
-
-#### 枚举类型单例模式
-
-```java
-/**
- * 创建枚举类型对象
- */
-public enum EnumSingleton {
-
-    /**
-     * 单例对象
-     */
-    INSTANCE;
-
-    /**
-     * 私有构造函数,防止外部调用
-     */
-    EnumSingleton() {
-    }
-}
-```
-
-### 简单工厂模式
+#### 简单工厂模式
 
 > 简单工厂(静态工厂)属于创建型模式,是工厂模式的一种,大体来说简单工厂模式定义了一个创建对象的类,由这个类来封装实例化对象的行为,一般应用在大量创建某种/某类或某批对象时;
 
-#### 简单工厂的实现
+##### 简单工厂的实现
 
 ```java
 /**
@@ -309,11 +119,11 @@ class SimpleFactory {
 }
 ```
 
-### 工厂方法模式
+#### 工厂方法模式
 
 > 定义一个用于创建对象的接口,让子类决定实例化哪个类
 
-#### 工厂方法模式实现
+##### 工厂方法模式实现
 
 ```java
 /**
@@ -387,11 +197,11 @@ class ProductBFactory implements FactoryMethodInterface {
 }
 ```
 
-### 抽象工厂模式
+#### 抽象工厂模式
 
 > 定义多个抽象产品接口及对应的工厂接口,并在不同的工厂实现中获取对应的产品组合;
 
-#### 抽象工厂模式实现
+##### 抽象工厂模式实现
 
 ```java
 /**
@@ -512,11 +322,11 @@ class ProductBFactory implements FactoryMethodInterface {
 }
 ```
 
-### 创建者模式
+#### 创建者模式
 
 > 使用创建者模式将构建对象的过程分离出来,方便快速按照不用的预设方案创建复杂对象
 
-#### 创建者模式实现
+##### 创建者模式实现
 
 ```java
 /**
@@ -647,11 +457,11 @@ class Car {
 }
 ```
 
-### 原型模式
+#### 原型模式
 
 > 原型模式是创建型模式的一种，其特点在于通过「复制」一个已经存在的实例来返回新的实例,而不是新建实例。
 
-#### 原型模式实现
+##### 原型模式实现
 
 ```java
 class Person implements Cloneable {
@@ -721,6 +531,201 @@ class Car implements Cloneable {
         car.setPerson(person);
         // 如果对象结构十分复杂,可以考虑采用对象的序列化和反序列机制实现对象的深复制;
         return car;
+    }
+}
+```
+
+#### 单例模式
+
+> 即一个类只有一个对象并且提供一个全局访问点;
+
+主要由以下几种实现方式:
+
+- **懒汉模式**:延迟创建对象,只有在第一次调取getInstance()时才生成对象,存在线程安全问题;
+- **饿汉模式**:以静态变量的形式初始化单例对象,该对象将随着第一次该类被加载而一起初始化;
+- **静态内部类**:单例对象在内部静态类中定义,本质也是一种懒加载,单例对象在第一次调取getInstance()时JVM加载内部静态类的同时完成单例对象创建;
+- **枚举类型**:
+
+##### 单例模式失效场景
+
+- **反射攻击**:通过反射的方式修改构造函数访问修饰符并且完成调用生成对象;
+- **反序列化攻击**:通过对象的序列化和反序列化机制实现对象创建;
+
+| 攻击方式     | 懒汉模式                                                                | 饿汉模式                                                                | 静态内部类                                                              | 枚举 |
+| :----------- | :---------------------------------------------------------------------- | :---------------------------------------------------------------------- | :---------------------------------------------------------------------- | :--- |
+| 反射攻击     | 无解                                                                    | 不安全(可通过在私有构造函数种判断单例对象是否不为NULL解决)              | 不安全(可通过在私有构造函数种判断单例对象是否不为NULL解决)              | 安全 |
+| 反序列化攻击 | 不安全(可通过实现Serializable接口并在readResolve方法中获取单例对象解决) | 不安全(可通过实现Serializable接口并在readResolve方法中获取单例对象解决) | 不安全(可通过实现Serializable接口并在readResolve方法中获取单例对象解决) | 安全 |
+
+##### 线程安全的懒汉模式实现
+
+```java
+class LazySingleton implements Serializable {
+
+    /**
+     * 序列化版本号
+     */
+    private static final long serialVersionUID = 42L;
+
+    /**
+     * 单例对象
+     * volatile关键字实现了禁用指令重排序和保证可见性,防止在并发场景下出现拿到未初始化完成的对象;
+     */
+    private volatile static LazySingletonDemo instance;
+
+    /**
+     * 私有构造函数,防止从构造函数创建对象
+     */
+    private LazySingleton() {
+    }
+
+    /**
+     * 获取单例对象函数
+     * 使用双重检查和加锁的方式保证线程安全
+     *
+     * @return 该类的唯一实例
+     */
+    public static LazySingletonDemo getInstance() {
+        // 双重检查的第一次检查
+        if (instance == null) {
+            // 加锁锁住类对象
+            synchronized (LazySingletonDemo.class) {
+                // 已加锁后的第二次检查
+                if (instance == null) {
+                    instance = new LazySingletonDemo();
+                }
+            }
+        }
+        return instance;
+    }
+
+    /**
+     * 通过添加该方法阻止反序列化时由JVM自动生成对象
+     *
+     * @return 单例对象
+     * @throws ObjectStreamException 对象反序列化发生异常
+     */
+    private Object readResolve() throws ObjectStreamException {
+        return getInstance();
+    }
+}
+```
+
+##### 饿汉模式实现
+
+```java
+class HungrySingleton implements Serializable {
+
+    /**
+     * 序列化版本号
+     */
+    private static final long serialVersionUID = 42L;
+
+    /**
+     * 在类定义时直接采用静态变量的方式初始化,该方式由JVM的类加载器保证线程安全
+     */
+    private static final HungrySingleton instance = new HungrySingleton();
+
+    /**
+     * 私有构造函数,防止从构造函数创建对象
+     */
+    private HungrySingleton() {
+        // 通过以下代码防止通过反射调用构造方法破坏单例模式
+        if (getInstance() != null) {
+            throw new RuntimeException("单例模式被破坏");
+        }
+    }
+
+    /**
+     * 获取单例对象函数
+     *
+     * @return 该类的唯一实例
+     */
+    public static HungrySingleton getInstance() {
+        return instance;
+    }
+
+    /**
+     * 通过添加该方法阻止反序列化时由JVM自动生成对象
+     *
+     * @return 单例对象
+     * @throws ObjectStreamException 对象反序列化发生异常
+     */
+    private Object readResolve() throws ObjectStreamException {
+        return getInstance();
+    }
+}
+```
+
+##### 内部静态类实现
+
+```java
+class InnerClassSingleton implements Serializable {
+
+    /**
+     * 序列化版本号
+     */
+    private static final long serialVersionUID = 42L;
+
+    /**
+     * 用于持有单例对象的静态内部类
+     * 当调用getInstance()方法时随着单例对象持有类的初始化一并完成单例对象的初始化,且由JVM的类加载器保证线程安全
+     */
+    private static class InnerClassSingletonHolder {
+
+        /**
+         * 单例对象
+         */
+        private static final InnerClassSingleton instance = new InnerClassSingleton();
+    }
+
+    /**
+     * 私有构造函数,防止从构造函数创建对象
+     */
+    private InnerClassSingleton() {
+        // 通过以下代码防止通过反射调用构造方法破坏单例模式
+        if (getInstance() != null) {
+            throw new RuntimeException("单例模式被破坏");
+        }
+    }
+
+    /**
+     * 获取单例对象函数
+     *
+     * @return 该类的唯一实例
+     */
+    public static InnerClassSingleton getInstance() {
+        return InnerClassSingletonHolder.instance;
+    }
+
+    /**
+     * 通过添加该方法阻止反序列化时由JVM自动生成对象
+     *
+     * @return 单例对象
+     * @throws ObjectStreamException 对象反序列化发生异常
+     */
+    private Object readResolve() throws ObjectStreamException {
+        return getInstance();
+    }
+}
+```
+
+##### 枚举类型单例模式
+
+```java
+/**
+ * 创建枚举类型对象
+ */
+public enum EnumSingleton {
+
+    /**
+     * 单例对象
+     */
+    INSTANCE;
+
+    /**
+     * 私有构造函数,防止外部调用
+     */
+    EnumSingleton() {
     }
 }
 ```
@@ -1302,6 +1307,70 @@ class ThrottlingHandler extends Handler {
             // Thread.currentThread().wait(1000);
         }
         return checkNext(parms);
+    }
+}
+```
+
+### 代理模式
+
+> 代理模式是一种结构型设计模式，让你能够提供对象的替代品或其占位符。代理控制着对于原对象的访问，并允许在将请求提交给对象前后进行一些处理。
+
+#### 代理模式实现
+
+```java
+/**
+ * 实现代理模式的共有接口
+ */
+interface Game {
+
+    /**
+     * 被代理对象的业务方法
+     */
+    void play();
+}
+
+/**
+ * 真被代理的对象
+ */
+class GenshinImpact implements Game {
+
+    /**
+     * 真实对象的业务实现方法
+     */
+    @Override
+    public void play() {
+        System.out.println("this is Genshin Impact playing...");
+    }
+}
+
+/**
+ * 真实对象的代理类
+ */
+class GenshinImpactProxy implements Game {
+
+    /**
+     * 持有的真实对象
+     */
+    private GenshinImpact genshinImpact;
+
+    public GenshinImpactProxy(GenshinImpact genshinImpact) {
+        this.genshinImpact = genshinImpact;
+    }
+
+    /**
+     * 代理对象调用持有的真实对象的业务方法
+     */
+    @Override
+    public void play() {
+        genshinImpact.play();
+        this.afterPlay();
+    }
+
+    /**
+     * 代理对象在原有真实对象的基础上扩展的方法
+     */
+    private void afterPlay() {
+        System.out.println("this is after Genshin Impact playing...");
     }
 }
 ```
