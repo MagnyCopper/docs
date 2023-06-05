@@ -23,24 +23,42 @@
       - [饿汉模式实现](#饿汉模式实现)
       - [内部静态类实现](#内部静态类实现)
       - [枚举类型单例模式](#枚举类型单例模式)
-  - [享元模式](#享元模式)
-    - [享元模式实现](#享元模式实现)
-  - [外观模式](#外观模式)
-    - [外观模式实现](#外观模式实现)
-  - [适配器模式](#适配器模式)
-    - [适配器模式实现](#适配器模式实现)
-  - [装饰模式](#装饰模式)
-    - [装饰模式实现](#装饰模式实现)
-  - [策略模式](#策略模式)
-    - [策略模式实现](#策略模式实现)
-  - [模板方法模式](#模板方法模式)
-    - [模板方法模式实现](#模板方法模式实现)
-  - [观察者模式](#观察者模式)
-    - [观察者模式实现](#观察者模式实现)
-  - [责任链模式](#责任链模式)
-    - [责任链模式实现](#责任链模式实现)
-  - [代理模式](#代理模式)
-    - [代理模式实现](#代理模式实现)
+  - [结构型模式](#结构型模式)
+    - [适配器模式](#适配器模式)
+      - [适配器模式实现](#适配器模式实现)
+    - [桥接模式](#桥接模式)
+      - [桥接模式实现](#桥接模式实现)
+    - [组合模式](#组合模式)
+      - [组合模式实现](#组合模式实现)
+    - [装饰模式](#装饰模式)
+      - [装饰模式实现](#装饰模式实现)
+    - [外观模式](#外观模式)
+      - [外观模式实现](#外观模式实现)
+    - [享元模式](#享元模式)
+      - [享元模式实现](#享元模式实现)
+    - [代理模式](#代理模式)
+      - [代理模式实现](#代理模式实现)
+  - [行为模式](#行为模式)
+    - [责任链模式](#责任链模式)
+      - [责任链模式实现](#责任链模式实现)
+    - [命令模式](#命令模式)
+      - [命令模式实现](#命令模式实现)
+    - [迭代器模式](#迭代器模式)
+      - [迭代器模式实现](#迭代器模式实现)
+    - [中介者模式](#中介者模式)
+      - [中介者模式实现](#中介者模式实现)
+    - [备忘录模式](#备忘录模式)
+      - [备忘录模式实现](#备忘录模式实现)
+    - [观察者模式](#观察者模式)
+      - [观察者模式实现](#观察者模式实现)
+    - [状态模式模式](#状态模式模式)
+      - [状态模式实现](#状态模式实现)
+    - [策略模式](#策略模式)
+      - [策略模式实现](#策略模式实现)
+    - [模板方法模式](#模板方法模式)
+      - [模板方法模式实现](#模板方法模式实现)
+    - [访问者模式](#访问者模式)
+      - [访问者模式实现](#访问者模式实现)
 
 ## 知识点
 
@@ -730,7 +748,325 @@ public enum EnumSingleton {
 }
 ```
 
-### 享元模式
+### 结构型模式
+
+#### 适配器模式
+
+组合实现和继承实现有什么区别?
+
+- 通过继承实现时将会对外暴露其父类的函数,违反迪米特法则;
+
+##### 适配器模式实现
+
+被适配对象及需要提供的接口
+
+```java
+/**
+ * 需要被适配的类,电源输出220v电压
+ */
+class Power {
+
+    /**
+     * 电源的输出方法
+     *
+     * @return 220v电压
+     */
+    public int output() {
+        return 220;
+    }
+}
+
+/**
+ * 使用方期待使用的函数
+ */
+interface TargetPower {
+
+    /**
+     * 期待获取5v电压输出
+     *
+     * @return 5v电压输出
+     */
+    int output5v();
+}
+```
+
+组合实现:
+
+```java
+class PowerAdapter implements TargetPower {
+
+    /**
+     * 内部引用被适配的对象
+     */
+    private Power power;
+
+    public PowerAdapter(Power power) {
+        this.power = power;
+    }
+
+    /**
+     * 在接口实现中完成转换方法
+     *
+     * @return 输出5v电压
+     */
+    @Override
+    public int output5v() {
+        int output = power.output();
+        // 一系列花里胡哨的处理
+        output = 5;
+        return output;
+    }
+}
+```
+
+继承实现:
+
+```java
+class PowerAdapter extends Power implements TargetPower {
+
+    /**
+     * 继承后直接引用父类方法并完成转换
+     *
+     * @return 5v电压
+     */
+    @Override
+    public int output5v() {
+        int output = output();
+        // 一系列花里胡哨的处理
+        output = 5;
+        return output;
+    }
+}
+```
+
+#### 桥接模式
+
+> 桥接模式是一种结构型设计模式，可将一个大类或一系列紧密相关的类拆分为抽象和实现两个独立的层次结构，从而能在开发时分别使用。
+
+##### 桥接模式实现
+
+```java
+/**
+ * 抽象的绘图API接口
+ */
+interface DrawAPI {
+
+    /**
+     * 绘制圆形抽象函数
+     *
+     * @param radius 半径
+     * @param x      起始坐标
+     * @param y      起始坐标
+     */
+    void drawCircle(int radius, int x, int y);
+}
+
+/**
+ * 红圈圈绘图实现类
+ */
+class RedCircle implements DrawAPI {
+
+    /**
+     * 绘制红圈圈
+     *
+     * @param radius 半径
+     * @param x      起始坐标
+     * @param y      起始坐标
+     */
+    @Override
+    public void drawCircle(int radius, int x, int y) {
+        System.out.println("red ...");
+    }
+}
+
+/**
+ * 抽象的形状类持有绘图接口对象
+ */
+abstract class Shape {
+
+    /**
+     * 内部的绘图API类对象
+     */
+    protected DrawAPI drawAPI;
+
+    /**
+     * 构造方法传入绘图API类
+     *
+     * @param drawAPI 绘图API对象
+     */
+    public Shape(DrawAPI drawAPI) {
+        this.drawAPI = drawAPI;
+    }
+
+    /**
+     * 形状类的抽象绘制方法
+     */
+    abstract void draw();
+}
+
+/**
+ * 具体的圆圈实现类
+ */
+class Circle extends Shape {
+
+    /**
+     * 圆圈的基础属性
+     */
+    private int radius;
+    private int x;
+    private int y;
+
+    /**
+     * 构造方法传入圆圈的基础属性和绘图API对象
+     *
+     * @param radius  半径
+     * @param x       起始坐标
+     * @param y       起始坐标
+     * @param drawAPI 绘图API
+     */
+    public Circle(int radius, int x, int y, DrawAPI drawAPI) {
+        super(drawAPI);
+        this.radius = radius;
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    void draw() {
+        super.drawAPI.drawCircle(radius, x, y);
+    }
+}
+```
+
+#### 组合模式
+
+> 组合模式是一种结构型设计模式，你可以使用它将对象组合成树状结构，并且能像使用独立对象一样使用它们。
+
+##### 组合模式实现
+
+```java
+```
+
+#### 装饰模式
+
+> 装饰模式是一种结构型设计模式， 允许你通过将对象放入包含行为的特殊封装对象中来为原对象绑定新的行为。
+
+透明模板与半透明模式
+
+- **透明模式**:要求客户端完全针对抽象编程，装饰模式的透明性要求客户端程序不应该将对象声明为具体构件类型或具体装饰类型，而应该全部声明为抽象构件类型。对客户端而言，具体构件类和具体装饰类对象没有任何区别;
+- **半透明模式**:用具体装饰类型来定义装饰后的对象，而具体构件类型仍然可以使用抽象构件类型来定义，可以单独调用装饰的独有方法。
+
+##### 装饰模式实现
+
+```java
+interface TextNotifiy {
+
+    void show();
+}
+
+/**
+ * 需要被装饰的类
+ */
+class MailTextNotifiy implements TextNotifiy {
+
+    @Override
+    public void show() {
+        System.out.println("sending...mail");
+    }
+}
+
+/**
+ * 通过实现相同接口并引入被装饰对象的方式扩展方法功能
+ */
+class SMSTextNotifiyDecorator implements TextNotifiy {
+
+    private TextNotifiy textNotifiy;
+
+    public SMSTextNotifiyDecorator(TextNotifiy textNotifiy) {
+        this.textNotifiy = textNotifiy;
+    }
+
+    /**
+     * 在原有对象的基础上扩展新功能
+     */
+    @Override
+    public void show() {
+        textNotifiy.show();
+        System.out.println("and sending...SMS");
+    }
+}
+
+class QQTextNotifiyDecorator implements TextNotifiy {
+
+    private TextNotifiy textNotifiy;
+
+    public QQTextNotifiyDecorator(TextNotifiy textNotifiy) {
+        this.textNotifiy = textNotifiy;
+    }
+
+    @Override
+    public void show() {
+        textNotifiy.show();
+        System.out.println("and sending...QQ");
+    }
+}
+```
+
+#### 外观模式
+
+> 外观模式是一种结构型设计模式，能为程序库、框架或其他复杂类提供一个简单的接口;
+
+外观模式的意义
+
+- 举一个例子,回家需要打开3个灯,1个热水器,1个电视,如果没有外观模式将在业务系统中直接依赖灯/热水器/电视等子系统对象,引入外观模式后将上述流程全部封装进一个goHome门面方法中,业务系统无需引入子系统的依赖仅依赖门面类即可;
+
+##### 外观模式实现
+
+```java
+class Light {
+
+    public void open() {
+        System.out.println("opening...light");
+    }
+}
+
+class Heater {
+
+    public void open() {
+        System.out.println("opening...heater");
+    }
+}
+
+class TV {
+
+    public void open() {
+        System.out.println("opening...tv");
+    }
+}
+
+/**
+ * 门面类依赖各个子系统并封装子系统的业务方法对外暴露服务
+ */
+class Facade {
+
+    private Light light1 = new Light();
+    private Light light2 = new Light();
+    private Light light3 = new Light();
+
+    private Heater heater = new Heater();
+    private TV tv = new TV();
+
+    public void goHome() {
+        light1.open();
+        light2.open();
+        light3.open();
+        heater.open();
+        tv.open();
+    }
+}
+```
+
+#### 享元模式
 
 > 享元模式是一种结构型设计模式，它摒弃了在每个对象中保存所有数据的方式，通过共享多个对象所共有的相同状态，让你能在有限的内存容量中载入更多对象。
 
@@ -738,7 +1074,7 @@ public enum EnumSingleton {
 
 - 举一个实际的例子,比如要创建100个柳树对象,属性中仅有坐标不同,这样创建出来的话重复的属性比如树名称/种类等被重复的创建因此产生了浪费,若将这部分属性集中到一个对象中,其他树对象持有这个对象的引用即可大大降低内存空间的占用;
 
-#### 享元模式实现
+##### 享元模式实现
 
 ```java
 /**
@@ -829,408 +1165,77 @@ class TreeFactory {
 }
 ```
 
-### 外观模式
+#### 代理模式
 
-> 外观模式是一种结构型设计模式，能为程序库、框架或其他复杂类提供一个简单的接口;
+> 代理模式是一种结构型设计模式，让你能够提供对象的替代品或其占位符。代理控制着对于原对象的访问，并允许在将请求提交给对象前后进行一些处理。
 
-外观模式的意义
-
-- 举一个例子,回家需要打开3个灯,1个热水器,1个电视,如果没有外观模式将在业务系统中直接依赖灯/热水器/电视等子系统对象,引入外观模式后将上述流程全部封装进一个goHome门面方法中,业务系统无需引入子系统的依赖仅依赖门面类即可;
-
-#### 外观模式实现
+##### 代理模式实现
 
 ```java
-class Light {
+/**
+ * 实现代理模式的共有接口
+ */
+interface Game {
 
-    public void open() {
-        System.out.println("opening...light");
-    }
+    /**
+     * 被代理对象的业务方法
+     */
+    void play();
 }
 
-class Heater {
+/**
+ * 真被代理的对象
+ */
+class GenshinImpact implements Game {
 
-    public void open() {
-        System.out.println("opening...heater");
-    }
-}
-
-class TV {
-
-    public void open() {
-        System.out.println("opening...tv");
+    /**
+     * 真实对象的业务实现方法
+     */
+    @Override
+    public void play() {
+        System.out.println("this is Genshin Impact playing...");
     }
 }
 
 /**
- * 门面类依赖各个子系统并封装子系统的业务方法对外暴露服务
+ * 真实对象的代理类
  */
-class Facade {
+class GenshinImpactProxy implements Game {
 
-    private Light light1 = new Light();
-    private Light light2 = new Light();
-    private Light light3 = new Light();
+    /**
+     * 持有的真实对象
+     */
+    private GenshinImpact genshinImpact;
 
-    private Heater heater = new Heater();
-    private TV tv = new TV();
+    public GenshinImpactProxy(GenshinImpact genshinImpact) {
+        this.genshinImpact = genshinImpact;
+    }
 
-    public void goHome() {
-        light1.open();
-        light2.open();
-        light3.open();
-        heater.open();
-        tv.open();
+    /**
+     * 代理对象调用持有的真实对象的业务方法
+     */
+    @Override
+    public void play() {
+        genshinImpact.play();
+        this.afterPlay();
+    }
+
+    /**
+     * 代理对象在原有真实对象的基础上扩展的方法
+     */
+    private void afterPlay() {
+        System.out.println("this is after Genshin Impact playing...");
     }
 }
 ```
 
-### 适配器模式
+### 行为模式
 
-组合实现和继承实现有什么区别?
-
-- 通过继承实现时将会对外暴露其父类的函数,违反迪米特法则;
-
-#### 适配器模式实现
-
-被适配对象及需要提供的接口
-
-```java
-/**
- * 需要被适配的类,电源输出220v电压
- */
-class Power {
-
-    /**
-     * 电源的输出方法
-     *
-     * @return 220v电压
-     */
-    public int output() {
-        return 220;
-    }
-}
-
-/**
- * 使用方期待使用的函数
- */
-interface TargetPower {
-
-    /**
-     * 期待获取5v电压输出
-     *
-     * @return 5v电压输出
-     */
-    int output5v();
-}
-```
-
-组合实现:
-
-```java
-class PowerAdapter implements TargetPower {
-
-    /**
-     * 内部引用被适配的对象
-     */
-    private Power power;
-
-    public PowerAdapter(Power power) {
-        this.power = power;
-    }
-
-    /**
-     * 在接口实现中完成转换方法
-     *
-     * @return 输出5v电压
-     */
-    @Override
-    public int output5v() {
-        int output = power.output();
-        // 一系列花里胡哨的处理
-        output = 5;
-        return output;
-    }
-}
-```
-
-继承实现:
-
-```java
-class PowerAdapter extends Power implements TargetPower {
-
-    /**
-     * 继承后直接引用父类方法并完成转换
-     *
-     * @return 5v电压
-     */
-    @Override
-    public int output5v() {
-        int output = output();
-        // 一系列花里胡哨的处理
-        output = 5;
-        return output;
-    }
-}
-```
-
-### 装饰模式
-
-> 装饰模式是一种结构型设计模式， 允许你通过将对象放入包含行为的特殊封装对象中来为原对象绑定新的行为。
-
-透明模板与半透明模式
-
-- **透明模式**:要求客户端完全针对抽象编程，装饰模式的透明性要求客户端程序不应该将对象声明为具体构件类型或具体装饰类型，而应该全部声明为抽象构件类型。对客户端而言，具体构件类和具体装饰类对象没有任何区别;
-- **半透明模式**:用具体装饰类型来定义装饰后的对象，而具体构件类型仍然可以使用抽象构件类型来定义，可以单独调用装饰的独有方法。
-
-#### 装饰模式实现
-
-```java
-interface TextNotifiy {
-
-    void show();
-}
-
-/**
- * 需要被装饰的类
- */
-class MailTextNotifiy implements TextNotifiy {
-
-    @Override
-    public void show() {
-        System.out.println("sending...mail");
-    }
-}
-
-/**
- * 通过实现相同接口并引入被装饰对象的方式扩展方法功能
- */
-class SMSTextNotifiyDecorator implements TextNotifiy {
-
-    private TextNotifiy textNotifiy;
-
-    public SMSTextNotifiyDecorator(TextNotifiy textNotifiy) {
-        this.textNotifiy = textNotifiy;
-    }
-
-    /**
-     * 在原有对象的基础上扩展新功能
-     */
-    @Override
-    public void show() {
-        textNotifiy.show();
-        System.out.println("and sending...SMS");
-    }
-}
-
-class QQTextNotifiyDecorator implements TextNotifiy {
-
-    private TextNotifiy textNotifiy;
-
-    public QQTextNotifiyDecorator(TextNotifiy textNotifiy) {
-        this.textNotifiy = textNotifiy;
-    }
-
-    @Override
-    public void show() {
-        textNotifiy.show();
-        System.out.println("and sending...QQ");
-    }
-}
-```
-
-### 策略模式
-
-> 策略模式是一种行为设计模式， 它能让你定义一系列算法， 并将每种算法分别放入独立的类中， 以使算法的对象能够相互替换。
-
-#### 策略模式实现
-
-```java
-/**
- * 抽象的策略接口用于抽象算法
- */
-interface PaymentStrategy {
-
-    /**
-     * 抽象出来的支付方法
-     *
-     * @param amount 支付金额
-     * @return 是否支付成功
-     */
-    boolean pay(int amount);
-}
-
-/**
- * PayPal实现策略
- */
-class PayPalPayment implements PaymentStrategy {
-
-    @Override
-    public boolean pay(int amount) {
-        System.out.println("PayPalPayment...");
-        return true;
-    }
-}
-
-/**
- * PayPal实现策略
- */
-class ZhiFuBaoPayment implements PaymentStrategy {
-
-    @Override
-    public boolean pay(int amount) {
-        System.out.println("ZhiFuBaoPayment...");
-        return true;
-    }
-}
-
-/**
- * 使用到策略的具体实现类
- */
-class Order {
-
-    /**
-     * 实现类中的策略抽象
-     */
-    private PaymentStrategy payment;
-
-    public Order() {
-    }
-
-    public Order(PaymentStrategy payment) {
-        this.payment = payment;
-    }
-
-    public PaymentStrategy getPayment() {
-        return payment;
-    }
-
-    public void setPayment(PaymentStrategy payment) {
-        this.payment = payment;
-    }
-
-    /**
-     * 在实现中调取抽象的算法方法
-     *
-     * @param amount 支付金额
-     * @return 支付结果
-     */
-    public boolean pay(int amount) {
-        return payment.pay(amount);
-    }
-}
-```
-
-### 模板方法模式
-
-> 模板方法模式是一种行为设计模式，它在超类中定义了一个算法的框架， 允许子类在不修改结构的情况下重写算法的特定步骤。
-
-#### 模板方法模式实现
-
-```java
-/**
- * 父层抽象类用于定义函数的骨架
- */
-public abstract class BaseCalss {
-
-    /**
-     * 主要函数的骨架方法,其中step1/step2均为固定步骤直接提供实现,step3的实现将由子类提供
-     */
-    public void start() {
-        step1();
-        step2();
-        step3();
-    }
-
-    private void step1() {
-        System.out.println("this is step 1 ...");
-    }
-
-    private void step2() {
-        System.out.println("this is step 2 ...");
-    }
-
-    /**
-     * 子类实现的step3,可以表现多态
-     */
-    protected abstract void step3();
-}
-public class SubClass extends BaseCalss {
-
-    /**
-     * 在子类中具体实现的步骤三
-     */
-    @Override
-    protected void step3() {
-        System.out.println("this is My Step 3 ...");
-    }
-}
-```
-
-### 观察者模式
-
-> 观察者模式是一种行为设计模式，允许你定义一种订阅机制，可在对象事件发生时通知多个“观察”该对象的其他对象。
-
-#### 观察者模式实现
-
-```java
-/**
- * 通用的观察对象接口
- */
-interface Observerable {
-
-    /**
-     * 被观察的对象发生事件时会调用该方法
-     *
-     * @param message 事件消息
-     */
-    void update(String message);
-}
-
-/**
- * 被观察的对象
- */
-class ObserverSubject {
-
-    /**
-     * 用于容纳观察者的容器
-     */
-    private List<Observerable> observerables = new ArrayList<>();
-
-    /**
-     * 添加观察者的方法
-     *
-     * @param observerable 观察者对象
-     */
-    public void addObserver(Observerable observerable) {
-        observerables.add(observerable);
-    }
-
-    /**
-     * 移除观察者的方法
-     *
-     * @param observerable 观察者对象
-     */
-    public void deleteObserver(Observerable observerable) {
-        observerables.remove(observerable);
-    }
-
-    /**
-     * 对象发生变更时发送消息的方法
-     *
-     * @param message 通知的消息
-     */
-    public void sendMessage(String message) {
-        for (Observerable observerable : observerables) {
-            observerable.update(message);
-        }
-    }
-}
-```
-
-### 责任链模式
+#### 责任链模式
 
 > 责任链模式是一种行为设计模式，允许你将请求沿着处理者链进行发送。收到请求后，每个处理者均可对请求进行处理，或将其传递给链上的下个处理者
 
-#### 责任链模式实现
+##### 责任链模式实现
 
 ```java
 /**
@@ -1311,66 +1316,245 @@ class ThrottlingHandler extends Handler {
 }
 ```
 
-### 代理模式
+#### 命令模式
 
-> 代理模式是一种结构型设计模式，让你能够提供对象的替代品或其占位符。代理控制着对于原对象的访问，并允许在将请求提交给对象前后进行一些处理。
+> 命令模式是一种行为设计模式，它可将请求转换为一个包含与请求相关的所有信息的独立对象。该转换让你能根据不同的请求将方法参数化、延迟请求执行或将其放入队列中，且能实现可撤销操作。
 
-#### 代理模式实现
+##### 命令模式实现
+
+```java
+```
+
+#### 迭代器模式
+
+> 迭代器模式是一种行为设计模式，让你能在不暴露集合底层表现形式（列表、 栈和树等）的情况下遍历集合中所有的元素。
+
+##### 迭代器模式实现
+
+```java
+```
+
+#### 中介者模式
+
+> 中介者模式是一种行为设计模式，能让你减少对象之间混乱无序的依赖关系。该模式会限制对象之间的直接交互，迫使它们通过一个中介者对象进行合作。
+
+##### 中介者模式实现
+
+```java
+```
+
+#### 备忘录模式
+
+> 备忘录模式是一种行为设计模式，允许在不暴露对象实现细节的情况下保存和恢复对象之前的状态。
+
+##### 备忘录模式实现
+
+```java
+```
+
+#### 观察者模式
+
+> 观察者模式是一种行为设计模式，允许你定义一种订阅机制，可在对象事件发生时通知多个“观察”该对象的其他对象。
+
+##### 观察者模式实现
 
 ```java
 /**
- * 实现代理模式的共有接口
+ * 通用的观察对象接口
  */
-interface Game {
+interface Observerable {
 
     /**
-     * 被代理对象的业务方法
+     * 被观察的对象发生事件时会调用该方法
+     *
+     * @param message 事件消息
      */
-    void play();
+    void update(String message);
 }
 
 /**
- * 真被代理的对象
+ * 被观察的对象
  */
-class GenshinImpact implements Game {
+class ObserverSubject {
 
     /**
-     * 真实对象的业务实现方法
+     * 用于容纳观察者的容器
      */
+    private List<Observerable> observerables = new ArrayList<>();
+
+    /**
+     * 添加观察者的方法
+     *
+     * @param observerable 观察者对象
+     */
+    public void addObserver(Observerable observerable) {
+        observerables.add(observerable);
+    }
+
+    /**
+     * 移除观察者的方法
+     *
+     * @param observerable 观察者对象
+     */
+    public void deleteObserver(Observerable observerable) {
+        observerables.remove(observerable);
+    }
+
+    /**
+     * 对象发生变更时发送消息的方法
+     *
+     * @param message 通知的消息
+     */
+    public void sendMessage(String message) {
+        for (Observerable observerable : observerables) {
+            observerable.update(message);
+        }
+    }
+}
+```
+
+#### 状态模式模式
+
+> 状态模式是一种行为设计模式，让你能在一个对象的内部状态变化时改变其行为，使其看上去就像改变了自身所属的类一样。
+
+##### 状态模式实现
+
+```java
+```
+
+#### 策略模式
+
+> 策略模式是一种行为设计模式， 它能让你定义一系列算法， 并将每种算法分别放入独立的类中， 以使算法的对象能够相互替换。
+
+##### 策略模式实现
+
+```java
+/**
+ * 抽象的策略接口用于抽象算法
+ */
+interface PaymentStrategy {
+
+    /**
+     * 抽象出来的支付方法
+     *
+     * @param amount 支付金额
+     * @return 是否支付成功
+     */
+    boolean pay(int amount);
+}
+
+/**
+ * PayPal实现策略
+ */
+class PayPalPayment implements PaymentStrategy {
+
     @Override
-    public void play() {
-        System.out.println("this is Genshin Impact playing...");
+    public boolean pay(int amount) {
+        System.out.println("PayPalPayment...");
+        return true;
     }
 }
 
 /**
- * 真实对象的代理类
+ * PayPal实现策略
  */
-class GenshinImpactProxy implements Game {
+class ZhiFuBaoPayment implements PaymentStrategy {
 
-    /**
-     * 持有的真实对象
-     */
-    private GenshinImpact genshinImpact;
-
-    public GenshinImpactProxy(GenshinImpact genshinImpact) {
-        this.genshinImpact = genshinImpact;
-    }
-
-    /**
-     * 代理对象调用持有的真实对象的业务方法
-     */
     @Override
-    public void play() {
-        genshinImpact.play();
-        this.afterPlay();
-    }
-
-    /**
-     * 代理对象在原有真实对象的基础上扩展的方法
-     */
-    private void afterPlay() {
-        System.out.println("this is after Genshin Impact playing...");
+    public boolean pay(int amount) {
+        System.out.println("ZhiFuBaoPayment...");
+        return true;
     }
 }
+
+/**
+ * 使用到策略的具体实现类
+ */
+class Order {
+
+    /**
+     * 实现类中的策略抽象
+     */
+    private PaymentStrategy payment;
+
+    public Order() {
+    }
+
+    public Order(PaymentStrategy payment) {
+        this.payment = payment;
+    }
+
+    public PaymentStrategy getPayment() {
+        return payment;
+    }
+
+    public void setPayment(PaymentStrategy payment) {
+        this.payment = payment;
+    }
+
+    /**
+     * 在实现中调取抽象的算法方法
+     *
+     * @param amount 支付金额
+     * @return 支付结果
+     */
+    public boolean pay(int amount) {
+        return payment.pay(amount);
+    }
+}
+```
+
+#### 模板方法模式
+
+> 模板方法模式是一种行为设计模式，它在超类中定义了一个算法的框架， 允许子类在不修改结构的情况下重写算法的特定步骤。
+
+##### 模板方法模式实现
+
+```java
+/**
+ * 父层抽象类用于定义函数的骨架
+ */
+public abstract class BaseCalss {
+
+    /**
+     * 主要函数的骨架方法,其中step1/step2均为固定步骤直接提供实现,step3的实现将由子类提供
+     */
+    public void start() {
+        step1();
+        step2();
+        step3();
+    }
+
+    private void step1() {
+        System.out.println("this is step 1 ...");
+    }
+
+    private void step2() {
+        System.out.println("this is step 2 ...");
+    }
+
+    /**
+     * 子类实现的step3,可以表现多态
+     */
+    protected abstract void step3();
+}
+public class SubClass extends BaseCalss {
+
+    /**
+     * 在子类中具体实现的步骤三
+     */
+    @Override
+    protected void step3() {
+        System.out.println("this is My Step 3 ...");
+    }
+}
+```
+
+#### 访问者模式
+
+> 访问者模式是一种行为设计模式，它能将算法与其所作用的对象隔离开来。
+
+##### 访问者模式实现
+
+```java
 ```
