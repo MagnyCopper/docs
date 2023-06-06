@@ -1557,4 +1557,76 @@ public class SubClass extends BaseCalss {
 ##### 访问者模式实现
 
 ```java
+/**
+ * 抽象的访问者接口,其中包含全部类型的访问者函数以适应不同的实例业务对象
+ */
+interface Visitor {
+
+    void doRedAction();
+
+    void doGreenAction();
+}
+
+/**
+ * 具体的访问者实现类,实现了在每种情况下的访问者部分业务逻辑
+ */
+class BasicVisitor implements Visitor {
+    @Override
+    public void doRedAction() {
+        System.out.print("this is Red ...");
+    }
+
+    @Override
+    public void doGreenAction() {
+        System.out.print("this is Green ...");
+    }
+}
+
+/**
+ * 抽象的业务实体对象,其中包含了接收访问者接口的抽象函数
+ */
+abstract class Shape {
+
+    private int x;
+    private int y;
+
+    /**
+     * 用于接收访问者对象的抽象函数
+     *
+     * @param visitor 访问者对象
+     */
+    abstract void accept(Visitor visitor);
+}
+
+/**
+ * 具体的业务对象类
+ */
+class RedShape extends Shape {
+
+    /**
+     * 接收传入的访问者对象并调用跟自己业务相关的方法
+     *
+     * @param visitor 访问者对象
+     */
+    @Override
+    void accept(Visitor visitor) {
+        visitor.doRedAction();
+    }
+}
+
+/**
+ * 具体的业务对象类
+ */
+class GreenShape extends Shape {
+
+    /**
+     * 接收传入的访问者对象并调用跟自己业务相关的方法
+     *
+     * @param visitor 访问者对象
+     */
+    @Override
+    void accept(Visitor visitor) {
+        visitor.doGreenAction();
+    }
+}
 ```
