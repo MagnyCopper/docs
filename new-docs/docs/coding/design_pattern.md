@@ -1420,6 +1420,62 @@ class ObserverSubject {
 ##### 状态模式实现
 
 ```java
+/**
+ * 定义抽象的状态接口
+ */
+interface State {
+
+    /**
+     * 该状态执行函数
+     */
+    void handler();
+}
+
+/**
+ * 一个具体的状态实现函数
+ */
+class HappyState implements State {
+
+    @Override
+    public void handler() {
+        System.out.print("this is happy ...");
+    }
+}
+
+/**
+ * 一个具体的状态实现函数
+ */
+class SadState implements State {
+
+    @Override
+    public void handler() {
+        System.out.print("this is sad ...");
+    }
+}
+
+/**
+ * 一个抽象的转台使用者这里用Person标识
+ */
+class Person {
+
+    private State state;
+
+    /**
+     * 必备的状态更新函数
+     *
+     * @param state 状态对象
+     */
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    /**
+     * 真实的业务函数
+     */
+    public void doAction() {
+        this.state.handler();
+    }
+}
 ```
 
 #### 策略模式
