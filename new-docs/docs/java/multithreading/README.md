@@ -6,6 +6,7 @@
 
 - [AQS](./AQS.md)
 - [CAS](./CAS.md)
+- [Semaphore](./Semaphore.md)
 - [CompletableFuture](./CompletableFuture.md)
 - [ThreadLocal](./ThreadLocal.md)
 - [ThreadPool](./ThreadPool.md)

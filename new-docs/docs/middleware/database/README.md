@@ -5,3 +5,4 @@
 ## 主目录
 
 - [MySQL](./MySQL.md)
+- [Redis](./Redis.md)
