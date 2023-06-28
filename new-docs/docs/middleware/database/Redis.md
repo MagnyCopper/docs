@@ -7,8 +7,15 @@
 - [简单介绍](#简单介绍)
   - [如何安装?](#如何安装)
   - [常见命令](#常见命令)
+    - [基础命令](#基础命令)
+    - [List相关命令](#list相关命令)
+    - [Set相关命令](#set相关命令)
+    - [ZSet相关命令](#zset相关命令)
+    - [Hash相关命令](#hash相关命令)
+    - [批处理](#批处理)
 - [基础属性](#基础属性)
 - [其他知识点](#其他知识点)
+  - [redis的持久化](#redis的持久化)
   - [哨兵集群和主从集群的区别?](#哨兵集群和主从集群的区别)
   - [Redis的key过期策略有哪些?](#redis的key过期策略有哪些)
 
@@ -47,6 +54,8 @@ Redis是一个基于内存模式的数据库,主要用来保存键值对形式�
 
 ### 常见命令
 
+#### 基础命令
+
 |   命令   | 说明                             | 说明                 |
 | :------: | :------------------------------- | :------------------- |
 |   SET    | 向数据库中添加key-value          | `SET key value`      |
@@ -60,13 +69,71 @@ Redis是一个基于内存模式的数据库,主要用来保存键值对形式�
 |  SETEX   | 设置key-value的过期时间          | `SETEX key 10 value` |
 |  SETNX   | 只有当key不存在时才设置value     | `SETNX key value`    |
 
+#### List相关命令
+
+| 命令  | 说明                   | 说明               |
+| :---: | :--------------------- | :----------------- |
+| LPUSH | 从左侧向list中插入元素 | `LPUSH key value1` |
+| LPOP  | 从左侧向list中删除元素 | `LPOP key`         |
+| LLEN  | 查询list的长度         | `LLEN key`         |
+
+#### Set相关命令
+
+|   命令    | 说明                    | 说明                   |
+| :-------: | :---------------------- | :--------------------- |
+|   SADD    | 向set中添加元素         | `SADD key value1 ...`  |
+| SMEMBERS  | 查看set中的元素         | `SMEMBERS key`         |
+| SISMEMBER | 查看元素是否已经在set中 | `SISMEMBER key value1` |
+|   SREM    | 从set中删除元素         | `SREM key value1`      |
+
+#### ZSet相关命令
+
+|  命令  | 说明                                 | 说明                         |
+| :----: | :----------------------------------- | :--------------------------- |
+|  ZADD  | 向ZSet中添加元素                     | `ZADD key score1 value1 ...` |
+| ZSCORE | 查看ZSset中的元素的分数              | `ZSCORE key value1`          |
+| ZRANK  | 按score从小到大的顺序查看value的排名 | `ZRANK key value1`           |
+|  ZREM  | 从zset中删除元素                     | `ZREM key value1`            |
+
+#### Hash相关命令
+
+|  命令   | 说明                    | 说明                        |
+| :-----: | :---------------------- | :-------------------------- |
+|  HSET   | 向map中添加键值对       | `HSET name key1 value1 ...` |
+|  HGET   | 从map中根据键获取值     | `HGET name key1`            |
+| HGETALL | 查询该map下的全部键值对 | `HGETALL name`              |
+|  HDEL   | 从map中删除键值对       | `HDEL name key1`            |
+| HEXISTS | 判断该键是否保存在map中 | `HEXISTS name key1`         |
+
+#### 批处理
+
+redis是支持命令批处理的,参考以下代码
+
+```redis
+MULIT
+ADD name key1
+LPUSH name1 a b c
+EXEC/DISCARD
+```
+
+MULIT和EXEC/DISCARD之间的命令将被按顺序依次执行,即使中间命令出错也会继续执行后面的命令;
+
 ## 基础属性
 
-- 数据类型:String,List,Set,SortedSet,Hash,Stream,Geospatial,HyperLogLog,Bitmap,Bitfield;
+- 数据类型:String,List,Set,SortedSet(ZSet),Hash,Stream,Geospatial,HyperLogLog,Bitmap,Bitfield;
 - redis的key是需要区分大小写的;
 - redis中保存键值对均是以二进制的形式保存的;
 
 ## 其他知识点
+
+### redis的持久化
+
+redis的数据持久化主要有2个方式:
+
+| 名称  | 说明                          | 优缺点                                                                                                                                                                  |
+| :---: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  RDB  | 即快照,定时完整备份数据到本地 | 1.会丢失从快照备份后到事故之间的全部数据<br> 2.写入磁盘时是阻塞状态会影响其他服务(可以通过BGSAVE的方式通过fork子线程的方式进行异步快照但依然存在fork子线程时的阻塞现象) |
+|  AOF  | 全部操作的日志式记录          | 1.恢复速度相较RDB方式较慢                                                                                                                                               |
 
 ### 哨兵集群和主从集群的区别?
 
