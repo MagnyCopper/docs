@@ -8,3 +8,9 @@
 - [运维](./docs/operations/README.md)
 - [中间件](./docs/middleware/README.md)
 - [编程](./docs/coding/README.md)
+
+## 备选课题
+
+1. 分布式锁;
+2. 分布式事务;
+3. 分布式一致性协议;
