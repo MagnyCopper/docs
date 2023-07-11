@@ -317,4 +317,48 @@ try {
 
 **redis节点故障的主从一致性问题**
 
-使用RedLock方案
+使用RedLock方案,但RedLock由于依赖了自动过期时间,导致该方案会依赖不同redis实例的本地时间,由于时间不完全一致可能会导致部分redis实例上的锁提前释放;
+
+**加锁:**
+
+1. 获取当前时间戳;
+2. 依次尝试从N个Redis实例中获取锁并设置超时时间,直到每个实例都尝试获取一次;
+3. 若存在一半以上的实例获取锁成功,则说明加锁成功(锁的可用时间为过期时间-步骤二的加锁时间);
+
+**解锁:**
+
+1. 对所有redis实例发起删除锁的命令即可;
+
+日常开发中可以考虑采用redisson框架实现,参考代码如下;
+
+```java
+Config config1 = new Config();
+config1.useSingleServer().setAddress("redis://localhost:5378")
+        .setPassword("").setDatabase(0);
+RedissonClient redissonClient1 = Redisson.create(config1);
+ 
+Config config2 = new Config();
+config2.useSingleServer().setAddress("redis://localhost:5379")
+        .setPassword("").setDatabase(0);
+RedissonClient redissonClient2 = Redisson.create(config2);
+ 
+Config config3 = new Config();
+config3.useSingleServer().setAddress("redis://localhost:5380")
+        .setPassword("").setDatabase(0);
+RedissonClient redissonClient3 = Redisson.create(config3);
+ 
+String lockKey = "REDLOCK";
+RLock lock1 = redissonClient1.getLock(lockKey);
+RLock lock2 = redissonClient2.getLock(lockKey);
+RLock lock3 = redissonClient3.getLock(lockKey);
+
+
+RedissonRedLock redLock = new RedissonRedLock(lock1, lock2, lock3);
+try {
+    if (redLock.tryLock(10, 5, TimeUnit.SECONDS)) {
+        //TODO if get lock success, do something;
+    }
+ }catch(Exception e){
+    
+ }
+```
