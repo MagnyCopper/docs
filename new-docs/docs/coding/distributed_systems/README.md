@@ -5,3 +5,4 @@
 主目录:
 
 - [分布式系统](./distributed_systems.md)
+- [分布式事务](./distributed_transactional.md)
